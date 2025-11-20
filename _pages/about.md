@@ -2,33 +2,32 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: <a href='https://www.hertie-school.org/'>Hertie School</a>. Research Engineer. Berlin, Germany.
 
 profile:
   align: right
   image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+    <p>Hertie School</p>
+    <p>Berlin, Germany</p>
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
+selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 
 announcements:
-  enabled: true # includes a list of news items
+  enabled: false # includes a list of news items
   scrollable: true # adds a vertical scroll bar if there are more than 3 news items
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: true
+  enabled: false
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+I'm a Research Engineer at the [Hertie School](https://www.hertie-school.org/) in Berlin, where I apply data science and computational social science methods to address pressing policy challenges. My work sits at the intersection of technology, governance, and sustainability, with a particular focus on making artificial intelligence systems more environmentally responsible.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+Currently, my research centers on the energy efficiency and environmental impact of large language models (LLMs) and other machine learning systems. As AI becomes increasingly central to policy-making and public services, understanding and optimizing its resource footprint is critical for sustainable digital transformation. I develop frameworks and tools to measure, benchmark, and improve the energy consumption of AI systems, contributing to the broader goal of sustainable computing.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+My approach combines rigorous quantitative analysis with practical policy implementation, working closely with governmental and international organizations to translate research insights into actionable recommendations. I'm particularly interested in how computational methods can inform evidence-based policymaking in areas such as climate change mitigation, digital governance, and the responsible development of AI technologies.
