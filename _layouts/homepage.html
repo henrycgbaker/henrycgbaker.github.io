@@ -41,6 +41,23 @@
     {% endif %}
     <link rel="stylesheet" href="./assets/css/dark-mode-toggle.css">
 
+    <style>
+      .page-navigation {
+        margin: 1.5rem 0;
+        padding: 0.5rem 0;
+      }
+
+      .page-navigation a {
+        margin-right: 1rem;
+        text-decoration: none;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .page-navigation a.active {
+        font-weight: bold;
+      }
+    </style>
+
   </head>
   <body>
     <div class="wrapper">
@@ -101,7 +118,14 @@
         </a>
         {% endif %}
         </div>
-        <br>
+
+        <!-- Navigation Menu -->
+        <nav class="page-navigation">
+          <a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
+          <a href="/experience/" {% if page.url contains "experience" %}class="active"{% endif %}>Experience</a>
+          <a href="/publications/" {% if page.url contains "publications" %}class="active"{% endif %}>Publications</a>
+          <a href="/blog/" {% if page.url contains "blog" %}class="active"{% endif %}>Blog</a>
+        </nav>
 
       </header>
       <section>
