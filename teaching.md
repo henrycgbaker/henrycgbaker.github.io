@@ -12,7 +12,16 @@ Teaching Associate at the Hertie School of Governance's MSc Data Science program
 
 ## Deep Learning
 
-Lab materials and exercises for the Deep Learning course.
+Lab materials and exercises for the Deep Learning course covering neural network architectures and modern deep learning techniques.
+
+**Topics covered:**
+
+- Neural network fundamentals and backpropagation
+- Convolutional Neural Networks (CNNs) for computer vision
+- Recurrent Neural Networks (RNNs) and sequence modeling
+- Transformers and attention mechanisms
+- Generative models (VAEs, GANs)
+- Practical implementation with PyTorch
 
 [GitHub Repository](https://github.com/henrycgbaker/deep-learning-lab-2025-TEACHING)
 
@@ -20,7 +29,16 @@ Lab materials and exercises for the Deep Learning course.
 
 ## Data Structures & Algorithms
 
-Lead Teaching Associate. Lab materials covering fundamental data structures and algorithmic problem solving.
+Lead Teaching Associate. Lab materials covering fundamental data structures and algorithmic problem solving essential for efficient programming and technical interviews.
+
+**Topics covered:**
+
+- Arrays, linked lists, stacks, and queues
+- Trees, graphs, and hash tables
+- Sorting and searching algorithms
+- Dynamic programming and greedy algorithms
+- Algorithm complexity analysis (Big O notation)
+- Problem-solving strategies and coding exercises
 
 [GitHub Repository](https://github.com/henrycgbaker/data-structures-algorithms-lab-2025-TEACHING)
 
