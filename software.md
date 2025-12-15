@@ -1,7 +1,7 @@
 ---
 layout: homepage
-title: Blog & Articles
-permalink: /blog/
+title: Software
+permalink: /software/
 ---
 
 # Blog & Research Articles

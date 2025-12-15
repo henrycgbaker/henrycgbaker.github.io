@@ -37,7 +37,7 @@ My background spans East Asia, Europe, and Sub-Saharan Africa, with experience i
 - **Japanese** — ⽇本語能⼒試験⼆級 (Business proficient)
 - **French** — Conversant
 
-## Teaching & Mentoring
+## Teaching
 
 **Teaching Associate** on the Hertie School of Governance's MSc Data Science programme:
 

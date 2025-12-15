@@ -1,7 +1,7 @@
 ---
 layout: homepage
-title: Publications & Research
-permalink: /publications/
+title: Research
+permalink: /research/
 ---
 
 # Publications & Research
