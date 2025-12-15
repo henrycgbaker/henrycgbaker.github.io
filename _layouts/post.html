@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ site.description }}">
+    <meta name="description" content="{{ page.excerpt | strip_html }}">
     {% if site.keywords %}
     <meta name="keywords" content="{{ site.keywords }}">
     {% endif %}
@@ -19,22 +19,22 @@
 
     <link rel="icon" media="(prefers-color-scheme:dark)" href="{{ site.favicon_dark }}" type="image/png" />
     <link rel="icon" media="(prefers-color-scheme:light)" href="{{ site.favicon }}" type="image/png" />
-    <script src="./assets/js/favicon-switcher.js" type="application/javascript"></script>
+    <script src="/assets/js/favicon-switcher.js" type="application/javascript"></script>
 
     <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {% if site.font == "Sans Serif" %}
-    <link rel="stylesheet" href="./assets/css/font_sans_serif.css">
+    <link rel="stylesheet" href="/assets/css/font_sans_serif.css">
     {% else %}
-    <link rel="stylesheet" href="./assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
     {% endif %}
     {% if site.auto_dark_mode %}
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/publications.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/publications.css">
     {% else %}
-    <link rel="stylesheet" href="./assets/css/style-no-dark-mode.css">
-    <link rel="stylesheet" href="./assets/css/publications-no-dark-mode.css">
+    <link rel="stylesheet" href="/assets/css/style-no-dark-mode.css">
+    <link rel="stylesheet" href="/assets/css/publications-no-dark-mode.css">
     {% endif %}
 
   </head>
@@ -94,6 +94,9 @@
         <!-- Navigation Links -->
         <nav style="margin-top: 1.5rem;">
           <a href="/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Home</a>
+          <a href="/blog/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Blog</a>
+          <a href="/experience/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Experience</a>
+          <a href="/publications/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Publications</a>
           <a href="/search/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Search</a>
           <a href="/contact/" style="display: block; text-decoration: none;">Contact</a>
         </nav>
@@ -101,7 +104,31 @@
       </header>
       <section>
 
-      {{ content }}
+      <article>
+        <header style="margin-bottom: 2rem;">
+          <h1>{{ page.title }}</h1>
+          <p style="color: #666; margin: 0.5rem 0;">
+            <strong>{{ page.date | date: "%B %d, %Y" }}</strong>
+            {% if page.author %} • By {{ page.author }}{% endif %}
+            {% if page.reading_time %} • {{ page.reading_time }} min read{% endif %}
+          </p>
+          {% if page.categories %}
+          <p style="color: #999; margin: 0.5rem 0; font-size: 0.9rem;">
+            {% for category in page.categories %}
+              <span style="display: inline-block; background: #f0f0f0; padding: 0.2rem 0.5rem; border-radius: 3px; margin-right: 0.5rem;">{{ category }}</span>
+            {% endfor %}
+          </p>
+          {% endif %}
+        </header>
+
+        {{ content }}
+      </article>
+
+      <hr style="margin: 2rem 0;">
+
+      <div style="margin-top: 2rem;">
+        <a href="/blog/" style="text-decoration: none; color: #333; font-weight: 500;">← Back to Blog</a>
+      </div>
 
       <br>
 

@@ -23,15 +23,10 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Technical Skills
 
-**Languages:** Python, R, Stan, SQL, Bash
-
-**Deep Learning:** PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace
-
-**Data Analysis:** Scikit-Learn, Pandas, NumPy, Matplotlib
-
-**MLOps & Deployment:** Docker, MLflow, Flask, Streamlit, Heroku
-
-**Markup & Web:** HTML, XML, CSS, LaTeX
+- **Languages:** Python, R, Stan, SQL, Bash
+- **Deep Learning:** PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace
+- **Data Analysis:** Scikit-Learn, Pandas, NumPy, Matplotlib
+- **MLOps & Deployment:** Docker, MLflow, Flask, Streamlit, Heroku- **Markup & Web:** HTML, XML, CSS, LaTeX
 
 **Project Management:** JIRA, Confluence
 
@@ -43,10 +38,10 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Teaching & Mentoring
 
-**Lead Teaching Assistant** at Hertie School of Governance:
-- Mathematics for Data Science
-- Data Structures & Algorithms
-- Deep Learning
+**Teaching** at Hertie School of Governance:
+- Mathematics for Data Science (Lead TA)
+- Data Structures & Algorithms (Lead TA)
+- Deep Learning (Lead TA)
 
 ## Research Projects
 

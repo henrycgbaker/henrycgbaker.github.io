@@ -7,17 +7,6 @@
 
 A professional academic portfolio website showcasing research interests, technical expertise, teaching contributions, and research projects. Built with Jekyll and the [Minimal Light](https://github.com/yaoyao-liu/minimal-light) theme.
 
-## Features
-
-- 📱 Responsive design, mobile-friendly
-- 🌙 Automatic dark mode with toggle
-- ⚡ Fast static site generation with Jekyll 4.3
-- 🔍 SEO optimized with Open Graph tags
-- 🔗 Automated workflows for quality assurance
-- 🎨 Clean, minimal aesthetic
-- 📊 Google Scholar citation auto-sync
-- 🔗 Direct links to CV, GitHub, LinkedIn, and institutional profiles
-
 ## Site Structure
 
 ```
