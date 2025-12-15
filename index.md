@@ -6,7 +6,7 @@ layout: homepage
 
 I am a Research Engineer at the [Hertie Data Science Lab](https://www.hertie-school.org/en/datasciencelab/research) in Berlin, where I develop lab infrastructure and support computational research. I hold a dual degree in Public Policy and Data Science from the Hertie School of Governance, with research interests in sustainable computing, green AI, and computational social science.
 
-My background spans East Asia, Europe, and Sub-Saharan Africa, with experience in policy research, product management, and data science. I'm intersted in analysing the societal and environmental dynamics of ML & AI applications. 
+My background spans East Asia, Europe, and Sub-Saharan Africa, with experience in policy research, product management, and data science. I'm intersted in analysing the societal and environmental dynamics of ML & AI applications.
 
 ## Research Interests
 

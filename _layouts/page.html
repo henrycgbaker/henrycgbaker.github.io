@@ -87,9 +87,7 @@
         <br>
         {% endif %}
         {% if site.email %}
-        <div>
-          <a href="mailto:{{ site.email }}" style="color: inherit !important; text-decoration: none !important; cursor: pointer !important; pointer-events: auto !important; display: inline;">{{ site.email }}</a>
-        </div>
+        <email><a href="mailto:{{ site.email }}">{{ site.email }}</a></email>
         {% endif %}
 
         <br>
