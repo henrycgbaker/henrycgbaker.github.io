@@ -1,0 +1,98 @@
+---
+layout: page
+title: Search
+permalink: /search/
+---
+
+# Search
+
+<div id="search-container" style="margin: 2rem 0;">
+  <input type="text" id="search-input" placeholder="Search research interests, skills, projects..." style="width: 100%; max-width: 500px; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;">
+</div>
+
+<div id="search-results"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Sample data to search (from index.md)
+  const pages = [
+    {
+      id: "about",
+      title: "About Me",
+      content: "Research Engineer at Hertie Data Science Lab. Research interests in sustainable computing, green AI, and computational social science."
+    },
+    {
+      id: "interests",
+      title: "Research Interests",
+      content: "Sustainable Computing Green AI Applied ML Deep Learning NLP Computer Vision Causal Inference Computational Social Science Bayesian hierarchical modelling forecasting causal inference Decision Theory algorithmic game theory mechanism design"
+    },
+    {
+      id: "skills",
+      title: "Technical Skills",
+      content: "Python R Stan SQL Bash PyTorch TensorFlow JAX vLLM TensorRT HuggingFace Scikit-Learn Pandas NumPy Matplotlib Docker MLflow Flask Streamlit Heroku HTML XML CSS LaTeX JIRA Confluence"
+    },
+    {
+      id: "languages",
+      title: "Languages",
+      content: "English Native Japanese Business proficient French Conversant"
+    },
+    {
+      id: "teaching",
+      title: "Teaching & Mentoring",
+      content: "Lead Teaching Assistant at Hertie School of Governance. Mathematics for Data Science Data Structures Algorithms Deep Learning"
+    },
+    {
+      id: "projects",
+      title: "Research Projects",
+      content: "ML-Strom Machine learning for electricity grid analysis DiD Analysis Difference-in-Differences causal inference LLM Energy Efficiency Benchmarking transformer model energy consumption"
+    },
+    {
+      id: "affiliations",
+      title: "Affiliations",
+      content: "Hertie Data Science Lab Research Engineer Weizenbaum Institute Associate Researcher Digitalization Sustainability Participation Open Data Institute Research Fellow Data-centric AI"
+    }
+  ];
+
+  // Build Lunr index
+  const idx = lunr(function() {
+    this.ref('id');
+    this.field('title', { boost: 10 });
+    this.field('content');
+
+    pages.forEach(doc => {
+      this.add(doc);
+    });
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  searchInput.addEventListener('input', function(e) {
+    const query = e.target.value.trim();
+
+    if (query.length < 2) {
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    const results = idx.search(query);
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<p style="color: #666;">No results found for "<strong>' + query + '</strong>"</p>';
+      return;
+    }
+
+    let html = '<div style="margin-top: 2rem;"><h3>Results (' + results.length + ')</h3><ul style="list-style: none; padding: 0;">';
+
+    results.forEach(result => {
+      const page = pages.find(p => p.id === result.ref);
+      html += '<li style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;"><strong>' + page.title + '</strong><p style="margin: 0.5rem 0 0 0; color: #666;">' + page.content.substring(0, 150) + '...</p></li>';
+    });
+
+    html += '</ul></div>';
+    searchResults.innerHTML = html;
+  });
+});
+</script>

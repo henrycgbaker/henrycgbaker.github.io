@@ -14,6 +14,58 @@
 - Automated GitHub Actions workflows
 - Commit message validation (no AI mentions)
 - Custom dark mode favicon
+- Contact form page (requires Formspree setup)
+- Site search with Lunr.js
+- Custom page layout with navigation
+
+## YOUR ACTION ITEMS 🚀
+
+### 1. **Setup Formspree for Contact Form** ⏱️ 5 mins
+**Status:** ⏳ Needs your action
+
+**Why:** Allows visitors to email you through the contact form
+
+**Steps:**
+1. Go to: https://formspree.io/
+2. Sign up (free) with your email
+3. Create a new form:
+   - Click "Create" or "New Form"
+   - Enter form name: `Contact Form`
+4. You'll get a **Form ID** (like: `f1a2b3c4`)
+5. Edit `contact.md` and find this line:
+   ```html
+   <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+   ```
+   Replace `YOUR_FORM_ID` with your actual form ID:
+   ```html
+   <form action="https://formspree.io/f/f1a2b3c4" method="POST">
+   ```
+6. Push to main - contact form is live!
+
+**Add to TODO.md once done:**
+- [ ] Formspree setup complete (add ID to contact.md)
+
+---
+
+### 2. **Google Analytics Setup** ⏱️ 5 mins
+**Status:** ⏳ Needs your action
+
+**See:** `GOOGLE-ANALYTICS-SETUP.md` for detailed instructions
+
+**Quick steps:**
+1. Go to https://analytics.google.com/
+2. Create account and property
+3. Get your Measurement ID (`G-XXXXXXXXXX`)
+4. Add to `_config.yml`:
+   ```yaml
+   google_analytics: G-XXXXXXXXXX
+   ```
+5. Push - tracking starts immediately
+
+**Add to TODO.md once done:**
+- [ ] Google Analytics ID added to _config.yml
+
+---
 
 ## Next Steps
 
@@ -99,7 +151,10 @@ Both features together for complete visitor engagement
 
 - `_config.yml` — Site configuration & metadata
 - `index.md` — Homepage content
-- `_layouts/homepage.html` — Custom layout with SEO
+- `contact.md` — Contact form (needs Formspree setup)
+- `search.md` — Site search with Lunr.js
+- `_layouts/homepage.html` — Custom layout with SEO (homepage)
+- `_layouts/page.html` — Custom layout with navigation (contact/search)
 - `_includes/og-tags.html` — Social media preview tags
 - `_includes/structured-data.html` — Google rich snippets
 - `.git/hooks/commit-msg` — Prevents AI mentions in commits
@@ -126,11 +181,11 @@ Both features together for complete visitor engagement
 - [x] Canonical URLs
 - [x] Dark mode support
 - [x] Accessible (semantic HTML, ARIA)
+- [x] Search functionality (Lunr.js)
+- [x] Contact form (Formspree integration ready)
+- [ ] Google Analytics tracking (ready, needs your GA ID)
 - [ ] Sitemap (easy to add)
 - [ ] RSS feed (easy to add)
-- [ ] Google Analytics tracking (ready, needs ID)
-- [ ] Search functionality (planned)
-- [ ] Contact form (planned)
 
 ---
 
