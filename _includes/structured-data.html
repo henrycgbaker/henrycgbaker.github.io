@@ -1,0 +1,33 @@
+<!-- JSON-LD Structured Data (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ site.title }}",
+  "url": "{{ site.og_url }}",
+  "image": "{{ site.og_url }}{{ site.og_image }}",
+  "jobTitle": "{{ site.position }}",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "{{ site.affiliation }}"
+  },
+  "email": "{{ site.email }}",
+  "description": "{{ site.description }}",
+  "sameAs": [
+    {% if site.github_link %}"{{ site.github_link }}",{% endif %}
+    {% if site.linkedin %}"{{ site.linkedin }}"{% endif %}
+  ],
+  "knowsAbout": [
+    "Machine Learning",
+    "Deep Learning",
+    "Data Science",
+    "Sustainable Computing",
+    "Green AI",
+    "Computational Social Science",
+    "Python",
+    "PyTorch",
+    "TensorFlow",
+    "Research Engineering"
+  ]
+}
+</script>

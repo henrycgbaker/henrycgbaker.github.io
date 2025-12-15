@@ -35,7 +35,17 @@ auto_dark_mode: true
 font: "Sans Serif"
 
 # Google Analytics ID
-# Please remove this if you don't use Google Analytics
+# Add your Google Analytics 4 ID to enable tracking
+# Get one at: https://analytics.google.com/
+# Format: G-XXXXXXXXXX (GA4) or UA-XXXXXXXXX-X (Universal Analytics)
+# Uncomment and add your ID:
+# google_analytics: G-XXXXXXXXXX
+
+# Open Graph & Social Media
+og_image: /assets/img/avatar.png
+og_url: https://henrycgbaker.github.io
+twitter_username: henrycgbaker
+twitter_card: summary
 
 # Use this project as a remote theme for GitHub Pages
 # See the guide here: https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/adding-a-theme-to-your-github-pages-site-using-jekyll

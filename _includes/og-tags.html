@@ -1,0 +1,16 @@
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="{{ site.title }} | {{ site.position }}">
+<meta property="og:description" content="{{ site.description }}">
+<meta property="og:url" content="{{ site.og_url }}">
+<meta property="og:image" content="{{ site.og_url }}{{ site.og_image }}">
+<meta property="og:site_name" content="{{ site.title }}">
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="{{ site.twitter_card }}">
+<meta name="twitter:title" content="{{ site.title }} | {{ site.position }}">
+<meta name="twitter:description" content="{{ site.description }}">
+<meta name="twitter:image" content="{{ site.og_url }}{{ site.og_image }}">
+{% if site.twitter_username %}
+<meta name="twitter:creator" content="@{{ site.twitter_username }}">
+{% endif %}
