@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Search | Hertie School of Governance</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Research Engineer at Hertie School. Interests in sustainable computing, applied ML, and computational social science.">
+    
+    <meta name="keywords" content="research engineer, data science, sustainable computing, green AI, public policy, computational social science">
+    
+
+    <!-- Open Graph & Twitter Card Tags -->
+    <!-- Open Graph Meta Tags -->
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Henry C G Baker | Research Engineer">
+<meta property="og:description" content="Research Engineer at Hertie School. Interests in sustainable computing, applied ML, and computational social science.">
+<meta property="og:url" content="https://henrycgbaker.github.io">
+<meta property="og:image" content="https://henrycgbaker.github.io/assets/img/avatar.png">
+<meta property="og:site_name" content="Henry C G Baker">
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Henry C G Baker | Research Engineer">
+<meta name="twitter:description" content="Research Engineer at Hertie School. Interests in sustainable computing, applied ML, and computational social science.">
+<meta name="twitter:image" content="https://henrycgbaker.github.io/assets/img/avatar.png">
+
+<meta name="twitter:creator" content="@henrycgbaker">
+
+
+
+    <!-- JSON-LD Structured Data -->
+    <!-- JSON-LD Structured Data (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Henry C G Baker",
+  "url": "https://henrycgbaker.github.io",
+  "image": "https://henrycgbaker.github.io/assets/img/avatar.png",
+  "jobTitle": "Research Engineer",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "Hertie School of Governance"
+  },
+  "email": "henry.c.g.baker@gmail.com",
+  "description": "Research Engineer at Hertie School. Interests in sustainable computing, applied ML, and computational social science.",
+  "sameAs": [
+    "https://github.com/henrycgbaker",
+    "https://www.linkedin.com/in/henrycgbaker/"
+  ],
+  "knowsAbout": [
+    "Machine Learning",
+    "Deep Learning",
+    "Data Science",
+    "Sustainable Computing",
+    "Green AI",
+    "Computational Social Science",
+    "Python",
+    "PyTorch",
+    "TensorFlow",
+    "Research Engineering"
+  ]
+}
+</script>
+
+
+    <link rel="icon" media="(prefers-color-scheme:dark)" href="/assets/img/favicon-dark.png" type="image/png" />
+    <link rel="icon" media="(prefers-color-scheme:light)" href="/assets/img/favicon.png" type="image/png" />
+    <script src="./assets/js/favicon-switcher.js" type="application/javascript"></script>
+
+    <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin=anonymous>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+    <link rel="stylesheet" href="./assets/css/font_sans_serif.css">
+    
+    
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/publications.css">
+    
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+
+        
+        <a href="/" class="image avatar"><img src="/assets/img/avatar.png" alt="avatar" /></a>
+        
+
+        <h1><a href="/">Henry C G Baker</a></h1>
+
+        
+        <position style="font-size:1.10rem;">Research Engineer</position>
+        <br>
+        
+        
+        <a href="" rel="noopener"><autocolor>Hertie School of Governance</autocolor></a>
+        <br>
+        
+        
+        <email>henry.c.g.baker@gmail.com</email>
+        
+
+        <br>
+        <br>
+        <div class="social-icons">
+        
+        <a style="margin: 0 5px 0 0" href="assets/files/cv.pdf">
+          <i class="ai ai-cv" style="font-size:1.3rem;"></i>
+        </a>
+        
+
+        
+        <a style="margin: 0 5px 0 0" href="https://github.com/henrycgbaker">
+          <i class="fab fa-github"></i>
+        </a>
+        
+
+        
+        <a style="margin: 0 5px 0 0" href="https://www.linkedin.com/in/henrycgbaker/">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        
+
+        
+        </div>
+        <br>
+
+        <!-- Navigation Links -->
+        <nav style="margin-top: 1.5rem;">
+          <a href="/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Home</a>
+          <a href="/search/" style="display: block; margin-bottom: 0.5rem; text-decoration: none;">Search</a>
+          <a href="/contact/" style="display: block; text-decoration: none;">Contact</a>
+        </nav>
+
+      </header>
+      <section>
+
+      <h1 id="search">Search</h1>
+
+<div id="search-container" style="margin: 2rem 0;">
+  <input type="text" id="search-input" placeholder="Search research interests, skills, projects..." style="width: 100%; max-width: 500px; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem;" />
+</div>
+
+<div id="search-results"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Sample data to search (from index.md)
+  const pages = [
+    {
+      id: "about",
+      title: "About Me",
+      content: "Research Engineer at Hertie Data Science Lab. Research interests in sustainable computing, green AI, and computational social science."
+    },
+    {
+      id: "interests",
+      title: "Research Interests",
+      content: "Sustainable Computing Green AI Applied ML Deep Learning NLP Computer Vision Causal Inference Computational Social Science Bayesian hierarchical modelling forecasting causal inference Decision Theory algorithmic game theory mechanism design"
+    },
+    {
+      id: "skills",
+      title: "Technical Skills",
+      content: "Python R Stan SQL Bash PyTorch TensorFlow JAX vLLM TensorRT HuggingFace Scikit-Learn Pandas NumPy Matplotlib Docker MLflow Flask Streamlit Heroku HTML XML CSS LaTeX JIRA Confluence"
+    },
+    {
+      id: "languages",
+      title: "Languages",
+      content: "English Native Japanese Business proficient French Conversant"
+    },
+    {
+      id: "teaching",
+      title: "Teaching & Mentoring",
+      content: "Lead Teaching Assistant at Hertie School of Governance. Mathematics for Data Science Data Structures Algorithms Deep Learning"
+    },
+    {
+      id: "projects",
+      title: "Research Projects",
+      content: "ML-Strom Machine learning for electricity grid analysis DiD Analysis Difference-in-Differences causal inference LLM Energy Efficiency Benchmarking transformer model energy consumption"
+    },
+    {
+      id: "affiliations",
+      title: "Affiliations",
+      content: "Hertie Data Science Lab Research Engineer Weizenbaum Institute Associate Researcher Digitalization Sustainability Participation Open Data Institute Research Fellow Data-centric AI"
+    }
+  ];
+
+  // Build Lunr index
+  const idx = lunr(function() {
+    this.ref('id');
+    this.field('title', { boost: 10 });
+    this.field('content');
+
+    pages.forEach(doc => {
+      this.add(doc);
+    });
+  });
+
+  // Search functionality
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  searchInput.addEventListener('input', function(e) {
+    const query = e.target.value.trim();
+
+    if (query.length < 2) {
+      searchResults.innerHTML = '';
+      return;
+    }
+
+    const results = idx.search(query);
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<p style="color: #666;">No results found for "<strong>' + query + '</strong>"</p>';
+      return;
+    }
+
+    let html = '<div style="margin-top: 2rem;"><h3>Results (' + results.length + ')</h3><ul style="list-style: none; padding: 0;">';
+
+    results.forEach(result => {
+      const page = pages.find(p => p.id === result.ref);
+      html += '<li style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;"><strong>' + page.title + '</strong><p style="margin: 0.5rem 0 0 0; color: #666;">' + page.content.substring(0, 150) + '...</p></li>';
+    });
+
+    html += '</ul></div>';
+    searchResults.innerHTML = html;
+  });
+});
+</script>
+
+
+
+      <br>
+
+      
+
+      </section>
+      <footer>
+
+      </footer>
+    </div>
+    <script src="/assets/js/scale.fix.js"></script>
+    
+  </body>
+</html>
