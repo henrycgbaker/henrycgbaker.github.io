@@ -81,10 +81,10 @@
         <button id="dark-mode-toggle" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 5px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; transition: background 0.3s;" title="Toggle dark mode">🌙</button>
 
         {% if site.avatar %}
-        <a href="/" class="image avatar"><img src="{{ site.avatar }}" alt="avatar" /></a>
+        <a class="image avatar"><img src="{{ site.avatar }}" alt="avatar" /></a>
         {% endif %}
 
-        <h1><a href="/" style="text-decoration: none; color: inherit;">{{ site.title }}</a></h1>
+        <h1>{{ site.title }}</h1>
 
         {% if site.position %}
         <position style="font-size:1.10rem;">{{ site.position }}</position>
@@ -144,10 +144,6 @@
 
       </header>
       <section>
-
-      <div class="page-header">
-        <h1 class="page-title">{{ page.title }}</h1>
-      </div>
 
       {{ content }}
 
