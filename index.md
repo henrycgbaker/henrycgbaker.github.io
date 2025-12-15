@@ -54,3 +54,13 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 Email: [henry.c.g.baker@gmail.com](mailto:henry.c.g.baker@gmail.com)
 
 Phone: +49 15566 470660 | +44 7715 427104
+
+---
+
+## Explore
+
+- **[📚 Experience](/experience/)** — Career timeline across continents
+- **[📰 Publications](/publications/)** — Research theses and projects
+- **[✍️ Blog](/blog/)** — Articles and research insights
+- **🔍 [Search](/search/)** — Search across content
+- **💬 [Get in Touch](/contact/)** — Send me a message
