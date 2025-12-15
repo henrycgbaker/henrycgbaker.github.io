@@ -45,15 +45,12 @@
       .page-navigation {
         margin: 1.5rem 0 0 0;
         padding: 0.5rem 0;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
       }
 
       .page-navigation a {
-        flex: 0 0 calc(50% - 0.5rem);
+        display: inline;
+        margin-right: 1rem;
         text-decoration: none;
-        padding: 0.5rem 0;
       }
 
       .page-navigation a:hover {
@@ -129,6 +126,7 @@
           <a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
           <a href="/experience/" {% if page.url contains "experience" %}class="active"{% endif %}>Experience</a>
           <a href="/research/" {% if page.url contains "research" %}class="active"{% endif %}>Research</a>
+          <a href="/teaching/" {% if page.url contains "teaching" %}class="active"{% endif %}>Teaching</a>
           <a href="/software/" {% if page.url contains "software" %}class="active"{% endif %}>Software</a>
         </nav>
 
