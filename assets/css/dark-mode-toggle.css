@@ -378,6 +378,22 @@ html.dark-mode email {
   color: #e0e0e0 !important;
 }
 
+/* Email link styling */
+email a {
+  color: inherit !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+email a:hover {
+  text-decoration: underline !important;
+}
+
+html.dark-mode email a {
+  color: #e0e0e0 !important;
+}
+
 html.dark-mode position {
   color: #c9d1d9 !important;
   font-weight: 500 !important;
