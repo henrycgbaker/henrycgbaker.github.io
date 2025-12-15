@@ -1,0 +1,15 @@
+# Prettier ignore file
+# Exclude layout files with Jekyll syntax that Prettier can't parse
+_layouts/
+_includes/
+
+# Exclude build files
+_site/
+html_source_file/
+
+# Exclude node modules
+node_modules/
+
+# Exclude lock files
+package-lock.json
+Gemfile.lock
