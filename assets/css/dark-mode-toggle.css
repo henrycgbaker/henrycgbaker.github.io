@@ -1,58 +1,211 @@
-/* Dark Mode Toggle Support */
-/* This CSS allows the dark mode toggle button to work properly */
+/* Dark Mode Toggle Support - Industry Best Practices */
+/* Follows WCAG AA contrast ratios (4.5:1 minimum) and modern design patterns */
 
 html.dark-mode {
   color-scheme: dark;
-  background-color: #1a1a1a;
-  color: #f0f0f0;
+  background-color: #0d1117;
+  color: #e0e0e0;
 }
 
 html.dark-mode body {
-  background-color: #1a1a1a;
-  color: #f0f0f0;
+  background-color: #0d1117;
+  color: #e0e0e0;
 }
 
+/* Links - Professional blue with strong contrast (WCAG AA) */
 html.dark-mode a {
-  color: #66d9ef;
+  color: #58a6ff;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 html.dark-mode a:hover {
-  color: #a1efe4;
+  color: #79c0ff;
+  text-decoration: underline;
 }
 
+html.dark-mode a:visited {
+  color: #8957e5;
+}
+
+/* Strong and bold text - brighter for hierarchy */
+html.dark-mode strong,
+html.dark-mode b {
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6 {
+  color: #f0f6fc;
+}
+
+/* Code blocks - syntax-friendly dark background */
 html.dark-mode code {
-  background-color: #272822;
-  color: #f8f8f2;
+  background-color: #161b22;
+  color: #e6edf3;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
 }
 
 html.dark-mode pre {
-  background-color: #272822;
-  color: #f8f8f2;
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #e6edf3;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+html.dark-mode pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Lists and emphasis */
+html.dark-mode em,
+html.dark-mode i {
+  color: #d0d0d0;
 }
 
 html.dark-mode blockquote {
-  color: #888;
-  border-left-color: #444;
+  color: #8b949e;
+  border-left: 3px solid #30363d;
+  padding-left: 1rem;
+  margin-left: 0;
+}
+
+/* Tables */
+html.dark-mode table {
+  border-collapse: collapse;
 }
 
 html.dark-mode table,
 html.dark-mode th,
 html.dark-mode td {
-  border-color: #444;
+  border-color: #30363d;
+}
+
+html.dark-mode th {
+  background-color: #161b22;
+  color: #f0f6fc;
+  font-weight: 600;
+}
+
+html.dark-mode td {
+  background-color: #0d1117;
 }
 
 html.dark-mode table tr:nth-child(2n) {
-  background-color: #282828;
+  background-color: #161b22;
 }
 
+html.dark-mode table tr:hover {
+  background-color: #1c2128;
+}
+
+/* Horizontal rule */
 html.dark-mode hr {
-  border-color: #444;
+  border: 0;
+  border-top: 1px solid #21262d;
+  background-color: transparent;
 }
 
+/* Form elements */
+html.dark-mode input[type="text"],
+html.dark-mode input[type="email"],
+html.dark-mode textarea,
+html.dark-mode select {
+  background-color: #0d1117;
+  border: 1px solid #30363d;
+  color: #e0e0e0;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+html.dark-mode input[type="text"]:focus,
+html.dark-mode input[type="email"]:focus,
+html.dark-mode textarea:focus,
+html.dark-mode select:focus {
+  background-color: #0d1117;
+  border-color: #58a6ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+/* Dark mode toggle button */
 html.dark-mode button#dark-mode-toggle {
-  color: #f0f0f0;
+  color: #e0e0e0;
 }
 
 html.dark-mode button#dark-mode-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(88, 166, 255, 0.1);
+}
+
+html.dark-mode button#dark-mode-toggle:active {
+  background-color: rgba(88, 166, 255, 0.2);
+}
+
+/* Navigation links */
+html.dark-mode nav a {
+  color: #58a6ff;
+}
+
+html.dark-mode nav a:hover {
+  color: #79c0ff;
+}
+
+/* Auto-colored elements */
+html.dark-mode autocolor {
+  color: #58a6ff;
+}
+
+html.dark-mode autocolor:hover {
+  color: #79c0ff;
+}
+
+/* Email elements */
+html.dark-mode email {
+  color: #d0d0d0;
+}
+
+/* Position/role styling */
+html.dark-mode position {
+  color: #c9d1d9;
+  font-weight: 500;
+}
+
+/* Social icons spacing in dark mode */
+html.dark-mode .social-icons a {
+  color: #8b949e;
+  transition: color 0.2s ease;
+}
+
+html.dark-mode .social-icons a:hover {
+  color: #58a6ff;
+}
+
+/* Scrollbar styling for better visibility */
+html.dark-mode ::-webkit-scrollbar {
+  width: 12px;
+}
+
+html.dark-mode ::-webkit-scrollbar-track {
+  background: #0d1117;
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 6px;
+}
+
+html.dark-mode ::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
 }
