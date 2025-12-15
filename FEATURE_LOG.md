@@ -90,7 +90,7 @@ Last Updated: 2025-12-15
 - [ ] Avatar image displays and links to homepage
 - [ ] Position shows "Research Engineer"
 - [ ] Affiliation "Hertie School of Governance" is clickable
-- [ ] Affiliation link goes to https://www.hertie-school.org/
+- [ ] Affiliation link goes to https://www.hertie-school.org/en/datasciencelab/research
 - [ ] Email displays as contact info
 - [ ] GitHub icon links to github.com/henrycgbaker
 - [ ] LinkedIn icon links to correct profile

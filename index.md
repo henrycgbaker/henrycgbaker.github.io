@@ -4,7 +4,7 @@ layout: homepage
 
 ## About Me
 
-I am a Research Engineer at the [Hertie Data Science Lab](https://www.hertie-school.org/) in Berlin, where I develop lab infrastructure and support computational research. I hold a dual degree in Public Policy and Data Science from the Hertie School of Governance, with research interests in sustainable computing, green AI, and computational social science.
+I am a Research Engineer at the [Hertie Data Science Lab](https://www.hertie-school.org/en/datasciencelab/research) in Berlin, where I develop lab infrastructure and support computational research. I hold a dual degree in Public Policy and Data Science from the Hertie School of Governance, with research interests in sustainable computing, green AI, and computational social science.
 
 My background spans East Asia, Europe, and Africa, with experience in policy research, product management, and data science. I'm passionate about applying machine learning to real-world problems, particularly in algorithmic decision-making and data governance. Currently, I'm an Associate Researcher at the [Weizenbaum Institute](https://www.weizenbaum-institut.de/portrait/p/henry-baker/) and Research Fellow at the [Open Data Institute](https://theodi.org/profile/henry-baker/).
 
@@ -17,7 +17,7 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Affiliations
 
-- **[Hertie Data Science Lab](https://www.hertie-school.org/)** (Berlin) — Research Engineer
+- **[Hertie Data Science Lab](https://www.hertie-school.org/en/datasciencelab/research)** (Berlin) — Research Engineer
 - **[Weizenbaum Institute](https://www.weizenbaum-institut.de/portrait/p/henry-baker/)** (Berlin) — Associate Researcher, *Digitalization, Sustainability, and Participation*
 - **[Open Data Institute](https://theodi.org/profile/henry-baker/)** (London) — Research Fellow, *Data-centric AI project*
 
