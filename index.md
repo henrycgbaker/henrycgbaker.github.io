@@ -49,9 +49,3 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 - **ML-Strom:** Machine learning for electricity grid analysis (with L. Hirth & L. Kaack)
 - **DiD Analysis:** Difference-in-Differences causal inference studies (with M. Kayser)
 - **LLM Energy Efficiency:** Benchmarking and optimizing transformer model energy consumption
-
-## Contact
-
-Email: [henry.c.g.baker@gmail.com](mailto:henry.c.g.baker@gmail.com)
-
-Phone: 🇩🇪 +49 15566 470660 | 🇬🇧 +44 7715 427104
