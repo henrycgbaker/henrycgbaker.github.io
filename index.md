@@ -38,7 +38,7 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Teaching & Mentoring
 
-**Teaching** at Hertie School of Governance:
+**Teaching** at Hertie School of Governance's MSc Data Science programme:
 - Mathematics for Data Science (Lead TA)
 - Data Structures & Algorithms (Lead TA)
 - Deep Learning (Lead TA)
