@@ -85,6 +85,23 @@
     
     <link rel="stylesheet" href="./assets/css/dark-mode-toggle.css">
 
+    <style>
+      .page-navigation {
+        margin: 1.5rem 0;
+        padding: 0.5rem 0;
+      }
+
+      .page-navigation a {
+        margin-right: 1rem;
+        text-decoration: none;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .page-navigation a.active {
+        font-weight: bold;
+      }
+    </style>
+
   </head>
   <body>
     <div class="wrapper">
@@ -137,7 +154,14 @@
 
         
         </div>
-        <br>
+
+        <!-- Navigation Menu -->
+        <nav class="page-navigation">
+          <a href="/" class="active">Home</a>
+          <a href="/experience/" >Experience</a>
+          <a href="/publications/" >Publications</a>
+          <a href="/blog/" >Blog</a>
+        </nav>
 
       </header>
       <section>
