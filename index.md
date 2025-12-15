@@ -6,7 +6,7 @@ layout: homepage
 
 I am a Research Engineer at the [Hertie Data Science Lab](https://www.hertie-school.org/en/datasciencelab/research) in Berlin, where I develop lab infrastructure and support computational research. I hold a dual degree in Public Policy and Data Science from the Hertie School of Governance, with research interests in sustainable computing, green AI, and computational social science.
 
-My background spans East Asia, Europe, and Africa, with experience in policy research, product management, and data science. I'm passionate about applying machine learning to real-world problems, particularly in algorithmic decision-making and data governance. Currently, I'm an Associate Researcher at the [Weizenbaum Institute](https://www.weizenbaum-institut.de/portrait/p/henry-baker/) and Research Fellow at the [Open Data Institute](https://theodi.org/profile/henry-baker/).
+My background spans East Asia, Europe, and Sub-Saharan Africa, with experience in policy research, product management, and data science. I'm intersted in analysing the societal and environmental dynamics of ML & AI applications. 
 
 ## Research Interests
 
@@ -26,7 +26,8 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 - **Languages:** Python, R, Stan, SQL, Bash
 - **Deep Learning:** PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace
 - **Data Analysis:** Scikit-Learn, Pandas, NumPy, Matplotlib
-- **MLOps & Deployment:** Docker, MLflow, Flask, Streamlit, Heroku- **Markup & Web:** HTML, XML, CSS, LaTeX
+- **MLOps & Deployment:** Docker, MLflow, Flask, Streamlit, Heroku
+- **Markup & Web:** HTML, XML, CSS, LaTeX
 
 **Project Management:** JIRA, Confluence
 
@@ -38,14 +39,14 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Teaching & Mentoring
 
-**Lead Teaching Associate** at Hertie School of Governance's MSc Data Science programme:
+**Teaching Associate** on the Hertie School of Governance's MSc Data Science programme:
 
-- Mathematics for Data Science
-- Data Structures & Algorithms
+- Mathematics for Data Science (Lead TA)
+- Data Structures & Algorithms (Lead TA)
 - Deep Learning
 
 ## Research Projects
 
+- **LLM Energy Efficiency:** Benchmarking and optimizing transformer model energy consumption
 - **ML-Strom:** Machine learning for electricity grid analysis (with L. Hirth & L. Kaack)
 - **DiD Analysis:** Difference-in-Differences causal inference studies (with M. Kayser)
-- **LLM Energy Efficiency:** Benchmarking and optimizing transformer model energy consumption
