@@ -1,7 +1,10 @@
-/* Dark Mode Toggle Support - Professional Implementation */
-/* Overrides Minimal Light theme's CSS variables for consistent dark mode */
+/* Dark Mode - Ultra Comprehensive Override */
+/* This file must be loaded LAST and uses maximum specificity to override theme styles */
 
-/* Dark mode color variables - inspired by GitHub Dark Mode */
+/* ============================================================================
+   ROOT LEVEL - Sets all CSS variables and base colors
+   ============================================================================ */
+
 html.dark-mode {
   --global-bg-color: #0d1117 !important;
   --global-code-bg-color: rgba(88, 166, 255, 0.05) !important;
@@ -14,287 +17,27 @@ html.dark-mode {
   --global-footer-link-color: #58a6ff !important;
   --global-distill-app-color: #79c0ff !important;
 
-  color-scheme: dark;
+  color-scheme: dark !important;
   background-color: #0d1117 !important;
   color: #e0e0e0 !important;
 }
+
+/* ============================================================================
+   BODY AND WRAPPER - Main containers
+   ============================================================================ */
 
 html.dark-mode body {
   background-color: #0d1117 !important;
   color: #e0e0e0 !important;
 }
 
-/* Text styling in dark mode */
-html.dark-mode {
-  background-color: #0d1117;
-  color: #e0e0e0;
-}
-
-html.dark-mode p,
-html.dark-mode li,
-html.dark-mode dd {
-  color: #e0e0e0;
-}
-
-/* Headings - bright white for hierarchy */
-html.dark-mode h1,
-html.dark-mode h2,
-html.dark-mode h3,
-html.dark-mode h4,
-html.dark-mode h5,
-html.dark-mode h6 {
-  color: #f0f6fc !important;
-}
-
-/* Strong and bold text */
-html.dark-mode strong,
-html.dark-mode b,
-html.dark-mode .bold {
-  color: #f0f6fc !important;
-  font-weight: 600;
-}
-
-/* Links - professional blue */
-html.dark-mode a {
-  color: #58a6ff !important;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-html.dark-mode a:hover {
-  color: #79c0ff !important;
-  text-decoration: underline;
-}
-
-html.dark-mode a:visited {
-  color: #8957e5 !important;
-}
-
-html.dark-mode a:active {
-  color: #d2a8ff !important;
-}
-
-/* Code blocks and monospace */
-html.dark-mode code,
-html.dark-mode pre,
-html.dark-mode .highlight {
-  background-color: #161b22 !important;
-  color: #e6edf3 !important;
-  border: 1px solid #30363d !important;
-}
-
-html.dark-mode code {
-  padding: 0.2em 0.4em;
-  border-radius: 3px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-}
-
-html.dark-mode pre {
-  border-radius: 6px;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
-html.dark-mode pre code {
-  background: transparent !important;
-  border: none !important;
-  padding: 0;
-  color: inherit;
-}
-
-/* Blockquotes */
-html.dark-mode blockquote {
-  background-color: #161b22 !important;
-  border-left: 4px solid #58a6ff !important;
-  color: #c9d1d9 !important;
-  margin: 1rem 0;
-  padding: 0 1rem;
-}
-
-/* Lists */
-html.dark-mode ul,
-html.dark-mode ol,
-html.dark-mode dl {
-  color: #e0e0e0;
-}
-
-html.dark-mode ul li,
-html.dark-mode ol li {
-  color: #e0e0e0;
-}
-
-/* Emphasis */
-html.dark-mode em,
-html.dark-mode i {
-  color: #d0d0d0;
-  font-style: italic;
-}
-
-/* Tables */
-html.dark-mode table {
-  border-collapse: collapse;
-  background-color: #0d1117 !important;
-}
-
-html.dark-mode table,
-html.dark-mode th,
-html.dark-mode td {
-  border-color: #30363d !important;
-}
-
-html.dark-mode th {
-  background-color: #161b22 !important;
-  color: #f0f6fc !important;
-  font-weight: 600;
-}
-
-html.dark-mode td {
-  background-color: #0d1117 !important;
-  color: #e0e0e0 !important;
-}
-
-html.dark-mode tr:nth-child(even) {
-  background-color: #161b22 !important;
-}
-
-html.dark-mode table tr:hover {
-  background-color: #1c2128 !important;
-}
-
-/* Horizontal rules */
-html.dark-mode hr {
-  border: 0;
-  border-top: 1px solid #21262d;
-  background-color: transparent;
-}
-
-/* Form elements */
-html.dark-mode input[type="text"],
-html.dark-mode input[type="email"],
-html.dark-mode input[type="password"],
-html.dark-mode input[type="search"],
-html.dark-mode textarea,
-html.dark-mode select {
-  background-color: #0d1117 !important;
-  border: 1px solid #30363d !important;
-  color: #e0e0e0 !important;
-  border-radius: 6px;
-  padding: 0.5rem;
-}
-
-html.dark-mode input[type="text"]:focus,
-html.dark-mode input[type="email"]:focus,
-html.dark-mode input[type="password"]:focus,
-html.dark-mode input[type="search"]:focus,
-html.dark-mode textarea:focus,
-html.dark-mode select:focus {
-  background-color: #0d1117 !important;
-  border-color: #58a6ff !important;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1) !important;
-}
-
-/* Buttons */
-html.dark-mode button,
-html.dark-mode input[type="button"],
-html.dark-mode input[type="submit"] {
-  background-color: #238636 !important;
-  border: 1px solid #2ea043 !important;
-  color: #ffffff !important;
-  border-radius: 6px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-html.dark-mode button:hover,
-html.dark-mode input[type="button"]:hover,
-html.dark-mode input[type="submit"]:hover {
-  background-color: #2ea043 !important;
-  border-color: #3fb950 !important;
-}
-
-/* Dark mode toggle button */
-html.dark-mode button#dark-mode-toggle {
-  color: #e0e0e0 !important;
-  background-color: transparent !important;
-  border: none !important;
-}
-
-html.dark-mode button#dark-mode-toggle:hover {
-  background-color: rgba(88, 166, 255, 0.1) !important;
-}
-
-html.dark-mode button#dark-mode-toggle:active {
-  background-color: rgba(88, 166, 255, 0.2) !important;
-}
-
-/* Navigation */
-html.dark-mode nav a {
-  color: #58a6ff !important;
-}
-
-html.dark-mode nav a:hover {
-  color: #79c0ff !important;
-}
-
-html.dark-mode nav {
-  color: #e0e0e0;
-}
-
-/* Custom theme elements */
-html.dark-mode autocolor {
-  color: #58a6ff !important;
-}
-
-html.dark-mode autocolor:hover {
-  color: #79c0ff !important;
-}
-
-html.dark-mode email {
-  color: #e0e0e0;
-}
-
-html.dark-mode position {
-  color: #c9d1d9;
-  font-weight: 500;
-}
-
-/* Social icons */
-html.dark-mode .social-icons {
-  color: #e0e0e0;
-}
-
-html.dark-mode .social-icons a {
-  color: #8b949e;
-  transition: color 0.2s ease;
-}
-
-html.dark-mode .social-icons a:hover {
-  color: #58a6ff;
-}
-
-html.dark-mode .social-icons i {
-  color: #8b949e;
-}
-
-html.dark-mode .social-icons a:hover i {
-  color: #58a6ff;
-}
-
-/* Avatar styling */
-html.dark-mode .image.avatar {
-  background-color: transparent;
-}
-
-html.dark-mode img {
-  background-color: transparent;
-}
-
-/* Wrapper and main container */
 html.dark-mode .wrapper {
   background-color: #0d1117 !important;
   color: #e0e0e0 !important;
+}
+
+html.dark-mode .wrapper * {
+  background-color: inherit !important;
 }
 
 html.dark-mode header {
@@ -312,9 +55,375 @@ html.dark-mode footer {
   color: #e0e0e0 !important;
 }
 
-/* Publications specific */
+/* ============================================================================
+   TEXT COLORS - Paragraphs, lists, etc.
+   ============================================================================ */
+
+html.dark-mode,
+html.dark-mode body,
+html.dark-mode p,
+html.dark-mode li,
+html.dark-mode dd,
+html.dark-mode span,
+html.dark-mode div,
+html.dark-mode article,
+html.dark-mode section,
+html.dark-mode main {
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
+}
+
+html.dark-mode .wrapper section {
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode .wrapper section * {
+  color: #e0e0e0 !important;
+}
+
+/* ============================================================================
+   HEADINGS - H1-H6 with bright white
+   ============================================================================ */
+
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6 {
+  color: #f0f6fc !important;
+  background-color: transparent !important;
+}
+
+html.dark-mode .publications h1,
+html.dark-mode .publications h2,
+html.dark-mode .publications h3 {
+  color: #f0f6fc !important;
+}
+
+/* ============================================================================
+   STRONG/BOLD TEXT - Make it bright
+   ============================================================================ */
+
+html.dark-mode strong,
+html.dark-mode b,
+html.dark-mode .bold {
+  color: #f0f6fc !important;
+  font-weight: 600 !important;
+  background-color: transparent !important;
+}
+
+html.dark-mode .wrapper section strong {
+  color: #f0f6fc !important;
+}
+
+/* ============================================================================
+   LINKS - Professional blue color
+   ============================================================================ */
+
+html.dark-mode a,
+html.dark-mode a:link {
+  color: #58a6ff !important;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+html.dark-mode a:visited {
+  color: #8957e5 !important;
+}
+
+html.dark-mode a:hover {
+  color: #79c0ff !important;
+  text-decoration: underline;
+}
+
+html.dark-mode a:active {
+  color: #d2a8ff !important;
+}
+
+html.dark-mode .wrapper section a {
+  color: #58a6ff !important;
+}
+
+html.dark-mode .wrapper section a:hover {
+  color: #79c0ff !important;
+}
+
+/* ============================================================================
+   CODE AND PRE BLOCKS
+   ============================================================================ */
+
+html.dark-mode code,
+html.dark-mode pre,
+html.dark-mode .highlight,
+html.dark-mode .highlighter-rouge {
+  background-color: #161b22 !important;
+  color: #e6edf3 !important;
+  border: 1px solid #30363d !important;
+}
+
+html.dark-mode code {
+  padding: 0.2em 0.4em !important;
+  border-radius: 3px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+}
+
+html.dark-mode pre {
+  border-radius: 6px !important;
+  padding: 1rem !important;
+  overflow-x: auto !important;
+}
+
+html.dark-mode pre code {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  color: #e6edf3 !important;
+}
+
+/* ============================================================================
+   BLOCKQUOTES
+   ============================================================================ */
+
+html.dark-mode blockquote {
+  background-color: #161b22 !important;
+  border-left: 4px solid #58a6ff !important;
+  color: #c9d1d9 !important;
+  margin: 1rem 0 !important;
+  padding: 0 1rem !important;
+}
+
+/* ============================================================================
+   LISTS
+   ============================================================================ */
+
+html.dark-mode ul,
+html.dark-mode ol,
+html.dark-mode dl {
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode ul li,
+html.dark-mode ol li,
+html.dark-mode dt,
+html.dark-mode dd {
+  color: #e0e0e0 !important;
+}
+
+/* ============================================================================
+   EMPHASIS / ITALIC
+   ============================================================================ */
+
+html.dark-mode em,
+html.dark-mode i {
+  color: #d0d0d0 !important;
+  font-style: italic !important;
+  background-color: transparent !important;
+}
+
+/* ============================================================================
+   TABLES
+   ============================================================================ */
+
+html.dark-mode table {
+  border-collapse: collapse !important;
+  background-color: #0d1117 !important;
+}
+
+html.dark-mode table,
+html.dark-mode th,
+html.dark-mode td,
+html.dark-mode tr {
+  border-color: #30363d !important;
+  background-color: #0d1117 !important;
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode th {
+  background-color: #161b22 !important;
+  color: #f0f6fc !important;
+  font-weight: 600 !important;
+}
+
+html.dark-mode td {
+  background-color: #0d1117 !important;
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode tr:nth-child(even) {
+  background-color: #161b22 !important;
+}
+
+html.dark-mode table tr:hover {
+  background-color: #1c2128 !important;
+}
+
+/* ============================================================================
+   HORIZONTAL RULES
+   ============================================================================ */
+
+html.dark-mode hr {
+  border: 0 !important;
+  border-top: 1px solid #21262d !important;
+  background-color: transparent !important;
+}
+
+/* ============================================================================
+   FORM ELEMENTS
+   ============================================================================ */
+
+html.dark-mode input[type="text"],
+html.dark-mode input[type="email"],
+html.dark-mode input[type="password"],
+html.dark-mode input[type="search"],
+html.dark-mode textarea,
+html.dark-mode select {
+  background-color: #0d1117 !important;
+  border: 1px solid #30363d !important;
+  color: #e0e0e0 !important;
+  border-radius: 6px !important;
+  padding: 0.5rem !important;
+}
+
+html.dark-mode input[type="text"]::placeholder,
+html.dark-mode input[type="email"]::placeholder,
+html.dark-mode textarea::placeholder {
+  color: #8b949e !important;
+}
+
+html.dark-mode input[type="text"]:focus,
+html.dark-mode input[type="email"]:focus,
+html.dark-mode input[type="password"]:focus,
+html.dark-mode input[type="search"]:focus,
+html.dark-mode textarea:focus,
+html.dark-mode select:focus {
+  background-color: #0d1117 !important;
+  border-color: #58a6ff !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1) !important;
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+html.dark-mode button,
+html.dark-mode input[type="button"],
+html.dark-mode input[type="submit"] {
+  background-color: #238636 !important;
+  border: 1px solid #2ea043 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 0.5rem 1rem !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+html.dark-mode button:hover,
+html.dark-mode input[type="button"]:hover,
+html.dark-mode input[type="submit"]:hover {
+  background-color: #2ea043 !important;
+  border-color: #3fb950 !important;
+}
+
+/* ============================================================================
+   DARK MODE TOGGLE BUTTON
+   ============================================================================ */
+
+html.dark-mode button#dark-mode-toggle {
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+html.dark-mode button#dark-mode-toggle:hover {
+  background-color: rgba(88, 166, 255, 0.1) !important;
+}
+
+html.dark-mode button#dark-mode-toggle:active {
+  background-color: rgba(88, 166, 255, 0.2) !important;
+}
+
+/* ============================================================================
+   NAVIGATION
+   ============================================================================ */
+
+html.dark-mode nav,
+html.dark-mode nav a {
+  color: #58a6ff !important;
+}
+
+html.dark-mode nav a:hover {
+  color: #79c0ff !important;
+}
+
+html.dark-mode nav {
+  background-color: transparent !important;
+  color: #e0e0e0 !important;
+}
+
+/* ============================================================================
+   CUSTOM THEME ELEMENTS
+   ============================================================================ */
+
+html.dark-mode autocolor {
+  color: #58a6ff !important;
+}
+
+html.dark-mode autocolor:hover {
+  color: #79c0ff !important;
+}
+
+html.dark-mode email {
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode position {
+  color: #c9d1d9 !important;
+  font-weight: 500 !important;
+}
+
+/* ============================================================================
+   SOCIAL ICONS AND AVATAR
+   ============================================================================ */
+
+html.dark-mode .social-icons {
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
+}
+
+html.dark-mode .social-icons a {
+  color: #8b949e !important;
+  transition: color 0.2s ease !important;
+}
+
+html.dark-mode .social-icons a:hover {
+  color: #58a6ff !important;
+}
+
+html.dark-mode .social-icons i {
+  color: #8b949e !important;
+}
+
+html.dark-mode .social-icons a:hover i {
+  color: #58a6ff !important;
+}
+
+html.dark-mode .image.avatar {
+  background-color: transparent !important;
+}
+
+html.dark-mode img {
+  background-color: transparent !important;
+}
+
+/* ============================================================================
+   PUBLICATIONS SPECIFIC
+   ============================================================================ */
+
 html.dark-mode .publications {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
+  background-color: transparent !important;
 }
 
 html.dark-mode .publications h1,
@@ -327,78 +436,128 @@ html.dark-mode .publications .badge {
   color: #ffffff !important;
 }
 
-/* Timeline elements */
+html.dark-mode .publications ol.bibliography li {
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode .publications ol.bibliography li .title {
+  color: #f0f6fc !important;
+}
+
+html.dark-mode .publications ol.bibliography li .author {
+  color: #c9d1d9 !important;
+}
+
+html.dark-mode .publications ol.bibliography li .links a.btn {
+  color: #58a6ff !important;
+  border-color: #58a6ff !important;
+}
+
+/* ============================================================================
+   TIMELINE ELEMENTS
+   ============================================================================ */
+
 html.dark-mode .timeline {
-  background-color: #0d1117;
+  background-color: #0d1117 !important;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode .timeline-item {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
+  background-color: #161b22 !important;
 }
 
 html.dark-mode .timeline-dot {
-  background-color: #58a6ff;
-  border-color: #58a6ff;
+  background-color: #58a6ff !important;
+  border-color: #58a6ff !important;
 }
 
 html.dark-mode .timeline-line {
-  background-color: #30363d;
+  background-color: #30363d !important;
 }
 
-/* Blog elements */
+/* ============================================================================
+   BLOG ELEMENTS
+   ============================================================================ */
+
 html.dark-mode .post-list {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode .post-item {
-  border-color: #30363d;
+  border-color: #30363d !important;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode .post-date {
-  color: #8b949e;
+  color: #8b949e !important;
 }
 
 html.dark-mode .post-excerpt {
-  color: #c9d1d9;
+  color: #c9d1d9 !important;
 }
 
-/* Search elements */
+html.dark-mode .post-title {
+  color: #f0f6fc !important;
+}
+
+/* ============================================================================
+   SEARCH ELEMENTS
+   ============================================================================ */
+
 html.dark-mode #search-container {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode #search-results {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode #search-results ul {
-  list-style: none;
+  list-style: none !important;
 }
 
 html.dark-mode #search-results li {
-  border-bottom: 1px solid #30363d;
-  padding: 1rem 0;
-  color: #e0e0e0;
+  border-bottom: 1px solid #30363d !important;
+  padding: 1rem 0 !important;
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode #search-results strong {
-  color: #f0f6fc;
+  color: #f0f6fc !important;
 }
 
 html.dark-mode #search-results p {
-  color: #8b949e;
+  color: #8b949e !important;
 }
 
-/* Contact form */
+/* ============================================================================
+   CONTACT FORM
+   ============================================================================ */
+
 html.dark-mode .contact-form {
-  color: #e0e0e0;
+  color: #e0e0e0 !important;
+}
+
+html.dark-mode .form-group {
+  color: #e0e0e0 !important;
 }
 
 html.dark-mode .form-group label {
-  color: #c9d1d9;
+  color: #c9d1d9 !important;
 }
 
-/* Utility classes */
+html.dark-mode .form-group input,
+html.dark-mode .form-group textarea {
+  color: #e0e0e0 !important;
+  background-color: #0d1117 !important;
+  border-color: #30363d !important;
+}
+
+/* ============================================================================
+   UTILITY CLASSES
+   ============================================================================ */
+
 html.dark-mode .text-light {
   color: #8b949e !important;
 }
@@ -411,7 +570,14 @@ html.dark-mode .bg-light {
   background-color: #161b22 !important;
 }
 
-/* Scrollbar styling */
+html.dark-mode .bg-dark {
+  background-color: #0d1117 !important;
+}
+
+/* ============================================================================
+   SCROLLBAR STYLING
+   ============================================================================ */
+
 html.dark-mode ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -430,13 +596,16 @@ html.dark-mode ::-webkit-scrollbar-thumb:hover {
   background: #484f58;
 }
 
-/* Selection */
+/* ============================================================================
+   TEXT SELECTION
+   ============================================================================ */
+
 html.dark-mode ::selection {
-  background-color: #58a6ff;
-  color: #ffffff;
+  background-color: #58a6ff !important;
+  color: #ffffff !important;
 }
 
 html.dark-mode ::-moz-selection {
-  background-color: #58a6ff;
-  color: #ffffff;
+  background-color: #58a6ff !important;
+  color: #ffffff !important;
 }
