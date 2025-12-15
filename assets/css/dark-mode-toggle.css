@@ -1,0 +1,58 @@
+/* Dark Mode Toggle Support */
+/* This CSS allows the dark mode toggle button to work properly */
+
+html.dark-mode {
+  color-scheme: dark;
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+html.dark-mode body {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
+}
+
+html.dark-mode a {
+  color: #66d9ef;
+}
+
+html.dark-mode a:hover {
+  color: #a1efe4;
+}
+
+html.dark-mode code {
+  background-color: #272822;
+  color: #f8f8f2;
+}
+
+html.dark-mode pre {
+  background-color: #272822;
+  color: #f8f8f2;
+}
+
+html.dark-mode blockquote {
+  color: #888;
+  border-left-color: #444;
+}
+
+html.dark-mode table,
+html.dark-mode th,
+html.dark-mode td {
+  border-color: #444;
+}
+
+html.dark-mode table tr:nth-child(2n) {
+  background-color: #282828;
+}
+
+html.dark-mode hr {
+  border-color: #444;
+}
+
+html.dark-mode button#dark-mode-toggle {
+  color: #f0f0f0;
+}
+
+html.dark-mode button#dark-mode-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
