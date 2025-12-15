@@ -34,6 +34,7 @@ A professional academic portfolio website showcasing research interests, technic
 ## Quick Start
 
 ### Prerequisites
+
 - Ruby 3.3+
 - Bundler
 
@@ -52,6 +53,7 @@ bundle exec jekyll serve
 ### Editing Content
 
 **Homepage content:** Edit `index.md`
+
 - About Me
 - Research Interests
 - Technical Skills
@@ -62,6 +64,7 @@ bundle exec jekyll serve
 - Contact information
 
 **Site metadata:** Edit `_config.yml`
+
 - Title, position, affiliation
 - Links (GitHub, LinkedIn, CV, etc.)
 - Avatar and favicon images
@@ -83,6 +86,7 @@ git push origin main
 ```
 
 The deploy workflow will:
+
 1. ✅ Check for AI attribution mentions
 2. ✅ Build Jekyll site
 3. ✅ Deploy to `gh-pages` branch
@@ -122,13 +126,15 @@ Edit `_sass/minimal-light.scss` for custom styles (theme is provided by remote t
 ### Typography
 
 Change font in `_config.yml`:
+
 ```yaml
-font: "Sans Serif"  # or "Serif"
+font: "Sans Serif" # or "Serif"
 ```
 
 ### Dark Mode
 
 Disable auto-dark mode in `_config.yml`:
+
 ```yaml
 auto_dark_mode: false
 ```

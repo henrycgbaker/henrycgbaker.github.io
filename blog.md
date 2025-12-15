@@ -11,6 +11,7 @@ Thoughts on data science, sustainable computing, governance, and research method
 <div style="margin-top: 2rem;">
 
 {% for post in site.posts %}
+
   <div style="margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #eee;">
     <h3 style="margin: 0 0 0.5rem 0;">
       <a href="{{ post.url }}" style="text-decoration: none; color: inherit;">{{ post.title }}</a>
@@ -28,6 +29,7 @@ Thoughts on data science, sustainable computing, governance, and research method
 </div>
 
 {% if site.posts.size == 0 %}
+
 <p style="color: #999; margin-top: 2rem;">No articles yet. Check back soon!</p>
 {% endif %}
 

@@ -25,6 +25,7 @@ I plan to write about:
 ## Why This Blog?
 
 As a researcher working at the intersection of data science and public policy, I believe there's value in sharing:
+
 - Work-in-progress research findings
 - Technical explanations of complex methods
 - Lessons learned from research projects

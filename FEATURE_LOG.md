@@ -7,6 +7,7 @@ Last Updated: 2025-12-15
 ## Core Pages
 
 ### Homepage
+
 - [ ] Page loads at `/` (root)
 - [ ] About section displays correctly
 - [ ] Research Interests section visible
@@ -17,12 +18,14 @@ Last Updated: 2025-12-15
 - [ ] "Explore" section visible at bottom with navigation links
 
 ### Experience Timeline
+
 - [ ] Page loads at `/experience/`
 - [ ] Visual timeline displays correctly
 - [ ] Career entries show location (Berlin, Tokyo, Oxford, etc.)
 - [ ] Timeline is responsive on mobile
 
 ### Publications
+
 - [ ] Page loads at `/publications/`
 - [ ] MSc thesis information displays
 - [ ] MPP thesis information displays
@@ -30,6 +33,7 @@ Last Updated: 2025-12-15
 - [ ] Research interests and skills sections visible
 
 ### Blog
+
 - [ ] Page loads at `/blog/`
 - [ ] Welcome post appears in list
 - [ ] Blog post metadata shows (date, author, reading time)
@@ -38,6 +42,7 @@ Last Updated: 2025-12-15
 - [ ] "Back to Blog" link works on individual posts
 
 ### Search
+
 - [ ] Page loads at `/search/`
 - [ ] Search input field appears
 - [ ] Typing "machine" returns results
@@ -47,6 +52,7 @@ Last Updated: 2025-12-15
 - [ ] No results message appears for gibberish search
 
 ### Contact
+
 - [ ] Page loads at `/contact/`
 - [ ] Contact form displays with Name field
 - [ ] Contact form has Email field
@@ -60,6 +66,7 @@ Last Updated: 2025-12-15
 ## Navigation & UI
 
 ### Dark Mode Toggle
+
 - [ ] 🌙 moon button appears in top-right corner (all pages)
 - [ ] Clicking button toggles to ☀️ sun icon
 - [ ] Clicking sun icon toggles back to 🌙 moon
@@ -76,6 +83,7 @@ Last Updated: 2025-12-15
 - [ ] Button hovers work smoothly
 
 ### Navigation Links
+
 - [ ] Homepage shows navigation links at bottom (Explore section)
 - [ ] Experience page has nav menu on left sidebar
 - [ ] Publications page has nav menu on left sidebar
@@ -86,6 +94,7 @@ Last Updated: 2025-12-15
 - [ ] All nav links work correctly
 
 ### Header Links
+
 - [ ] "Henry C G Baker" title links to homepage
 - [ ] Avatar image displays and links to homepage
 - [ ] Position shows "Research Engineer"
@@ -101,6 +110,7 @@ Last Updated: 2025-12-15
 ## SEO & Metadata
 
 ### Open Graph Tags
+
 - [ ] Share homepage on Facebook and see preview
 - [ ] Share homepage on LinkedIn and see preview
 - [ ] Share homepage on Twitter and see preview
@@ -110,16 +120,19 @@ Last Updated: 2025-12-15
 - [ ] Blog posts have working OG tags
 
 ### Structured Data
+
 - [ ] Page passes JSON-LD validation
 - [ ] Google Knowledge Graph recognizes Person schema
 - [ ] Job title displays in search results
 
 ### Sitemap
+
 - [ ] `/sitemap.xml` is accessible
 - [ ] All main pages listed in sitemap
 - [ ] Sitemap is valid XML
 
 ### RSS Feed
+
 - [ ] `/feed.xml` is accessible
 - [ ] Feed contains blog posts
 - [ ] Feed has valid RSS structure
@@ -130,6 +143,7 @@ Last Updated: 2025-12-15
 ## Content Accuracy
 
 ### Homepage Content
+
 - [ ] About section mentions sustainable computing
 - [ ] About section mentions Hertie Data Science Lab
 - [ ] Affiliations include Weizenbaum Institute link
@@ -138,6 +152,7 @@ Last Updated: 2025-12-15
 - [ ] Languages include English, Japanese, French
 
 ### Experience Page
+
 - [ ] Shows Research Engineer role at Hertie
 - [ ] Shows Policy Researcher role
 - [ ] Shows Masters degree
@@ -146,6 +161,7 @@ Last Updated: 2025-12-15
 - [ ] Timeline has visual connecting line
 
 ### Publications Page
+
 - [ ] MSc thesis title about LLM energy efficiency
 - [ ] MPP thesis about data institutions governance
 - [ ] ML-Strom project listed
@@ -153,6 +169,7 @@ Last Updated: 2025-12-15
 - [ ] Research interests align with homepage
 
 ### Blog Post
+
 - [ ] Welcome post title displays
 - [ ] Post date shows: December 15, 2024 (or current date)
 - [ ] Post content is readable
@@ -163,6 +180,7 @@ Last Updated: 2025-12-15
 ## Responsive Design
 
 ### Mobile (< 768px)
+
 - [ ] All pages display correctly on mobile
 - [ ] Navigation is accessible on mobile
 - [ ] Dark mode toggle visible and clickable
@@ -171,11 +189,13 @@ Last Updated: 2025-12-15
 - [ ] Timeline is readable on mobile
 
 ### Tablet (768px - 1024px)
+
 - [ ] Layout adapts to tablet size
 - [ ] Navigation menu works on tablet
 - [ ] Content area is appropriately sized
 
 ### Desktop (> 1024px)
+
 - [ ] Full sidebar layout visible
 - [ ] Navigation appears on left
 - [ ] Content area has proper width
@@ -186,12 +206,14 @@ Last Updated: 2025-12-15
 ## Performance
 
 ### Page Load
+
 - [ ] Homepage loads quickly
 - [ ] Blog page loads quickly
 - [ ] Navigation between pages is responsive
 - [ ] Dark mode toggle is instant
 
 ### Images
+
 - [ ] Avatar image loads
 - [ ] Favicon loads (light and dark modes)
 - [ ] No broken image links
@@ -212,6 +234,7 @@ Last Updated: 2025-12-15
 ## Pending Features (Needs Setup)
 
 ### Formspree Contact Form
+
 - [ ] **STATUS:** ⏳ Awaiting Form ID
 - **Steps to enable:**
   1. Go to https://formspree.io/
@@ -223,6 +246,7 @@ Last Updated: 2025-12-15
   - [ ] Contact form successfully sends test email
 
 ### Google Analytics
+
 - [ ] **STATUS:** ⏳ Awaiting Measurement ID
 - **Steps to enable:**
   1. Go to https://analytics.google.com/
@@ -230,7 +254,7 @@ Last Updated: 2025-12-15
   3. Get Measurement ID (format: `G-XXXXXXXXXX`)
   4. Edit `_config.yml` line 42: add your ID
   5. Push to deploy
-  - [ ] Google Analytics ID added to _config.yml
+  - [ ] Google Analytics ID added to \_config.yml
   - [ ] Analytics tracking appears in Google Analytics dashboard
   - [ ] Page views being recorded
 
@@ -248,10 +272,12 @@ Last Updated: 2025-12-15
 ## Issues Found During Testing
 
 **Issue #1: [Description]**
+
 - Status: [ ] Reported [ ] Fixed [ ] Won't Fix
 - Details:
 
 **Issue #2: [Description]**
+
 - Status: [ ] Reported [ ] Fixed [ ] Won't Fix
 - Details:
 
@@ -266,9 +292,8 @@ Last Updated: 2025-12-15
 - [ ] SEO properly configured
 - [ ] Ready for public launch
 
-**Tester Name:** ___________________
+**Tester Name:** ********\_\_\_********
 
-**Date Completed:** ___________________
+**Date Completed:** ********\_\_\_********
 
 **Notes:**
-

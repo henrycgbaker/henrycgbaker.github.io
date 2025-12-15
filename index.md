@@ -18,8 +18,8 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 ## Affiliations
 
 - **[Hertie Data Science Lab](https://www.hertie-school.org/en/datasciencelab/research)** (Berlin) — Research Engineer
-- **[Weizenbaum Institute](https://www.weizenbaum-institut.de/portrait/p/henry-baker/)** (Berlin) — Associate Researcher, *Digitalization, Sustainability, and Participation*
-- **[Open Data Institute](https://theodi.org/profile/henry-baker/)** (London) — Research Fellow, *Data-centric AI project*
+- **[Weizenbaum Institute](https://www.weizenbaum-institut.de/portrait/p/henry-baker/)** (Berlin) — Associate Researcher, _Digitalization, Sustainability, and Participation_
+- **[Open Data Institute](https://theodi.org/profile/henry-baker/)** (London) — Research Fellow, _Data-centric AI project_
 
 ## Technical Skills
 
@@ -38,10 +38,11 @@ My background spans East Asia, Europe, and Africa, with experience in policy res
 
 ## Teaching & Mentoring
 
-**Teaching** at Hertie School of Governance's MSc Data Science programme:
-- Mathematics for Data Science (Lead TA)
-- Data Structures & Algorithms (Lead TA)
-- Deep Learning (Lead TA)
+**Lead Teaching Associate** at Hertie School of Governance's MSc Data Science programme:
+
+- Mathematics for Data Science
+- Data Structures & Algorithms
+- Deep Learning
 
 ## Research Projects
 

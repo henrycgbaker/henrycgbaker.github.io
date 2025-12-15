@@ -149,5 +149,5 @@ My professional experience spans three continents, blending policy research, dat
 
 ## Research Affiliations
 
-- **Weizenbaum Institute** (Berlin) — Associate Researcher, *Digitalization, Sustainability, and Participation*
-- **Open Data Institute** (London) — Research Fellow, *Data-centric AI project*
+- **Weizenbaum Institute** (Berlin) — Associate Researcher, _Digitalization, Sustainability, and Participation_
+- **Open Data Institute** (London) — Research Fellow, _Data-centric AI project_

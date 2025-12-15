@@ -9,6 +9,7 @@ permalink: /publications/
 ## Working Papers & Thesis
 
 ### MSc Thesis: Benchmarking LLM Energy Efficiency
+
 **Hertie School of Governance, 2024**
 
 Analysis of transformer model energy consumption across different architectures and deployment scenarios. Examines the environmental impact of large language models and optimization strategies for sustainable computing.
@@ -18,6 +19,7 @@ Analysis of transformer model energy consumption across different architectures 
 ---
 
 ### MPP Thesis: Governance of Data Institutions
+
 **Hertie School of Governance, 2024**
 
 Comparative analysis of how data institutions (data trusts, cooperatives, public data authorities) govern collective data resources. Examines institutional design choices and implications for equitable data governance.
@@ -31,6 +33,7 @@ Comparative analysis of how data institutions (data trusts, cooperatives, public
 ## Research Projects
 
 ### ML-Strom: Machine Learning for Electricity Grid Analysis
+
 **With:** Prof. Lion Hirth (Hertie School), Prof. Lina Kaack (Hertie School)
 
 Applied machine learning to electricity grid forecasting and optimization. Developed models for renewable energy integration and grid stability analysis.
@@ -40,6 +43,7 @@ Applied machine learning to electricity grid forecasting and optimization. Devel
 ---
 
 ### Difference-in-Differences Analysis: Policy Impact Evaluation
+
 **With:** Prof. Miriam Kayser (Hertie School)
 
 Causal inference methods for evaluating policy interventions. Applied DiD methodology to assess impact of policy changes in economic and social domains.
@@ -49,11 +53,13 @@ Causal inference methods for evaluating policy interventions. Applied DiD method
 ---
 
 ### Energy Efficiency Benchmarking
+
 **Weizenbaum Institute & Open Data Institute**
 
 Comprehensive benchmarking of computational efficiency across different AI systems and architectures. Focuses on sustainable computing practices and green AI principles.
 
 **Focus Areas:**
+
 - Model efficiency metrics
 - Deployment optimization
 - Carbon footprint assessment
@@ -71,6 +77,7 @@ Comprehensive benchmarking of computational efficiency across different AI syste
 ## Skills & Methodologies
 
 **Research Methods:**
+
 - Causal inference & econometrics
 - Machine learning & deep learning
 - Bayesian hierarchical modeling
@@ -78,6 +85,7 @@ Comprehensive benchmarking of computational efficiency across different AI syste
 - Qualitative policy analysis
 
 **Technical Skills:**
+
 - Python, R, Stan, SQL
 - PyTorch, TensorFlow, JAX
 - Data visualization (Matplotlib, ggplot2)
@@ -111,4 +119,4 @@ Several manuscripts are in preparation based on thesis research and ongoing coll
 
 ---
 
-*Last updated: December 2025. More publications coming soon as research projects complete.*
+_Last updated: December 2025. More publications coming soon as research projects complete._

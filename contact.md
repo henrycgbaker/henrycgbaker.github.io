@@ -30,7 +30,7 @@ I'd love to hear from you! Whether you have questions about my research, want to
     <textarea id="message" name="message" rows="6" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; box-sizing: border-box; font-family: inherit;"></textarea>
   </div>
 
-  <button type="submit" style="background-color: #333; color: white; padding: 0.75rem 2rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: 500;">Send Message</button>
+<button type="submit" style="background-color: #333; color: white; padding: 0.75rem 2rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; font-weight: 500;">Send Message</button>
 
 </form>
 
@@ -48,4 +48,4 @@ I'd love to hear from you! Whether you have questions about my research, want to
 
 ---
 
-*All fields marked with * are required.*
+_All fields marked with _ are required.\*

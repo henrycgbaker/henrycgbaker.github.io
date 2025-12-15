@@ -3,6 +3,7 @@
 ## Why Google Analytics?
 
 Track:
+
 - Number of visitors
 - Which pages are popular
 - Where visitors come from (referrers)
@@ -54,11 +55,13 @@ Track:
     # google_analytics: G-XXXXXXXXXX
     ```
 13. Replace with your actual ID (uncomment and paste):
+
     ```yaml
     google_analytics: G-XXXXXXXXXX
     ```
 
     **Example:**
+
     ```yaml
     google_analytics: G-A1B2C3D4E5
     ```
@@ -84,43 +87,52 @@ Track:
 ## Viewing Analytics
 
 ### Real-time Dashboard
+
 - **Reports** → **Realtime**
 - See live visitors right now
 
 ### Traffic Overview
+
 - **Reports** → **Home**
 - Total users, sessions, engagement
 
 ### Popular Pages
+
 - **Reports** → **Pages and screens**
 - Which pages get most views
 
 ### Traffic Sources
+
 - **Reports** → **Traffic acquisition**
 - Where visitors come from (Google, direct, referrals, etc.)
 
 ### User Locations
+
 - **Reports** → **Demographics** → **Geography**
 - Which countries/cities your visitors are from
 
 ### Devices
+
 - **Reports** → **Demographics** → **Technology**
 - Mobile vs desktop visitors
 
 ## Troubleshooting
 
 ### Not seeing data?
+
 1. Check your Measurement ID is correct in `_config.yml`
 2. Wait at least 5 minutes after adding ID
 3. Make sure you pushed the commit to main
 4. Try visiting your site in incognito mode (not cached)
 
 ### Wrong timezone?
+
 1. Go to **Admin** → **Property settings**
 2. Change timezone and currency
 3. Analytics will show data only going forward
 
 ### Want to exclude your own traffic?
+
 1. **Admin** → **Data Filters**
 2. Create filter to exclude your IP address
 3. Or enable "Exclude myself" browser extension from Google
@@ -128,6 +140,7 @@ Track:
 ## Privacy & GDPR
 
 If you have EU visitors, consider:
+
 - Adding a privacy policy page mentioning GA tracking
 - Getting consent before tracking (GDPR requirement)
 - Disabling data sharing with Google partners
@@ -135,6 +148,7 @@ If you have EU visitors, consider:
 ## Next Steps
 
 Once Analytics is working:
+
 1. Let it collect data for 1-2 weeks
 2. Check which pages are most popular
 3. Optimize content based on visitor behavior

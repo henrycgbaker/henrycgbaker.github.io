@@ -3,6 +3,7 @@
 ## Current Status
 
 ✅ **Complete:**
+
 - Basic site setup (Minimal Light theme)
 - Personal information & bio
 - Research interests & affiliations
@@ -21,11 +22,13 @@
 ## YOUR ACTION ITEMS 🚀
 
 ### 1. **Setup Formspree for Contact Form** ⏱️ 5 mins
+
 **Status:** ⏳ Needs your action
 
 **Why:** Allows visitors to email you through the contact form
 
 **Steps:**
+
 1. Go to: https://formspree.io/
 2. Sign up (free) with your email
 3. Create a new form:
@@ -34,25 +37,28 @@
 4. You'll get a **Form ID** (like: `f1a2b3c4`)
 5. Edit `contact.md` and find this line:
    ```html
-   <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+   <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST"></form>
    ```
    Replace `YOUR_FORM_ID` with your actual form ID:
    ```html
-   <form action="https://formspree.io/f/f1a2b3c4" method="POST">
+   <form action="https://formspree.io/f/f1a2b3c4" method="POST"></form>
    ```
 6. Push to main - contact form is live!
 
 **Add to TODO.md once done:**
+
 - [ ] Formspree setup complete (add ID to contact.md)
 
 ---
 
 ### 2. **Google Analytics Setup** ⏱️ 5 mins
+
 **Status:** ⏳ Needs your action
 
 **See:** `GOOGLE-ANALYTICS-SETUP.md` for detailed instructions
 
 **Quick steps:**
+
 1. Go to https://analytics.google.com/
 2. Create account and property
 3. Get your Measurement ID (`G-XXXXXXXXXX`)
@@ -63,7 +69,8 @@
 5. Push - tracking starts immediately
 
 **Add to TODO.md once done:**
-- [ ] Google Analytics ID added to _config.yml
+
+- [ ] Google Analytics ID added to \_config.yml
 
 ---
 
@@ -74,6 +81,7 @@
 **Why:** Track visitor behavior, traffic sources, popular pages, and device types
 
 **Steps:**
+
 1. Go to [Google Analytics](https://analytics.google.com/)
 2. Sign in with your Google account
 3. Click "Create" → "Account"
@@ -92,6 +100,7 @@
 8. Push to main - tracking starts immediately!
 
 **View Analytics:**
+
 - Real-time traffic: Reports → Realtime
 - Page views: Reports → Pages and screens
 - Traffic sources: Reports → Traffic source
@@ -103,6 +112,7 @@
 **What:** Allow visitors to send you messages directly
 
 **Options:**
+
 - **Formspree** (simplest, free tier available)
 - **Basin.js** (minimal, lightweight)
 - **Netlify Forms** (if hosting moves to Netlify)
@@ -116,6 +126,7 @@
 **What:** Allow visitors to search your content
 
 **Options:**
+
 - **Lunr.js** (client-side, lightweight)
 - **Jekyll search** (built-in plugin)
 - **Google Custom Search** (free tier)
@@ -219,6 +230,7 @@ open https://github.com/henrycgbaker/henrycgbaker.github.io/actions
 ## Known Issues (Disabled for Now)
 
 ### Subpage Styling Consistency
+
 - [ ] **STATUS:** ⏳ Disabled - investigate when time permits
 - **Details:** Pages using remote theme layouts (Contact, Search, Experience, Publications, Blog) display inconsistently with homepage
 - **Observation:** Dark mode CSS applies globally but typography/spacing differs per page
@@ -226,6 +238,7 @@ open https://github.com/henrycgbaker/henrycgbaker.github.io/actions
 - **Next steps:** Revisit when styling refinements are desired
 
 ### GitHub Actions - Prettier Formatter
+
 - [x] **FIXED:** Added `.prettierignore` to exclude `_layouts/` and `_includes/` from Prettier checks
 - **Problem was:** Prettier couldn't parse Jekyll template syntax like `{{ site.lang | default: "..." }}`
 - **Solution:** Excluded template files that contain Jinja/Liquid syntax
