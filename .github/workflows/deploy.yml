@@ -1,0 +1,35 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Install and Build
+        run: |
+          bundle exec jekyll build
+
+      - name: Deploy to gh-pages
+        if: github.event_name == 'push'
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site
