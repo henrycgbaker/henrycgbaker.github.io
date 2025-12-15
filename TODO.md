@@ -214,4 +214,22 @@ open https://github.com/henrycgbaker/henrycgbaker.github.io/actions
 - Custom layout extends (doesn't replace) remote theme
 - Social media preview works on all major platforms
 
+---
+
+## Known Issues (Disabled for Now)
+
+### Subpage Styling Consistency
+- [ ] **STATUS:** ⏳ Disabled - investigate when time permits
+- **Details:** Pages using remote theme layouts (Contact, Search, Experience, Publications, Blog) display inconsistently with homepage
+- **Observation:** Dark mode CSS applies globally but typography/spacing differs per page
+- **Why disabled:** Requires either full layout customization or accepting theme defaults; not critical for functionality
+- **Next steps:** Revisit when styling refinements are desired
+
+### GitHub Actions - Prettier Formatter
+- [x] **FIXED:** Added `.prettierignore` to exclude `_layouts/` and `_includes/` from Prettier checks
+- **Problem was:** Prettier couldn't parse Jekyll template syntax like `{{ site.lang | default: "..." }}`
+- **Solution:** Excluded template files that contain Jinja/Liquid syntax
+
+---
+
 **Last Updated:** December 15, 2025
