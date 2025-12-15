@@ -32,4 +32,3 @@ Benchmarking and measuring energy consumption of large language models across di
 Generates synthetic data for energy market analysis and forecasting research.
 
 [GitHub Repository](https://github.com/henrycgbaker/synthetic-data-generator-energy-market)
-
