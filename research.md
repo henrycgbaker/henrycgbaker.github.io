@@ -14,7 +14,7 @@ permalink: /research/
 
 Analysis of transformer model energy consumption across different deployment configurations. Demonstrates substantial variability (up to 500×) in inference-time energy efficiency under fixed FLOPs constraints, highlighting the limitations of theoretical proxies for real-world energy costs.
 
-**Advisor:** Prof. Lina Kaack · **GitHub:** [llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
+**Advisor:** Prof. Lina Kaack · **Award:** Data Science Thesis Award 2025 · **GitHub:** [llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
 
 [Read the Article](/research/llm-energy-efficiency/) · [Download PDF](/assets/files/research/llm-energy-efficiency-thesis.pdf)
 
@@ -26,7 +26,7 @@ Analysis of transformer model energy consumption across different deployment con
 
 Examines Data Institutions as a democratic approach to data-centric AI governance. Proposes that commons-based DIs can insert a decentralised, community-accountable governance layer into ML development, addressing limitations of current 'open AI' debates.
 
-**Advisor:** Prof. Joanna Bryson · **Award:** Data Science Thesis Award 2025
+**Advisor:** Prof. Joanna Bryson
 
 [Read the Article](/research/data-institutions/) · [Download PDF](/assets/files/research/data-institutions-thesis.pdf) · [Poster](/assets/files/research/data-institutions-poster.pdf)
 

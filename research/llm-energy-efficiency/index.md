@@ -9,7 +9,7 @@ permalink: /research/llm-energy-efficiency/
 # Benchmarking LLM Energy Efficiency
 
 **Masters of Data Science for Public Policy Thesis, 2025**
-Hertie School of Governance · Advisor: Prof. Lina Kaack
+Hertie School of Governance · Advisor: Prof. Lina Kaack · **Data Science Thesis Award 2025**
 
 [Download Thesis (PDF)](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [GitHub: llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
 

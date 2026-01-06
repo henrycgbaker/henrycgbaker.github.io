@@ -23,7 +23,7 @@ Lab materials and exercises for the Deep Learning course covering neural network
 - Generative models (VAEs, GANs)
 - Practical implementation with PyTorch
 
-[GitHub Repository](https://github.com/henrycgbaker/deep-learning-lab-2025-TEACHING)
+[GitHub Repository](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/henry_notes_unofficial_accompaniment/deep_learning/main.pdf)
 
 ---
 
@@ -40,7 +40,7 @@ Lead Teaching Associate. Lab materials covering fundamental data structures and 
 - Algorithm complexity analysis (Big O notation)
 - Problem-solving strategies and coding exercises
 
-[GitHub Repository](https://github.com/henrycgbaker/data-structures-algorithms-lab-2025-TEACHING)
+[GitHub Repository](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025/blob/main/henry_notes_unofficial_accompaniment/main.pdf)
 
 ---
 

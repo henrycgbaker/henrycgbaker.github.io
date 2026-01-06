@@ -11,8 +11,6 @@ permalink: /research/data-institutions/
 **Masters of Public Policy Thesis, 2024**
 Hertie School of Governance · Advisor: Prof. Joanna Bryson
 
-**Award:** Data Science Thesis Award 2025
-
 [Download Thesis (PDF)](/assets/files/research/data-institutions-thesis.pdf) · [Download Poster (PDF)](/assets/files/research/data-institutions-poster.pdf)
 
 ---
