@@ -19,7 +19,7 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson
 
 ## Executive Summary
 
-This thesis examines the role of dedicated Data Institutions (DIs) in the design and development of machine learning datasets, emphasising their potential to *democratise AI*. The analysis critiques the current *open AI* approach and its limitations, proposing that as an institutionalised form of commons-based data governance, DIs offer a structured democratic approach to data-centric AI policy-making.
+This thesis examines the role of dedicated Data Institutions (DIs) in the design and development of machine learning datasets, emphasising their potential to _democratise AI_. The analysis critiques the current _open AI_ approach and its limitations, proposing that as an institutionalised form of commons-based data governance, DIs offer a structured democratic approach to data-centric AI policy-making.
 
 The research proposes that integrating DIs into the ML value chain would leverage the strategic significance of datasets to create public value and insert a decentralised, community-accountable governance layer into the otherwise opaque ML development process.
 
@@ -30,12 +30,15 @@ The research proposes that integrating DIs into the ML value chain would leverag
 Current debates around open source AI suffer from three key limitations:
 
 ### Narrow Democratisation
-From a political-theory perspective, AI democratisation is not solely about the free deployment of AI without regard for social consequence. Rather, democratisation entails collective decision-making power over *how* AI is to be developed and deployed. Unstructured access to AI systems could hinder societies from restricting uses they deem undesirable.
+
+From a political-theory perspective, AI democratisation is not solely about the free deployment of AI without regard for social consequence. Rather, democratisation entails collective decision-making power over _how_ AI is to be developed and deployed. Unstructured access to AI systems could hinder societies from restricting uses they deem undesirable.
 
 ### Resource Capture
-From a political-economy perspective, the liberatory potential of *open AI* is bounded by near-term resource constraints (compute, data, and human capital). The ability of platform incumbents to cross-leverage scale and data risks the instrumentation and capture of open AI discourses by entrenched actors.
+
+From a political-economy perspective, the liberatory potential of _open AI_ is bounded by near-term resource constraints (compute, data, and human capital). The ability of platform incumbents to cross-leverage scale and data risks the instrumentation and capture of open AI discourses by entrenched actors.
 
 ### Risk-Centric Framing
+
 Current policy approaches focus on downstream risk mitigation—model capabilities, post-release conformity, access regimes—which encourages binary-choice conceptualisations of AI's openness problem rather than integrative, upstream policy interventions.
 
 ---
@@ -71,18 +74,22 @@ This dual-sided utility helps policy-makers gain broad-based stakeholder buy-in 
 The thesis derives nine high-level principles for practitioners implementing Data Institutions:
 
 ### Foundational Principles
+
 1. **No One-Size Fits All:** Data comes in different forms governed by different legal and contextual frameworks. DIs should be customised to community values as appropriate.
 2. **Be Democratic:** DIs should serve and represent a defined constituency—usually the data-generating community and impacted stakeholders.
 
 ### Use Case & Design
+
 3. **Assume a Task-Community Role:** Structure DIs around community-identified problems to support purpose-built datasets tailored to real-world tasks.
 4. **Ensure Fair Work:** Provide accountability and coordination for guaranteeing investment in quality data work, involving domain experts and community members.
 
 ### Collection & Processing
+
 5. **Promote Transparency Norms:** Invest meaningful resources into documentation to improve understanding of datasets' contextual validity.
 6. **Smart Quality:** Incorporate quality assurance, validation tools, and semantic functionality into a dataset-as-a-service offering.
 
 ### Validation & Maintenance
+
 7. **Share Responsibly:** Follow both CARE Principles for Indigenous Data Governance and FAIR principles for data reusability, with appropriate access regimes.
 8. **Sustainability:** Structure incentive mechanisms and sustainable funding through licensing revenue or dedicated funding efforts.
 9. **Leverage Agency Through Technical Enforcement:** Employ verification systems, digital signatures, and certification to ensure compliant data use.
@@ -91,7 +98,7 @@ The thesis derives nine high-level principles for practitioners implementing Dat
 
 ## Implications for AI Governance
 
-Moving beyond the constraining terms of the *open AI* debate, this research proposes that:
+Moving beyond the constraining terms of the _open AI_ debate, this research proposes that:
 
 - **Data governance**—how data is generated, collected, licensed, processed, owned, stewarded, and distributed—presents a variety of decision dimensions for democratic considerations
 - **Upstream interventions** have a legitimate role in AI governance alongside downstream risk regulation
@@ -102,6 +109,7 @@ Moving beyond the constraining terms of the *open AI* debate, this research prop
 ## Further Reading
 
 This thesis draws on multiple literatures:
+
 - Critical political economy of digital economies
 - Data management and human-computer interaction studies
 - Institutional theories of global governance
@@ -110,7 +118,7 @@ For proofs-of-concept, see work from the Data Trusts Initiative, GovLab's Data C
 
 ---
 
-*Full academic thesis available as [PDF](/assets/files/research/data-institutions-thesis.pdf).*
-*Conference poster available as [PDF](/assets/files/research/data-institutions-poster.pdf).*
+_Full academic thesis available as [PDF](/assets/files/research/data-institutions-thesis.pdf)._
+_Conference poster available as [PDF](/assets/files/research/data-institutions-poster.pdf)._
 
 [← Back to Research](/research/)
