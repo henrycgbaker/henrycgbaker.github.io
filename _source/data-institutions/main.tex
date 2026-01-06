@@ -1,0 +1,111 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{parskip}
+\usepackage[left=1.2in,right=1.2in,top=1.2in,bottom=1.2in]{geometry}
+
+\usepackage{fancyhdr} % For custom headers and footers
+\usepackage{lipsum}   % For generating dummy text
+
+% Set up the page style and header/footer formats
+\pagestyle{fancy}
+\fancyhf{}
+
+% header showing the last marked section/subsection
+\fancyhead[RO]{\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+
+% Customize the line beneath the header (set to 0pt if no line desired)
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Setting depth for numbering sections
+\setcounter{secnumdepth}{3} % Numbers parts, chapters, sections, subsections, subsubsections
+
+% Command for custom header
+\newcommand{\customheader}[1]{\markright{#1}}
+
+% Adjust how sections and subsections are marked (stored)
+\renewcommand{\chaptermark}[1]{\markright{\thechapter\ #1}}
+
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{array}
+
+\usepackage[backend=biber, style=apa]{biblatex}
+\addbibresource{USE THIS_HB_bibliography.bib}
+
+\linespread{1.2}
+
+% for final signature line
+\newcommand{\dottedline}[1][2cm]{\noindent\rule{#1}{0.4pt}\vspace{2mm}}
+
+% Increase paragraph gap
+\setlength{\parskip}{1em}
+
+% For code in appendix ii
+\usepackage{listings}
+
+\lstdefinestyle{mystyle}{
+    basicstyle=\ttfamily\footnotesize,    % font style and size
+    breaklines=true,                 % automatic line breaking
+    columns=fullflexible,            % make sure it uses the full column width
+    showstringspaces=false,          % do not show spaces in strings
+    captionpos=b,                    % caption position
+}
+
+\lstset{style=mystyle}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    {\LARGE\bfseries Opening AI the Data-centric Way:} \\ 
+    \vspace{0.5cm} 
+    {\Large The Case for Data Institutions in Democratising the Design \& Development of ML Datasets \par}
+    \vspace{1.5cm} 
+    {Henry Baker, MPP \par}
+    \vspace{1cm} 
+    {2024 \par}
+    \vspace{2cm} 
+    {Supervisor: Prof. Dr. Joanna Bryson \par}
+    \vspace{1cm} 
+    {Word count: 12,941 \par}
+\end{titlepage}
+
+\pagenumbering{roman}
+
+% Reapply the fancyfoot settings
+\pagestyle{fancy}
+
+\include{sections/acknowledgements}
+
+\tableofcontents
+
+\include{sections/abbreviations}
+\pagenumbering{arabic}
+\input{sections/0_abstract_executive_summary}
+\include{sections/1_introduction}
+\include{sections/2_datasets_study}
+\include{sections/3_understanding_data_institutions}
+\include{sections/4_case_for_data_institutions}
+\include{sections/5_policy_prescriptions}
+\customheader{Further Research}
+\include{sections/6_further_research}
+\customheader{Conclusion}
+\include{sections/7_conclusion}
+
+\pagenumbering{roman}
+\customheader{Appendix I}
+\include{sections/appendix_i}
+\customheader{Appendix II}
+\include{sections/appendix_ii}
+
+\addcontentsline{toc}{chapter}{Bibliography}
+\nocite{*}
+\printbibliography
+
+\include{sections/statement}
+
+\end{document}

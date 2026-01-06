@@ -1,0 +1,71 @@
+\chapter{Policy Principles}
+
+This research focuses on the public value case for dedicated DIs stewarding ML datasets. Detailed discussion of the implementation and design of the DIs themselves is beyond scope. Nevertheless, certain high-level principles (rather than prescriptions) can be derived for policy-makers to consider.
+
+I draw on Priestley et al's (2023) framework for the stages of the ML data lifecycle to structure these recommendations, but first I outline two stage-independent principles foundational to DI theorising. 
+
+\textbf{Principle 1. \textit{No one-size fits all}}
+
+Data is not a homogeneous concept, rather it comes in different forms (copy-righted, anonymised, public-statistical, administrative, personal, industrial, research, transactional, health, digital media, etc). As such, data is governed by different, often overlapping, legal, contextual and custodial frameworks. Accordingly, DIs should inhabit a world of small models, customised to community values as appropriate. 
+
+\textbf{Principle 2: \textit{Be democratic}}
+
+DIs should serve and represent a defined constituency - usually the data-generating community and impacted stakeholders (data subjects, domain experts, etc). The most explicit of these fiduciary templates is the data trust, but a range of permutations exist within the DI universe. The appropriate template will be contextually-dependent.
+
+\section*{Use case \& design} 
+\addcontentsline{toc}{section}{Use case \& design}
+
+\textbf{Principle 3: \textit{Assume a task-community role}}
+
+This extends the concept of ML `tasks' and `task-communities' from purely technical affairs, to also encompass societal and policy considerations. 
+
+Data availability constrains modelling efforts towards tasks on which inference can be run (\cite{leavy2020DataPowerBias}). Accordingly, DIs should be structured around community-identified problems to support the development of purpose-built datasets tailored to real-world problems (as tasks), and ensure the result aligns with intended use. 
+
+This requires an interventionist approach, whereby DIs actively acquire data representative of the population or task at hand. This could be achieved through internal data generation, soliciting opt-ins and donations (see \textit{Te Hiku Media}’s voice recordings drive (\cite{nastMaoriAreTrying})), or scraping data from the commons. In contrast to the current norm for minimally-supervised collection methods and crowdwork, DIs should house domain expertise and institutional specialisation to supervise collection and evaluation of gathered data for the scoped project (\cite{jo2020LessonsArchivesStrategies}). 
+
+\textbf{Principle 4: \textit{Ensure Fair Work}}
+
+Human data labelling presents the primary bottleneck to quality data, and is where most labour abuses occur (\cite{miceli2020SubjectivityImpositionPower}). DIs should provide sites of accountability and coordination for guaranteeing investment in quality data work. This should involve domain experts, community-members and consultation with impacted stakeholders (and where appropriate, semi-supervised learning). 
+
+While most commons-based efforts do not rely on paid labour, where appropriate DIs might be designed to incorporate sustainable financing and standards for ensuring fair working conditions (\cite{commons-based_data_set_governance_for_ai}). Existing examples include Wikimedia’s Enterprise API, Mozilla's Common Voice, and GIZ’s FAIR Forward programme.
+
+\section*{Collection}
+\addcontentsline{toc}{section}{Collection}
+
+\textbf{Principle 5: \textit{Promote transparency norms}}
+
+DIs should invest meaningful resources into documentation to improve understanding of datasets’ contextual validity. This might include how the data was created, collected, processed, and annotated. This is essential to support informed AI accountability discussions, as well as comprehension of model capabilities/limitations, collaborative data refinement, and identification of biases (\cite{bommasani2024FoundationModelTransparency}). For ML developers, provenance documentation supports informed decision-making around the appropriate uses for a given dataset, and the ability to repeat the collection process to generate alternative datasets with similar characteristics, extend a dataset, or audit an experiment in a different context (\cite{paullada2021DataItsDis, jo2020LessonsArchivesStrategies}). Developing documentation `in-house’ allows data-generating communities (especially marginalised populations) to self-articulate the relevant contextual knowledge and downstream specifications for using their data, and/or delegate that process to appointed experts.
+
+This represents a move towards assessing quality not only as a function of the data itself, but also the conditions, knowledge and interests of those who generated, collected, and processed the data. The datasheet for the Pile by Eleuther AI is an example of good practice.
+
+A range of tools for transparency and accountability might be relevant. \textcite{gebru2021DatasheetsDatasetsa} proposed a standardised approach and the EU AI Act’s transparency obligations represent another coordination effort, other options include data nutrition labels (\cite{DatasetNutrition}), statements, and checklists.
+
+\section*{Cleaning and (initial) preprocessing}
+\addcontentsline{toc}{section}{Cleaning and (initial) preprocessing}
+
+\textbf{Principle 6: \textit{Smart quality}}
+
+DIs should incorporate quality assurance and validation tools, as well as semantic and other functionality into a dataset-as-a-service offering. Identifying noise, inconsistencies, redundancy, completeness, bias, poisoning, synthetic elements, personal identifiers, and illicit or explicit information is valuable to both data producers and users. This could be offered through auditing and structured-access protocols (\cite{shevlane2022StructuredAccessEmerging}). Toolkits such as \textit{AI Fairness 360} (\cite{bellamy2018AIFairness360}) provide guidance on considering protected characteristics, and checklists can document such information for legal and ethical compliance. Optional further preprocessing could consist of careful use of under/oversampling, specialised-imputation and synthetic enrichment (if transparently documented and reversible by ML developers).
+
+Other quality enhancers include offering linked data and data integration functionality through enriched semantic metadata. This would support interoperability, federated learning, and smart contracts for data integrity and traceability. Some DIs might consider offering a full data science SaaS product, by providing support services alongside cyberinfrastructure that co-locates data, storage, and computing infrastructure with commonly used analytics tools (see \textcite{grossman2016CaseDataCommons} for detailed technical suggestions).
+
+\section*{Validation \& maintenance}
+\addcontentsline{toc}{section}{Validation \& maintenance}
+
+\textbf{Principle 7: \textit{Share as much as possible while respecting the decisions of data subjects}\footnote{composite amended from \textcite{commons-based_data_set_governance_for_ai}}}
+
+DIs should follow both open data CARE Principles For Indigenous Data Governance (\cite{CAREprinciples}), and their complement - the FAIR principles - focused on data reusability (\cite{FAIRPrinciples}). Delivering on these principles means offering secure data storage, availability, retrieval and purging mechanisms between trusted parties, as well as protecting datasets from unauthorised access. 
+
+DIs should consider a spectrum of access regimes, selecting the  most appropriate for their use case. A DI might offer multiple differentiated access modes to a single dataset. Differentiating access by user would help lower barriers to market entry by providing non-commercial users with (more) open access, subsidised by enterprise user fees. IP and personal data rights are the two most important factors to consider when designing access regimes.
+
+In some cases an open-access commons will create most public value. In such instances making data available over existing platforms (Kaggle, HuggingFace or OpenML offer standardised data-loading infrastructure) would allow DIs to focus on providing value elsewhere. In others cases, more structured forms of commons governance, such as gated-access and active mechanisms for ensuring responsible and equitable use will be more appropriate. Here DIs would play an additional evaluative role - registering requests for access, monitoring use, and assessing impact. In these cases, existing platforms might offer sufficient control and customizability (Hugging Face offers gated-access options), otherwise dedicated sharing infrastructure may be necessary. Additionally, customised licensing and ToS design could help steer downstream use - consider \textit{Te Hiku}’s bespoke licence combining open sharing with communal control (\cite{nastMaoriAreTrying}). 
+
+\textbf{Principle 8: \textit{Sustainability}}
+
+DIs should consider structuring incentive mechanisms and perhaps even offering support for data producers and stewards. Providing the resources (infrastructure, compute, human) to design, develop, and manage quality datasets requires sustainable funding. Revenue streams from licensing data to commercial developers, or organisational teams dedicated to securing funding and grants are options. Licensing data especially generates recurring revenue, and is compatible with the CARE principles' concept of stewarding.
+
+\textbf{Principle 9: \textit{Leverage agency through technical enforcement}}
+
+(Especially DIs handling sensitive or safety-enhancing data) should consider incorporating technical enforcement mechanisms, such as verification systems and proof-of-learning frameworks to ensure model developers are using DI data in an authorised and compliant manner (\cite{jia2021}). DIs should employ digital signatures, data poisoning and digital proofs to ensure ML developers who obtain DI data train the model with that data as agreed (see \cite{cina2023WildPatternsReloaded, tian2022ComprehensiveSurveyPoisoning}), accompanied by hash-matching to ensure the deployed model is the DI-verified one (see \textcite{chan2023ReclaimingDigitalCommons}). To incentivise developers to use DI data instead of independent web-scraping or other, DIs should consider certification (similar to fair trade labels) to leverage end-user purchasing power (\cite{chan2023ReclaimingDigitalCommons}).
+
+Other compliance-supporting design choices involve allocating sufficient funding for maintaining or consulting legal and ethical counsel. Technical mechanisms can support enforcement, but assuming liability for mission-aligned or legal compliance involves developing and advocating for data sharing frameworks that account for state regulation and differences between jurisdictions, as well as addressing the ways in which deprecated datasets continue to circulate. A central repository that holds information about dataset retraction and other updates has proven insufficient, researchers must be incentivised to consult such repositories. Appropriately implementing share-alike clauses, copyleft licences, and other bespoke AI licences could further ensure value generated from the commons is at least partially returned.

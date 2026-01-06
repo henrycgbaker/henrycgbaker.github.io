@@ -6,27 +6,29 @@ permalink: /research/
 
 # Publications & Research
 
-## Working Papers & Thesis
+## Thesis Research
 
-### MSc Thesis: Benchmarking LLM Energy Efficiency
+### Benchmarking LLM Energy Efficiency
 
-**Hertie School of Governance, 2024**
+**Masters of Data Science for Public Policy Thesis, 2025** · Hertie School of Governance
 
-Analysis of transformer model energy consumption across different architectures and deployment scenarios. Examines the environmental impact of large language models and optimization strategies for sustainable computing.
+Analysis of transformer model energy consumption across different deployment configurations. Demonstrates substantial variability (up to 500×) in inference-time energy efficiency under fixed FLOPs constraints, highlighting the limitations of theoretical proxies for real-world energy costs.
 
-**Advisor:** Prof. Lina Kaack (Hertie School)
+**Advisor:** Prof. Lina Kaack · **GitHub:** [llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
+
+[Read the Article](/research/llm-energy-efficiency/) · [Download PDF](/assets/files/research/llm-energy-efficiency-thesis.pdf)
 
 ---
 
-### MPP Thesis: Governance of Data Institutions
+### Governance of Data Institutions
 
-**Hertie School of Governance, 2024**
+**Masters of Public Policy Thesis, 2024** · Hertie School of Governance
 
-Comparative analysis of how data institutions (data trusts, cooperatives, public data authorities) govern collective data resources. Examines institutional design choices and implications for equitable data governance.
+Examines Data Institutions as a democratic approach to data-centric AI governance. Proposes that commons-based DIs can insert a decentralised, community-accountable governance layer into ML development, addressing limitations of current 'open AI' debates.
 
-**Advisor:** Prof. Joanna Bryson (Hertie School)
+**Advisor:** Prof. Joanna Bryson · **Award:** Data Science Thesis Award 2025
 
-**Award:** Data Science Thesis Award 2025
+[Read the Article](/research/data-institutions/) · [Download PDF](/assets/files/research/data-institutions-thesis.pdf) · [Poster](/assets/files/research/data-institutions-poster.pdf)
 
 ---
 

@@ -1,0 +1,73 @@
+\addcontentsline{toc}{chapter}{Appendix I - Systematic Search Python Script}
+\chapter*{Appendix I - Systematic Search Python Script}
+
+Example search for \texttt{googleScholar\_mlLegalFrameworks\_03}
+
+\begin{lstlisting}[language=Python]
+import json
+import pandas as pd
+from serpapi import GoogleSearch
+import numpy as np
+import os
+
+# APIs
+serpapi_key = "key"
+openai_key = "key"
+
+# Search name
+search_id = `googleScholar_mlLegalFrameworks_03'
+
+# Query String
+query_string = '("ml" OR "ai" OR "intelligence" OR "machine learning") AND ("commons governance" OR "digital commons" OR "data commons") AND ("data collection" OR "data preprocessing" OR "data stewarding" OR "dataset") AND ("legal framework" OR "legal regime")'
+review_articles_switch = "1" # review articles (0=no,1=yes)
+
+# string for embedding comparison
+topic_embedding = "Topic: legal frameworks for responsible and safe machine learning dataset development and data stewarding, with a focus on the legal regimes, legal justifications, and legal requirements that need to be in place, focused on the global south and global AI governance level"
+
+df_list = []
+
+directory = 'json'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+end = 100
+num = 20
+for i in range(0,end,num):
+    params = {
+            "engine": "google_scholar",
+            "q": query_string,
+            "api_key": serpapi_key,
+            "start": i,
+            "end": end,
+            "num": num,
+            "as_ylo": "1990", # from year
+            "as_rr": review_articles_switch
+            }
+
+    search = GoogleSearch(params)
+    results = search.get_dict()
+
+    # save search into + topic embedding for first call to file
+    if i==0:
+        search_info = {"search_metadata":results["search_metadata"], "search_information":results["search_information"], "search_parameters":results["search_parameters"], "topic_embedding":topic_embedding}
+        with open('json/'+search_id+'_info'+'.json', 'w', encoding='utf-8') as f:
+            json.dump(search_info, f, ensure_ascii=False, indent=4)
+    else:
+        pass
+
+    # save json from every call to file
+    serpapi_pagination = str(results["serpapi_pagination"]['current'])
+
+    ## create subfolder /json/'search_id' for each search
+    with open('json/'+search_id+'_page_'+serpapi_pagination+'.json', 'w', encoding='utf-8') as f:
+        json.dump(results, f, ensure_ascii=False, indent=4)
+    #metadata = results["search_metadata"]
+
+    # add results to data frame
+    organic_results = results["organic_results"]
+    df_list.append(pd.DataFrame.from_dict(organic_results, orient='columns'))
+
+# unite results from all pages and flatten json substructure where needed
+df = pd.concat(df_list)
+
+\end{lstlisting}
