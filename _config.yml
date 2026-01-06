@@ -13,7 +13,7 @@ canonical: https://henrycgbaker.github.io/
 
 # Links
 # If you don't need one of them, you may delete the corresponding line.
-cv_link: assets/files/cv.pdf
+cv_link: /assets/files/cv.pdf
 github_link: https://github.com/henrycgbaker
 linkedin: https://www.linkedin.com/in/henrycgbaker/
 
