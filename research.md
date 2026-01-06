@@ -14,9 +14,9 @@ permalink: /research/
 
 Analysis of transformer model energy consumption across different deployment configurations. Demonstrates substantial variability (up to 500×) in inference-time energy efficiency under fixed FLOPs constraints, highlighting the limitations of theoretical proxies for real-world energy costs.
 
-**Advisor:** Prof. Lina Kaack · **Award:** Data Science Thesis Award 2025 · **GitHub:** [llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
+Advisor: Prof. Lina Kaack · Award: Data Science Thesis Award 2025
 
-[Read the Article](/research/llm-energy-efficiency/) · [Download PDF](/assets/files/research/llm-energy-efficiency-thesis.pdf)
+[Web Article](/research/llm-energy-efficiency/) · [Submitted Thesis](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [Experimental Data & Analysis Scripts](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Measurement Tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
 
 ---
 
@@ -28,31 +28,11 @@ Examines Data Institutions as a democratic approach to data-centric AI governanc
 
 **Advisor:** Prof. Joanna Bryson
 
-[Read the Article](/research/data-institutions/) · [Download PDF](/assets/files/research/data-institutions-thesis.pdf) · [Poster](/assets/files/research/data-institutions-poster.pdf)
+[Web Article](/research/data-institutions/) · [Submitted Thesis](/assets/files/research/data-institutions-thesis.pdf) · [Poster](/assets/files/research/data-institutions-poster.pdf)
 
 ---
 
 ## Research Projects
-
-### ML-Strom: Machine Learning for Electricity Grid Analysis
-
-**With:** Prof. Lion Hirth (Hertie School), Prof. Lina Kaack (Hertie School)
-
-Applied machine learning to electricity grid forecasting and optimization. Developed models for renewable energy integration and grid stability analysis.
-
-**Status:** Ongoing research collaboration
-
----
-
-### Difference-in-Differences Analysis: Policy Impact Evaluation
-
-**With:** Prof. Miriam Kayser (Hertie School)
-
-Causal inference methods for evaluating policy interventions. Applied DiD methodology to assess impact of policy changes in economic and social domains.
-
-**Methods:** Econometrics, causal inference, Python/R
-
----
 
 ### Energy Efficiency Benchmarking
 
@@ -65,6 +45,34 @@ Comprehensive benchmarking of computational efficiency across different AI syste
 - Model efficiency metrics
 - Deployment optimization
 - Carbon footprint assessment
+
+---
+
+### ML-Strom: Machine Learning for Electricity Grid Analysis
+
+**With:** Prof. Lion Hirth (Hertie School), Prof. Lina Kaack (Hertie School)
+
+Applied machine learning to electricity grid forecasting and optimization. Developed models for renewable energy integration and grid stability analysis.
+
+**Status:** Ongoing research collaboration
+
+---
+
+### UK Climate Attitudes: Bayesian hierarchical IRT model for latent public sentiment from proprietary longitudinal polling data
+
+**With:** Looking for Growth proprietary polling data
+
+...
+
+---
+
+### Difference-in-Differences Analysis: Policy Impact Evaluation
+
+**With:** Prof. Miriam Kayser (Hertie School)
+
+Causal inference methods for evaluating policy interventions. Applied DiD methodology to assess impact of policy changes in economic and social domains.
+
+**Methods:** Econometrics, causal inference, Python/R
 
 ---
 
@@ -95,24 +103,17 @@ Comprehensive benchmarking of computational efficiency across different AI syste
 
 ---
 
-## Publications in Preparation
-
-Several manuscripts are in preparation based on thesis research and ongoing collaborations. Check back for updates or [contact me](/contact/) if you're interested in these topics.
-
----
-
 ## Research Interests
 
 - **Sustainable Computing:** Energy efficiency, environmental impact of ML/AI
 - **Data Governance:** Institutional design, data trusts, collective data management
 - **Policy & Technology:** Algorithmic decision-making, technology governance
-- **Computational Social Science:** Forecasting, causal inference, agent-based modeling
+- **Computational Social Science:** Forecasting, geospatial analysis, causal inference, agent-based modeling
 
 ---
 
 ## Ways to Access My Work
 
-- **Google Scholar:** [scholar.google.com](https://scholar.google.com/) (coming soon)
 - **GitHub:** [github.com/henrycgbaker](https://github.com/henrycgbaker) — code and data analysis
 - **Research Affiliations:**
   - [Weizenbaum Institute profile](https://www.weizenbaum-institut.de/portrait/p/henry-baker/)

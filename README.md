@@ -14,13 +14,38 @@ A professional academic portfolio website showcasing research interests, technic
 ├── _config.yml                 # Main configuration (personal info, SEO)
 ├── index.md                    # Homepage content
 ├── Gemfile                     # Ruby dependencies (Jekyll 4.3)
+│
+├── # ─── Main Pages ───────────────────────────────────────────
+├── research.md                 # Research landing page
+├── teaching.md                 # Teaching & course materials
+├── software.md                 # Software projects
+├── experience.md               # Professional experience
+├── contact.md                  # Contact information
+│
+├── # ─── Research Articles ────────────────────────────────────
+├── research/
+│   ├── llm-energy-efficiency/  # MDS thesis (2025)
+│   │   ├── index.md           # Article page
+│   │   └── figures/           # Visualisations
+│   └── data-institutions/      # MPP thesis (2024)
+│       └── index.md           # Article page
+│
+├── # ─── Source Materials ─────────────────────────────────────
+├── _source/                    # LaTeX thesis sources (not deployed)
+│   ├── llm-energy-efficiency/  # Full thesis .tex files & figures
+│   └── data-institutions/      # Full thesis .tex files
+│
+├── # ─── Assets ───────────────────────────────────────────────
 ├── assets/
 │   ├── files/
-│   │   └── cv.pdf             # Curriculum vitae
+│   │   ├── cv.pdf             # Curriculum vitae
+│   │   └── research/          # Thesis PDFs & posters
 │   └── img/
 │       ├── avatar.png         # Profile picture
 │       ├── favicon.png        # Light mode icon
 │       └── favicon-dark.png   # Dark mode icon
+│
+├── # ─── Automation ───────────────────────────────────────────
 ├── .github/workflows/          # Automated workflows
 │   ├── deploy.yml             # Build and deploy to GitHub Pages
 │   ├── prettier.yml           # Code formatting
@@ -52,16 +77,19 @@ bundle exec jekyll serve
 
 ### Editing Content
 
-**Homepage content:** Edit `index.md`
+**Homepage:** Edit `index.md`
+- About Me, Research Interests, Technical Skills, Affiliations
 
-- About Me
-- Research Interests
-- Technical Skills
-- Languages
-- Affiliations
-- Teaching & Mentoring
-- Research Projects
-- Contact information
+**Main pages:**
+- `research.md` — Research overview and thesis summaries
+- `teaching.md` — Courses and teaching materials
+- `software.md` — Software projects and tools
+- `experience.md` — Professional experience
+- `contact.md` — Contact information
+
+**Research articles:**
+- `research/llm-energy-efficiency/index.md` — MDS thesis article
+- `research/data-institutions/index.md` — MPP thesis article
 
 **Site metadata:** Edit `_config.yml`
 
@@ -157,13 +185,13 @@ See [GitHub Pages documentation](https://docs.github.com/en/pages/configuring-a-
 
 ## Future Enhancements
 
+- [x] Research articles section
+- [x] Contact page
+- [x] Site-wide search
 - [ ] Blog/articles section
-- [ ] Contact form
-- [ ] Site-wide search
 - [ ] Google Analytics setup
-- [ ] Publications section
-- [ ] Experience timeline/map visualization
-- [ ] Dark mode toggle badge
+- [ ] Publications section with citations
+- [ ] Experience timeline/map visualisation
 
 ## Theme
 

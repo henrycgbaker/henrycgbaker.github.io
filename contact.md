@@ -42,10 +42,9 @@ I'd love to hear from you! Whether you have questions about my research, want to
 
 **Phone:** +49 15566 470660 | +44 7715 427104
 
-**LinkedIn:** [linkedin.com/in/henrycgbaker](https://www.linkedin.com/in/henrycgbaker/)
+[**LinkedIn**](https://www.linkedin.com/in/henrycgbaker/)
 
-**GitHub:** [github.com/henrycgbaker](https://github.com/henrycgbaker)
+[**GitHub**](https://github.com/henrycgbaker)
 
 ---
 
-_All fields marked with _ are required.\*

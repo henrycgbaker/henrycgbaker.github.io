@@ -12,7 +12,7 @@ Teaching Associate at the Hertie School of Governance's MSc Data Science program
 
 ## Deep Learning
 
-Lab materials and exercises for the Deep Learning course covering neural network architectures and modern deep learning techniques.
+Lab materials and exercises covering neural network architectures, problem applications and basic deployment.
 
 **Topics covered:**
 
@@ -29,7 +29,7 @@ Lab materials and exercises for the Deep Learning course covering neural network
 
 ## Data Structures & Algorithms
 
-Lead Teaching Associate. Lab materials covering fundamental data structures and algorithmic problem solving essential for efficient programming and technical interviews.
+Lab materials and exercises covering fundamental data structures and algorithmic problem solving essential for efficient programming and technical interviews.
 
 **Topics covered:**
 
@@ -46,13 +46,13 @@ Lead Teaching Associate. Lab materials covering fundamental data structures and 
 
 ## Mathematics for Data Science
 
-Lead Teaching Associate. Foundational mathematics for data science and machine learning.
+Foundational mathematics for data science and machine learning.
 
 **Topics covered:**
 
 - **Probability Theory** - Random variables, distributions, Bayes' theorem, expectation and variance
-- **Calculus** - Differentiation, integration, multivariate calculus, optimization
+- **Calculus** - Differentiation, integration, multivariate calculus, optimisation
 - **Linear Algebra** - Vectors, matrices, eigenvalues, singular value decomposition, matrix factorization
-- **Optimization** - Gradient descent, convex optimization, constrained optimization
+- **Optimisation** - Gradient descent, convex optimisation, constrained optimisation
 
 [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/henry_notes/maths_for_data_science/main.pdf)

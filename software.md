@@ -12,18 +12,17 @@ Open-source tools and research software.
 
 ## Data Science Lab Infrastructure
 
-Infrastructure and JupyterHub deployment for the Hertie School Data Science Lab, supporting computational research and teaching.
+Multi-user GPU container management for academic machine learning. An open-source system for managing shared GPU resources in teaching and research environments, built on Docker and AIME ML Containers.
 
-- [ds01-infra](https://github.com/hertie-data-science-lab/ds01-infra) - Infrastructure as code
-- [ds01-hub](https://github.com/hertie-data-science-lab/ds01-hub) - JupyterHub configuration
+[Detailed Article](/software/ds01-infra/) · [GitHub: ds01-infra](https://github.com/hertie-data-science-lab/ds01-infra) · [Documentation Hub](https://github.com/hertie-data-science-lab/ds01-hub)
 
 ---
 
 ## LLM Efficiency Measurement Tool
 
-Benchmarking and measuring energy consumption of large language models across different architectures and deployment configurations.
+A Python framework for benchmarking energy consumption, throughput, and FLOPs in large language model inference. Designed for systematic deployment analysis across configurations.
 
-[GitHub Repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
+[Detailed Article](/software/llm-efficiency-tool/) · [GitHub Repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) · [Example Research Application](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Research Findings](/research/llm-energy-efficiency/)
 
 ---
 
