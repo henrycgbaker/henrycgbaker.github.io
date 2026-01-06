@@ -169,9 +169,7 @@
       </header>
       <section>
 
-      <!-- TODO: Expand this landing page with more detailed content, interactive visualisations, and potentially Jupyter notebooks. This is initial scaffolding. -->
-
-<h1 id="benchmarking-llm-energy-efficiency">Benchmarking LLM Energy Efficiency</h1>
+      <h1 id="benchmarking-llm-energy-efficiency">Benchmarking LLM Energy Efficiency</h1>
 
 <p><strong>Masters of Data Science for Public Policy Thesis, 2025</strong>
 Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science Thesis Award 2025</strong></p>
@@ -182,15 +180,100 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
 
 <h2 id="the-problem">The Problem</h2>
 
-<p>The adoption of large language models across digital services has led to increased scrutiny over their energy costs. Data-centre demand from AI workloads is projected to more than quadruple by 2030, potentially accounting for 9-12% of total energy demand in the US. Crucially, inference-time consumption now dominates AI energy usage—Google and Meta report 60-70% of their AI-driven energy consumption is inference-related.</p>
+<p>The adoption of large language models across digital services has led to increased scrutiny over their energy costs. Data-centre demand from AI workloads is projected to more than quadruple by 2030, potentially accounting for 9-12% of total energy demand in the US. Crucially, <strong>inference-time consumption now dominates AI energy usage</strong>—Google and Meta report 60-70% of their AI-driven energy consumption is inference-related, with Amazon Web Services reporting 80-90% of their ML cloud compute is inference-related. Accurately estimating and reducing inference-time energy is vital to broader AI sustainability efforts.</p>
 
-<p>Yet the practice of benchmarking LLM inference-time energy efficiency remains under-considered. A common simplifying assumption is to take the number of FLOPs (floating-point operations) required per generated token as a proxy for inference-time energy costs. However, FLOPs quantify the number of arithmetic operations required to generate a given output, but they do not capture the energy efficiency with which those operations are executed.</p>
+<h3 id="the-green-ai-movement">The Green AI Movement</h3>
+
+<p>Within the ML community, attention to AI’s environmental impact has grown substantially. The <em>Green AI</em> movement, formalised as an efficiency-oriented alternative to the prevailing <em>Red AI</em> paradigm of “performance at any cost,” has catalysed research quantifying the environmental impacts of machine learning. Complementary <em>Sustainable AI</em> frameworks advocate for holistic lifecycle-wide approaches to AI sustainability, spanning training, inference, and deployment.</p>
+
+<h3 id="the-limitations-of-flops-as-a-proxy">The Limitations of FLOPs as a Proxy</h3>
+
+<p>A common simplifying assumption is to take the number of <strong>FLOPs</strong> (floating-point operations) required per generated token as a proxy for inference-time energy costs. This assumption is closely aligned with parameter-counting heuristics that dominate model selection processes and continues to influence emerging AI policy discourse.</p>
+
+<p>However, FLOPs are analytically computed as deterministic functions of model architecture and input-output characteristics:</p>
+
+<blockquote>
+  <p>FLOPs = f(number of parameters, input length, output length)</p>
+</blockquote>
+
+<p>FLOPs quantify the number of arithmetic operations required to generate a given output, but they do not capture the <strong>energy efficiency with which those operations are executed</strong>. While correlated, FLOPs and inference-time energy consumption are conceptually distinct. Energy consumption is shaped both by:</p>
+
+<ul>
+  <li><strong>Upstream (development-phase) choices:</strong> model architecture and parameterisation</li>
+  <li><strong>Downstream (deployment-phase) choices:</strong> how efficiently the computation graph is executed in practice</li>
+</ul>
 
 <p><strong>The core insight:</strong> Two systems with the same theoretical compute requirement may exhibit markedly different energy profiles. Implementation-level factors—how models are deployed—can induce substantial variation in energy consumption, even when FLOPs counts remain constant.</p>
+
+<h3 id="why-this-matters-for-policy">Why This Matters for Policy</h3>
+
+<p>FLOP-counting narrows policy attention to immutable model attributes, conceptually restricting the scope of intervention to the moment of model selection. This framing overlooks downstream system-level implementation decisions and tradeoffs that shape the energy efficiency of real-world deployments. From a benchmarking perspective, the neglect of implementation-level variation translates to a lack of standardised test-time controls—creating opportunities for motivated actors to present artificially efficient performance metrics by testing under unrealistic configurations.</p>
+
+<hr />
+
+<h2 id="methodology">Methodology</h2>
+
+<p>This study presents an empirical analysis of LLM inference-time efficiency, holding computational workload constant (ensuring fixed FLOPs-per-token) and measuring energy-per-token under a range of deployment configurations.</p>
+
+<h3 id="experimental-design">Experimental Design</h3>
+
+<p>The configuration space is explored through a <strong>within-model grid search</strong> across <strong>2,112 unique configurations</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Models</strong></td>
+      <td>LLaMA 3.2-1B and LLaMA 3.2-3B (lightweight, open-weight LLMs)</td>
+    </tr>
+    <tr>
+      <td><strong>Task</strong></td>
+      <td>Causal language modelling with fixed 500-token input/output sequences</td>
+    </tr>
+    <tr>
+      <td><strong>Dataset</strong></td>
+      <td>128 prompts from Hugging Face’s AI Energy Score benchmark (WikiText, OSCAR, UltraChat)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="parameters-tested">Parameters Tested</h3>
+
+<p>The grid search varied the following implementation parameters, selected based on accessibility to LLM service providers and prior evidence of energy effect:</p>
+
+<ul>
+  <li><strong>Tensor parallelism:</strong> 1-4 GPUs (degree of model layer distribution)</li>
+  <li><strong>Batch size:</strong> 1-64 prompts (request aggregation)</li>
+  <li><strong>Numerical precision:</strong> FP32, FP16, INT8, INT4 (precision and quantisation)</li>
+  <li><strong>Decoding strategy:</strong> Greedy, vanilla-multinomial, Top-p, Top-k sampling</li>
+  <li><strong>Simulated latency:</strong> Delay severity and patterns (constant vs bursty)</li>
+</ul>
+
+<h3 id="hardware--software">Hardware &amp; Software</h3>
+
+<p>All experiments ran on a shared single-node server:</p>
+<ul>
+  <li><strong>GPUs:</strong> 4× NVIDIA A100-PCIE-40GB</li>
+  <li><strong>CPUs:</strong> 128× AMD EPYC 7742 64-core</li>
+  <li><strong>Software:</strong> Ubuntu Linux 20.04, PyTorch 2.5.1, Accelerate 1.4.0</li>
+</ul>
+
+<h3 id="measurement-approach">Measurement Approach</h3>
+
+<p>Energy measurements were obtained via <strong>CodeCarbon</strong> software profilers, reflecting the emerging standard in ML energy analysis (±10-15% accuracy). The full configuration space was executed twice across non-contiguous experimental cycles over separate weeks to mitigate environmental noise from operating on a shared server.</p>
+
+<p>Each run was initiated via a fresh command-line invocation to fully reinitialise the distributed environment, with three dummy forward passes to trigger lazy initialisations (discarded from measurement).</p>
 
 <hr />
 
 <h2 id="key-findings">Key Findings</h2>
+
+<h3 id="overall-variability">Overall Variability</h3>
 
 <p>Through a comprehensive grid search of implementation parameters, this research demonstrates substantial variability in energy efficiency:</p>
 
@@ -198,20 +281,23 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
   <thead>
     <tr>
       <th>Model</th>
-      <th>Max/Min Fold Change</th>
+      <th>Mean (kWh/token)</th>
+      <th>Max/Min Fold</th>
       <th>95/5 Percentile Fold</th>
-      <th>Coefficient of Variation</th>
+      <th>CV (%)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>LLaMA-3.2-1B</td>
+      <td>1.44×10⁻⁶</td>
       <td>516.5×</td>
       <td>61.0×</td>
       <td>127.7%</td>
     </tr>
     <tr>
       <td>LLaMA-3.2-3B</td>
+      <td>2.64×10⁻⁶</td>
       <td>293.5×</td>
       <td>51.0×</td>
       <td>123.5%</td>
@@ -219,35 +305,232 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
   </tbody>
 </table>
 
-<p>While the explored parameter space includes many impractical configurations—meaning these extreme figures should not be interpreted as directly achievable gains in production—the results underscore the importance of standardised benchmarking methods representative of real-world operational contexts.</p>
+<p>Both models exhibit positively skewed energy outcome distributions, with long right tails capturing high-energy outliers. While the two models show considerable overlap in their energy profiles—highlighting that <strong>deployment choices can outweigh architectural complexity</strong>—the 3B model incurs a higher median energy-per-token.</p>
+
+<p>Notably, when normalised by each model’s mean, the 1B model’s coefficient of variation (127.7%) exceeds that of the 3B (123.5%), indicating that <strong>smaller models can be just as sensitive to implementation-level decisions</strong>.</p>
 
 <p><img src="figures/boxplot.png" alt="Distribution of energy outcomes across grid search configurations" />
 <em>Distribution of energy outcomes showing substantial variability within each model.</em></p>
 
+<h3 id="realistic-deployment-scenarios">Realistic Deployment Scenarios</h3>
+
+<p>While the explored parameter space includes many impractical configurations, simulating six plausible deployment scenarios yields more actionable figures:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scenario Type</th>
+      <th>1B Fold Range</th>
+      <th>3B Fold Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Realistic deployments</td>
+      <td>4.3× (CV: 61%)</td>
+      <td>4.9× (CV: 58%)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Even within realistic production constraints, <strong>implementation choices induce 4-5× variation</strong> in energy-per-token.</p>
+
+<h3 id="real-world-energy-comparisons">Real-World Energy Comparisons</h3>
+
+<p>To contextualise what these energy costs mean in practice, the table below compares the number of 300-token LLM responses equivalent to familiar energy expenditures (for the 3B model):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Appliance</th>
+      <th>Usage</th>
+      <th>Least Efficient</th>
+      <th>Most Efficient</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>iPhone 16</td>
+      <td>Full charge</td>
+      <td>7 responses</td>
+      <td>19 responses</td>
+    </tr>
+    <tr>
+      <td>MacBook Pro (M3)</td>
+      <td>Full charge</td>
+      <td>40 responses</td>
+      <td>116 responses</td>
+    </tr>
+    <tr>
+      <td>WiFi Router</td>
+      <td>24 hours</td>
+      <td>64 responses</td>
+      <td>186 responses</td>
+    </tr>
+    <tr>
+      <td>HD Streaming</td>
+      <td>1 hour</td>
+      <td>35 responses</td>
+      <td>103 responses</td>
+    </tr>
+    <tr>
+      <td>Google Search</td>
+      <td>1 query</td>
+      <td>0.13 responses</td>
+      <td>0.39 responses</td>
+    </tr>
+    <tr>
+      <td>Electric Kettle</td>
+      <td>1 litre boil</td>
+      <td>129 responses</td>
+      <td>67 responses</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><em>Note: These figures are illustrative, based on estimated energy values for consumer appliances.</em></p>
+
+<hr />
+
+<h2 id="detailed-analysis">Detailed Analysis</h2>
+
 <h3 id="tensor-parallelism">Tensor Parallelism</h3>
 
-<p>Increasing the number of processes over which model layers are distributed leads to a moderately super-linear increase in energy-per-token. This has the largest effect of all tested parameters, with both models more than doubling energy consumption with the addition of a single extra process.</p>
+<p>Increasing the number of processes over which model layers are distributed leads to a <strong>moderately super-linear increase</strong> in energy-per-token. Tensor parallelism has <strong>the largest effect of all tested parameters</strong>, with both models more than doubling energy consumption with the addition of a single extra process, then scaling up to 4× and 6× under 3 and 4 processes respectively.</p>
 
-<p>This behaviour reflects a naive unoptimised implementation and is consistent with known limitations when model size is small relative to available GPU capacity. As GPUs are added, not only does another device need powering, but energy overheads from inter-device communication and coordination increase disproportionately to realised throughput gains.</p>
+<p>This behaviour reflects a naive unoptimised implementation and is consistent with known limitations when model size is small relative to available GPU capacity. As (underutilised) GPUs are added:</p>
+
+<ol>
+  <li>Another device needs powering</li>
+  <li>Energy overheads from inter-device communication and coordination increase disproportionately to realised throughput gains</li>
+</ol>
+
+<p>Both models’ variance in energy outcomes across the entire grid search also grows with parallelism, reflecting both scale and increased instability from communication-heavy, fragmented scheduling. Leveraging more sophisticated parallel execution strategies would likely alter these scaling dynamics.</p>
 
 <h3 id="batch-size-effects">Batch Size Effects</h3>
 
 <p><img src="figures/batch_throughput_norm.png" alt="Batch size vs throughput relationship" />
 <em>Normalised throughput across different batch sizes.</em></p>
 
-<p>Batch size significantly affects the throughput-energy tradeoff, with larger batches improving device utilisation and partially offsetting inefficiencies from parallelism.</p>
+<p>Batch size reveals a <strong>steep inverse relationship</strong> with energy-per-token: in the small-batch regime, fixed overheads dominate, while beyond a certain point the curve plateaus, reflecting compute and memory-bandwidth saturation. The lower bound is reached for both models at around 10% of the double-batch baseline (a 10× range, excluding single batches).</p>
+
+<p>Energy-per-token falls as throughput rises, demonstrating that <strong>batching-driven efficiency gains stem primarily from throughput improvements</strong>. Larger batches improve device utilisation and partially offset inefficiencies from parallelism.</p>
+
+<p><img src="figures/num_proc_x_batch.png" alt="Interaction between batch size and tensor parallelism" />
+<em>Batch size moderates the effect of tensor parallelism on energy efficiency.</em></p>
 
 <h3 id="precision-and-quantisation">Precision and Quantisation</h3>
 
 <p><img src="figures/precision_norm.png" alt="Precision effects on energy consumption" />
 <em>Effect of numerical precision on normalised energy consumption.</em></p>
 
-<p>Different numerical precisions (FP32, FP16, INT8) show distinct energy profiles, with lower-precision formats generally reducing energy consumption while introducing accuracy tradeoffs.</p>
+<p>Energy-per-token does <strong>not</strong> decrease monotonically with precision reductions:</p>
+
+<ul>
+  <li><strong>FP32 → FP16:</strong> Yields energy efficiency gains of 35-40% for both models</li>
+  <li><strong>FP16 → INT8/INT4:</strong> Shows efficiency losses of 5-10%, suggesting that realised energy savings from quantisation are <strong>conditional on backend-level integration</strong></li>
+</ul>
+
+<p>This finding highlights that quantisation benefits depend heavily on how well the inference framework is optimised for lower-precision operations.</p>
+
+<h3 id="decoding-strategy">Decoding Strategy</h3>
+
+<p>Decoding strategy exhibited <strong>minimal direct energy impact</strong>—all curves remained within 5% of baseline:</p>
+
+<ul>
+  <li><strong>Greedy decoding</strong> (temperature 0) exhibited lowest energy-per-token costs</li>
+  <li><strong>Vanilla-multinomial sampling</strong> was most efficient among stochastic strategies</li>
+  <li><strong>Top-k</strong> and <strong>Top-p</strong> sampling showed slightly higher energy costs</li>
+</ul>
+
+<p>This suggests LLM providers can select sampling strategies based on <strong>application-specific criteria</strong> (output quality, diversity) rather than energy efficiency concerns.</p>
 
 <h3 id="latency-energy-tradeoffs">Latency-Energy Tradeoffs</h3>
 
 <p><img src="figures/latency_energy_precision.png" alt="Latency vs energy across precision levels" />
 <em>The relationship between latency and energy consumption varies by precision level.</em></p>
+
+<p>Energy efficiency steadily degrades as simulated latency increases, with larger declines under bursty conditions—albeit with modest overall effect sizes. Because this latency models exogenous communication delays (network congestion, scheduling jitter) rather than compute bottlenecks, the efficiency loss reflects reduced throughput: GPUs remain powered longer but perform less useful work per unit time.</p>
+
+<p>Burstiness further exacerbates inefficiency, though the relationship is not uniform. Smaller burst sizes (5-8 queries) exhibit consistently higher inefficiencies, whereas larger bursts (10-20 queries) resemble constant latency profiles—suggesting modern GPUs exploit burst-locality to regain uninterrupted computation stretches.</p>
+
+<hr />
+
+<h2 id="throughput--device-utilisation">Throughput &amp; Device Utilisation</h2>
+
+<p>Prior work has considered throughput and device utilisation rates as determinants of inference-time energy efficiency. This study proposes that together they capture <strong>computational and non-computational aspects of energy efficiency</strong> in deployed LLM systems.</p>
+
+<h3 id="the-throughput-energy-frontier">The Throughput-Energy Frontier</h3>
+
+<p><img src="figures/throughput_vs_energy.png" alt="Throughput vs energy relationship" />
+<em>The convex relationship between throughput and energy-per-token.</em></p>
+
+<p>For systems characterised by <strong>throughput-inefficiency</strong> (operating at low throughput, within their throughput-power Pareto frontier), small throughput increases yield large reductions in energy-per-token. Beyond an inflection point—indicating proximity to the system’s throughput-efficiency frontier—further throughput gains no longer improve energy efficiency, but instead require proportionate increases in power draw.</p>
+
+<p>This convex non-linearity allows the optimal throughput configuration set to be conceptualised as a <strong>constrained optimisation problem</strong> under service-level objective (SLO) conditions.</p>
+
+<h3 id="practical-implications">Practical Implications</h3>
+
+<ul>
+  <li><strong>Throughput-inefficient regime:</strong> Configurations that increase throughput—such as larger batch sizes or lower precision—yield substantial energy-per-token improvements</li>
+  <li><strong>Near-frontier regime:</strong> Adding more GPUs shows little benefit until the system is already operating near peak utilisation</li>
+</ul>
+
+<p>Device utilisation captures a different set of non-computational inefficiencies. In efficient deployments, utilisation should remain consistently high; persistent underutilisation indicates specific sources of energy waste—as is often the case in deployed systems where utilisation rates have been reported as low as <strong>23-27%</strong>.</p>
+
+<p>From a policy perspective, throughput and device utilisation offer more insightful characterisation of runtime energy dynamics than analytical metrics like FLOPs, and provide a deployment-sensitive basis for benchmarking deployed systems.</p>
+
+<hr />
+
+<h2 id="discussion">Discussion</h2>
+
+<h3 id="implementation-matters">Implementation Matters</h3>
+
+<p>Deployment decisions substantially affect inference-time energy outcomes—to an extent under-acknowledged in <em>Sustainable AI</em> discourse. This study shows that variation induced by implementation <strong>can well exceed that attributable to model size alone</strong>. LLM energy efficiency should be conceptualised not at the level of abstract model architectures, but as a property of implemented systems shaped by concrete deployment choices.</p>
+
+<h3 id="parameter-effects--tradeoffs">Parameter Effects &amp; Tradeoffs</h3>
+
+<p>While the precise mechanisms driving inference-time energy consumption are complex, this study identifies key tunable parameters: <strong>batching, tensor parallelism, and numerical precision</strong>. Even amongst this initial set, interaction effects and performance tradeoffs underscore the need for joint optimisation frameworks:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Energy Impact</th>
+      <th>Tradeoff</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Batch size</td>
+      <td>High (10×)</td>
+      <td>Responsiveness vs efficiency</td>
+    </tr>
+    <tr>
+      <td>Tensor parallelism</td>
+      <td>Very high (6×)</td>
+      <td>Scale vs coordination overhead</td>
+    </tr>
+    <tr>
+      <td>Precision/quantisation</td>
+      <td>Moderate (35-40%)</td>
+      <td>Quality vs efficiency</td>
+    </tr>
+    <tr>
+      <td>Decoding strategy</td>
+      <td>Minimal (&lt;5%)</td>
+      <td>Quality/diversity concerns only</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Aggressive quantisation and deterministic decoding degrade generation quality, while larger batch sizes reduce responsiveness for real-time applications but improve efficiency—more so in highly-distributed inference environments.</p>
+
+<h3 id="implications-for-benchmarking-standards">Implications for Benchmarking Standards</h3>
+
+<p>Prevailing conceptualisations of LLM energy efficiency emphasise analytical over empirical measures, and model attributes over system dynamics. Early benchmarking frameworks neglect the role of implementation-level factors as necessary controls.</p>
+
+<p>To illustrate the extent of possible distortion by motivated actors at test-time: comparing over-optimised configurations (designed to maximise throughput without practical constraints) to production-like deployments suggests unconstrained test-time optimisation can yield energy costs around <strong>10-13% of production values</strong>—a substantial risk for misleading efficiency claims.</p>
 
 <hr />
 
@@ -255,34 +538,49 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
 
 <h3 id="for-researchers">For Researchers</h3>
 
-<p>FLOP-counting narrows attention to immutable model attributes, conceptually restricting intervention scope to the moment of model selection. This framing overlooks downstream system-level implementation decisions and tradeoffs that shape the energy efficiency of real-world deployments.</p>
+<p>FLOP-counting narrows attention to immutable model attributes, conceptually restricting intervention scope to the moment of model selection. This framing overlooks downstream system-level implementation decisions and tradeoffs that shape the energy efficiency of real-world deployments. Future research should:</p>
+
+<ul>
+  <li>Incorporate larger model scales and dedicated infrastructure</li>
+  <li>Explore production-grade inference frameworks</li>
+  <li>Investigate finer-grained analyses of power and utilisation dynamics</li>
+</ul>
 
 <h3 id="for-policy-makers">For Policy-Makers</h3>
 
 <p>The neglect of implementation-level variation translates to a lack of standardised test-time controls. This gap creates opportunities for motivated actors to present artificially efficient performance metrics by testing under unrealistic configurations. Consumers and policymakers are left with little insight into the true energy cost of querying an LLM.</p>
 
+<p><strong>Recommendations:</strong></p>
+<ul>
+  <li>Require standardised reporting of deployment configurations alongside energy benchmarks</li>
+  <li>Develop throughput-normalised efficiency metrics for comparing deployed systems</li>
+  <li>Consider implementation-level controls as necessary components of energy reporting standards</li>
+</ul>
+
 <h3 id="for-practitioners">For Practitioners</h3>
 
-<p>The substantial variability demonstrated here highlights opportunities for energy optimisation through informed deployment choices—not just model selection.</p>
+<p>The substantial variability demonstrated here highlights opportunities for energy optimisation through informed deployment choices—not just model selection. Practitioners should:</p>
+
+<ul>
+  <li>Monitor throughput and device utilisation as diagnostic indicators</li>
+  <li>Consider joint optimisation of batch size, parallelism, and precision</li>
+  <li>Evaluate quantisation benefits within their specific inference stack</li>
+</ul>
 
 <hr />
 
-<h2 id="ongoing-development">Ongoing Development</h2>
+<h2 id="ongoing-development--future-directions">Ongoing Development &amp; Future Directions</h2>
 
-<p>The measurement tool developed for this research is being actively expanded to support:</p>
+<p>The measurement tool developed for this research is being actively expanded. See the <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">llm-efficiency-measurement-tool</a> repository for the latest developments.</p>
 
+<p><strong>Current expansion areas:</strong></p>
 <ul>
   <li>Agentic AI workflows and multi-step reasoning</li>
   <li>Broader hardware configurations</li>
   <li>Production-grade inference frameworks</li>
 </ul>
 
-<p>See the <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">llm-efficiency-measurement-tool</a> repository for the latest developments.</p>
-
-<hr />
-
-<h2 id="future-directions">Future Directions</h2>
-
+<p><strong>Future research directions:</strong></p>
 <ul>
   <li>Executing experiments on dedicated compute clusters and scaling to larger model families</li>
   <li>Broader parameter coverage: load shaping, dynamic power management, thermal-aware scheduling</li>

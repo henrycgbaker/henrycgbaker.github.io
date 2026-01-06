@@ -169,9 +169,9 @@
       </header>
       <section>
 
-      <!-- TODO: Expand this landing page with more detailed content. Consider adding case study visualisations, interactive elements, or policy framework diagrams. This is initial scaffolding. -->
+      <h1 id="governance-of-data-institutions">Governance of Data Institutions</h1>
 
-<h1 id="governance-of-data-institutions">Governance of Data Institutions</h1>
+<p><strong>Opening AI the Data-centric Way: The Case for Data Institutions in Democratising the Design &amp; Development of ML Datasets</strong></p>
 
 <p><strong>Masters of Public Policy Thesis, 2024</strong>
 Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
@@ -182,118 +182,394 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
 
 <h2 id="executive-summary">Executive Summary</h2>
 
-<p>This thesis examines the role of dedicated Data Institutions (DIs) in the design and development of machine learning datasets, emphasising their potential to <em>democratise AI</em>. The analysis critiques the current <em>open AI</em> approach and its limitations, proposing that as an institutionalised form of commons-based data governance, DIs offer a structured democratic approach to data-centric AI policy-making.</p>
+<p>This thesis examines the role of dedicated <strong>Data Institutions (DIs)</strong> in the design and development of machine learning datasets, emphasising their potential to <em>democratise AI</em>. The analysis critiques the current <em>open AI</em> approach and its limitations, proposing that as an institutionalised form of commons-based data governance, DIs offer a structured democratic approach to data-centric AI policy-making.</p>
 
-<p>The research proposes that integrating DIs into the ML value chain would leverage the strategic significance of datasets to create public value and insert a decentralised, community-accountable governance layer into the otherwise opaque ML development process.</p>
+<p>The research proposes that integrating DIs into the ML value chain would leverage the strategic significance of datasets to create public value and insert a decentralised, community-accountable governance layer into the otherwise opaque ML development process. It sets out an agenda for DIs’ collective governance mechanisms and fiduciary responsibilities to improve current practice in dataset development around data quality, usage, sustainability, and embedding of good governance practices.</p>
+
+<p><strong>Key contributions:</strong></p>
+<ul>
+  <li>A critique of <em>open AI</em> from political theory, political economy, and policy framing perspectives</li>
+  <li>A normative and theoretical evaluation of DIs as an institutional template for ML datasets</li>
+  <li>Nine high-level principles for practitioners implementing Data Institutions</li>
+</ul>
 
 <hr />
 
 <h2 id="the-problem-with-open-ai">The Problem with ‘Open AI’</h2>
 
-<p>Current debates around open source AI suffer from three key limitations:</p>
+<p>This research developed as a response to perceived limitations in debates around open source and its relationship to AI systems. The premise: there are more effective, more responsible, and less publicised policy approaches to achieve the fundamental objectives motivating the ‘open’ vs ‘closed’ AI debate than are currently considered.</p>
 
-<h3 id="narrow-democratisation">Narrow Democratisation</h3>
+<h3 id="defining-ai-democratisation">Defining AI Democratisation</h3>
 
-<p>From a political-theory perspective, AI democratisation is not solely about the free deployment of AI without regard for social consequence. Rather, democratisation entails collective decision-making power over <em>how</em> AI is to be developed and deployed. Unstructured access to AI systems could hinder societies from restricting uses they deem undesirable.</p>
+<p>I operationalise <strong>democratisation of AI</strong> as the establishment of legitimate mechanisms along the value chain for supporting:</p>
+<ul>
+  <li>Equitable, inclusive and sustainable distributions of benefit and access around AI development</li>
+  <li>Democratic participation in the use, governance, and value-generation of AI systems</li>
+</ul>
 
-<h3 id="resource-capture">Resource Capture</h3>
+<p>This account of AI’s democratisation starts from the belief that these outcomes can be at least partially achieved at an upstream technology-governance level.</p>
 
-<p>From a political-economy perspective, the liberatory potential of <em>open AI</em> is bounded by near-term resource constraints (compute, data, and human capital). The ability of platform incumbents to cross-leverage scale and data risks the instrumentation and capture of open AI discourses by entrenched actors.</p>
+<h3 id="three-limitations-of-the-open-ai-debate">Three Limitations of the Open AI Debate</h3>
 
-<h3 id="risk-centric-framing">Risk-Centric Framing</h3>
+<h4 id="1-narrow-democratisation-political-theory">1. Narrow Democratisation (Political Theory)</h4>
 
-<p>Current policy approaches focus on downstream risk mitigation—model capabilities, post-release conformity, access regimes—which encourages binary-choice conceptualisations of AI’s openness problem rather than integrative, upstream policy interventions.</p>
+<p>From a political-theory perspective, AI democratisation is not solely about the free deployment of AI without regard for social consequence. Rather, democratisation entails <strong>collective decision-making power</strong> over <em>how</em> AI is to be developed and deployed.</p>
+
+<p>The ‘narrow’ democratisation of <em>open AI</em> conflicts with broader democratic ideals: unstructured access to AI systems could hinder societies from restricting those uses they deem undesirable. <strong>Free access ≠ democratic control.</strong></p>
+
+<h4 id="2-resource-capture-political-economy">2. Resource Capture (Political Economy)</h4>
+
+<p>From a political-economy perspective, the liberatory potential of <em>open AI</em> is bounded by near-term resource constraints (compute, data, and human capital). The ability of platform incumbents operating across parallel digital markets to cross-leverage scale and data risks the <strong>instrumentation and capture of open AI discourses</strong> by entrenched actors.</p>
+
+<p>Strategic ‘open washing’ along ML value chains allows incumbents to benefit from open-source contributions while maintaining proprietary advantages over the most valuable resources.</p>
+
+<h4 id="3-risk-centric-framing-policy-approach">3. Risk-Centric Framing (Policy Approach)</h4>
+
+<p>Current policy approaches are <em>a priori</em> rooted in evaluating openness through a risk-benefit calculus over downstream use cases. This framing:</p>
+
+<ul>
+  <li>Diverts attention towards distributive policy choices at the system-output level</li>
+  <li>‘Naturally’ suggests restrictive point-of-service regulation</li>
+  <li>Encourages <strong>binary-choice conceptualisations</strong> of AI’s openness problem</li>
+</ul>
+
+<p>Policy-makers are currently legislating model capabilities, post-release conformity, risk categorisation (EU AI Act), and access regimes—all downstream interventions. While gradient-release processes and diversified terms-of-service represent progress, viewing openness primarily through the lens of access and associated risks lacks analytical purchase.</p>
+
+<h3 id="an-alternative-framing">An Alternative Framing</h3>
+
+<p>I propose that <strong>integrative, upstream policy interventions</strong> also have a role in AI governance. Only after disaggregating AI systems and evaluating each component by stakeholders affected and values encoded can requisite policy nuance be found.</p>
+
+<p>Whereas compute, algorithms, and weights remain access issues, <strong>data governance</strong>—how data is generated, collected, licensed, processed, owned, stewarded, and distributed—presents a variety of decision dimensions and policy positions for democratic considerations.</p>
 
 <hr />
 
 <h2 id="what-are-data-institutions">What Are Data Institutions?</h2>
 
-<p>Data Institutions represent a diverse family of organisational forms united by two core principles:</p>
+<p>As a developing and much-contested area of digital policy, there are a range of overlapping and often-competing naming conventions and governance claims made by proponents of Data Institutions.</p>
+
+<h3 id="a-diverse-family-of-organisational-forms">A Diverse Family of Organisational Forms</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>DI Type</th>
+      <th>Proponent</th>
+      <th>Key Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data Trusts</strong></td>
+      <td>Data Trusts Initiative</td>
+      <td>Legal fiduciary structure</td>
+    </tr>
+    <tr>
+      <td><strong>Data Collaboratives</strong></td>
+      <td>The GovLab</td>
+      <td>Cross-sector data sharing</td>
+    </tr>
+    <tr>
+      <td><strong>Data Intermediaries</strong></td>
+      <td>UK Government (National Data Strategy)</td>
+      <td>Market-oriented brokerage</td>
+    </tr>
+    <tr>
+      <td><strong>Data Spaces</strong></td>
+      <td>EU Commission</td>
+      <td>Federated data infrastructure</td>
+    </tr>
+    <tr>
+      <td><strong>Data Altruism Organisations</strong></td>
+      <td>EU Commission</td>
+      <td>Non-profit data donation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This plurality of naming devices reflects gradations of legal distinctions and policy emphases within the concept of DIs writ large. This diversity matters at the implementation level—in terms of legal justification and domain-fit design—but it has less to say regarding DIs’ <strong>common institutional logic</strong>.</p>
+
+<h3 id="two-core-principles">Two Core Principles</h3>
+
+<p>Below the apparent institutional variety, two concerns are common to all DI types:</p>
 
 <ol>
   <li><strong>Delegated Fiduciary Responsibility:</strong> Data-generating individuals and communities delegate responsibility for stewarding their data to a management function</li>
-  <li><strong>Collective or Commons-Based Governance:</strong> DIs engage with data users on the community’s behalf through democratic mechanisms</li>
+  <li><strong>Collective or Commons-Based Governance:</strong> DIs engage with data users (here: ML developers) on the community’s behalf through democratic mechanisms</li>
 </ol>
 
-<p>This institutional logic structures a decentralised, community-accountable layer of decision-making over resource allocation. The flexibility of this core template means DIs can be deployed to meet diverse data governance demands across different local conditions.</p>
+<p>This institutional logic structures a <strong>decentralised, community-accountable layer</strong> of decision-making over resource allocation. The flexibility of this core template means DIs can be deployed to meet diverse data governance demands across different local conditions.</p>
 
-<p>Examples include data trusts, data collaboratives, data intermediaries, data spaces, and data altruism organisations.</p>
+<h3 id="why-flexibility-matters">Why Flexibility Matters</h3>
+
+<p>DIs offer policy-makers the ability to build on top of this core institutional template to incorporate a wide range of policy and technical functions. This flexibility means DIs can be deployed to meet diverse data governance demands across divergent local conditions—from health data collaboratives to indigenous language preservation to environmental monitoring.</p>
 
 <hr />
 
 <h2 id="the-case-for-data-institutions-in-ml">The Case for Data Institutions in ML</h2>
 
-<p>ML datasets present a strategic policy surface within otherwise opaque ML value chains—and DIs present an ideal template for their governance.</p>
+<p>This research seeks to widen the scope of possible intervention points into AI governance. ML datasets and their collection present a <strong>strategic policy surface</strong> within otherwise opaque ML value chains—and DIs present an ideal template for their governance.</p>
+
+<h3 id="why-datasets-are-strategic">Why Datasets Are Strategic</h3>
+
+<p>Data availability constrains modelling efforts towards tasks on which inference can be run. Datasets are where values are encoded, biases are introduced, and representativeness is determined. Unlike compute or algorithms, datasets are:</p>
+
+<ul>
+  <li><strong>Contextually embedded:</strong> Reflecting the communities and conditions from which they emerge</li>
+  <li><strong>Labour-intensive:</strong> Requiring human collection, labelling, and validation</li>
+  <li><strong>Governance-amenable:</strong> Subject to consent, licensing, and stewardship decisions</li>
+</ul>
 
 <h3 id="two-fold-public-value-creation">Two-Fold Public Value Creation</h3>
 
-<ol>
-  <li><strong>Democratic Voice:</strong> Integrating diverse voices into foundational value-encoding and direction-setting processes at the heart of AI development</li>
-  <li><strong>Service Platform:</strong> Institutional platforms for contextually-appropriate downstream service offerings—quality assurance, semantic interoperability, responsible consent management, and financial sustainability</li>
-</ol>
+<p>ML-relevant use cases for DIs extend beyond their well-theorised ability to redistribute value across imbalanced digital markets. Establishing dedicated DIs for ML datasets creates a <strong>new governance layer</strong> offering two-fold public value:</p>
+
+<h4 id="1-democratic-voice">1. Democratic Voice</h4>
+
+<p>DIs integrate diverse voices into <strong>foundational value-encoding and direction-setting processes</strong> at the heart of AI development. This includes:</p>
+
+<ul>
+  <li>Representation of data-generating communities in decisions about data use</li>
+  <li>Input from domain experts and impacted stakeholders on appropriate applications</li>
+  <li>Democratic mechanisms for consent, licensing, and downstream restrictions</li>
+</ul>
+
+<h4 id="2-service-platform">2. Service Platform</h4>
+
+<p>DIs serve as institutional platforms for <strong>contextually-appropriate downstream service offerings</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Benefit to Data Producers</th>
+      <th>Benefit to ML Developers</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Quality assurance</td>
+      <td>Validation of data integrity</td>
+      <td>Higher-quality training data</td>
+    </tr>
+    <tr>
+      <td>Semantic interoperability</td>
+      <td>Standardised metadata</td>
+      <td>Easier data integration</td>
+    </tr>
+    <tr>
+      <td>Consent management</td>
+      <td>Respected data rights</td>
+      <td>Legal clarity</td>
+    </tr>
+    <tr>
+      <td>Documentation</td>
+      <td>Community-articulated context</td>
+      <td>Better model alignment</td>
+    </tr>
+    <tr>
+      <td>Financial sustainability</td>
+      <td>Fair compensation</td>
+      <td>Sustainable data supply</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="the-strategic-advantage">The Strategic Advantage</h3>
 
 <p>This dual-sided utility helps policy-makers gain broad-based stakeholder buy-in while ensuring the DI layer provides overhead and resources to support a data commons capable of sustaining future AI innovations.</p>
+
+<p>DIs move to close the <strong>paradox of openness</strong> that remains unaddressed by the existing <em>open AI</em> debate: how to make data accessible for beneficial AI development while maintaining meaningful governance and accountability.</p>
 
 <hr />
 
 <h2 id="nine-policy-principles">Nine Policy Principles</h2>
 
-<p>The thesis derives nine high-level principles for practitioners implementing Data Institutions:</p>
+<p>The thesis derives nine high-level principles for practitioners implementing Data Institutions, structured around the ML data lifecycle.</p>
 
 <h3 id="foundational-principles">Foundational Principles</h3>
 
-<ol>
-  <li><strong>No One-Size Fits All:</strong> Data comes in different forms governed by different legal and contextual frameworks. DIs should be customised to community values as appropriate.</li>
-  <li><strong>Be Democratic:</strong> DIs should serve and represent a defined constituency—usually the data-generating community and impacted stakeholders.</li>
-</ol>
+<h4 id="1-no-one-size-fits-all">1. No One-Size Fits All</h4>
+
+<p>Data is not a homogeneous concept—it comes in different forms (copyrighted, anonymised, public-statistical, administrative, personal, industrial, research, transactional, health, digital media, etc.) governed by different, often overlapping, legal, contextual and custodial frameworks.</p>
+
+<p><strong>Implication:</strong> DIs should inhabit a world of small models, customised to community values as appropriate.</p>
+
+<h4 id="2-be-democratic">2. Be Democratic</h4>
+
+<p>DIs should serve and represent a <strong>defined constituency</strong>—usually the data-generating community and impacted stakeholders (data subjects, domain experts, etc.). The most explicit fiduciary template is the data trust, but a range of permutations exist within the DI universe.</p>
+
+<p><strong>Implication:</strong> The appropriate governance template will be contextually-dependent on the data type and community needs.</p>
 
 <h3 id="use-case--design">Use Case &amp; Design</h3>
 
-<ol>
-  <li><strong>Assume a Task-Community Role:</strong> Structure DIs around community-identified problems to support purpose-built datasets tailored to real-world tasks.</li>
-  <li><strong>Ensure Fair Work:</strong> Provide accountability and coordination for guaranteeing investment in quality data work, involving domain experts and community members.</li>
-</ol>
+<h4 id="3-assume-a-task-community-role">3. Assume a Task-Community Role</h4>
+
+<p>This extends the concept of ML ‘tasks’ and ‘task-communities’ from purely technical affairs to encompass societal and policy considerations. Data availability constrains modelling efforts towards tasks on which inference can be run.</p>
+
+<p><strong>Implication:</strong> DIs should be structured around community-identified problems to support purpose-built datasets tailored to real-world tasks.</p>
+
+<p><strong>Example:</strong> <em>Te Hiku Media</em>’s voice recordings drive for Māori language preservation—actively acquiring data representative of the population and task at hand through community opt-ins.</p>
+
+<h4 id="4-ensure-fair-work">4. Ensure Fair Work</h4>
+
+<p>Human data labelling presents the primary bottleneck to quality data, and is where most labour abuses occur. DIs should provide sites of accountability and coordination for guaranteeing investment in quality data work.</p>
+
+<p><strong>Implication:</strong> Involve domain experts, community members, and impacted stakeholders. Where appropriate, design sustainable financing and standards for fair working conditions.</p>
+
+<p><strong>Examples:</strong> Wikimedia’s Enterprise API, Mozilla’s Common Voice, GIZ’s FAIR Forward programme.</p>
 
 <h3 id="collection--processing">Collection &amp; Processing</h3>
 
-<ol>
-  <li><strong>Promote Transparency Norms:</strong> Invest meaningful resources into documentation to improve understanding of datasets’ contextual validity.</li>
-  <li><strong>Smart Quality:</strong> Incorporate quality assurance, validation tools, and semantic functionality into a dataset-as-a-service offering.</li>
-</ol>
+<h4 id="5-promote-transparency-norms">5. Promote Transparency Norms</h4>
+
+<p>DIs should invest meaningful resources into documentation to improve understanding of datasets’ contextual validity—how data was created, collected, processed, and annotated.</p>
+
+<p><strong>Implication:</strong> This supports informed AI accountability discussions, comprehension of model capabilities/limitations, collaborative data refinement, and identification of biases. Data-generating communities can self-articulate relevant contextual knowledge and downstream specifications.</p>
+
+<p><strong>Tools:</strong> Datasheets for datasets, data nutrition labels, EU AI Act transparency obligations, structured checklists.</p>
+
+<h4 id="6-smart-quality">6. Smart Quality</h4>
+
+<p>DIs should incorporate quality assurance, validation tools, and semantic functionality into a <strong>dataset-as-a-service offering</strong>.</p>
+
+<p><strong>What to identify:</strong></p>
+<ul>
+  <li>Noise, inconsistencies, redundancy</li>
+  <li>Completeness and bias</li>
+  <li>Data poisoning and synthetic elements</li>
+  <li>Personal identifiers and illicit content</li>
+</ul>
+
+<p><strong>Additional services:</strong> Linked data integration, enriched semantic metadata, federated learning support, smart contracts for data integrity and traceability.</p>
 
 <h3 id="validation--maintenance">Validation &amp; Maintenance</h3>
 
-<ol>
-  <li><strong>Share Responsibly:</strong> Follow both CARE Principles for Indigenous Data Governance and FAIR principles for data reusability, with appropriate access regimes.</li>
-  <li><strong>Sustainability:</strong> Structure incentive mechanisms and sustainable funding through licensing revenue or dedicated funding efforts.</li>
-  <li><strong>Leverage Agency Through Technical Enforcement:</strong> Employ verification systems, digital signatures, and certification to ensure compliant data use.</li>
-</ol>
+<h4 id="7-share-responsibly">7. Share Responsibly</h4>
+
+<p>DIs should follow both the <strong>CARE Principles</strong> for Indigenous Data Governance and the <strong>FAIR principles</strong> for data reusability, with appropriate access regimes.</p>
+
+<p><strong>Access regime options:</strong></p>
+<ul>
+  <li>Open-access commons (via Kaggle, HuggingFace, OpenML)</li>
+  <li>Gated-access with registration and monitoring</li>
+  <li>Customised licensing (e.g., <em>Te Hiku</em>’s bespoke licence combining open sharing with communal control)</li>
+</ul>
+
+<p><strong>Implication:</strong> DIs might offer multiple differentiated access modes to a single dataset, lowering barriers for non-commercial users while commercial fees subsidise operations.</p>
+
+<h4 id="8-sustainability">8. Sustainability</h4>
+
+<p>Providing the resources (infrastructure, compute, human) to design, develop, and manage quality datasets requires sustainable funding.</p>
+
+<p><strong>Funding options:</strong></p>
+<ul>
+  <li>Revenue streams from licensing data to commercial developers</li>
+  <li>Dedicated funding and grants teams</li>
+  <li>Recurring licensing revenue compatible with stewarding principles</li>
+</ul>
+
+<p><strong>Implication:</strong> Structure incentive mechanisms and support for data producers and stewards.</p>
+
+<h4 id="9-leverage-agency-through-technical-enforcement">9. Leverage Agency Through Technical Enforcement</h4>
+
+<p>DIs (especially those handling sensitive or safety-enhancing data) should consider incorporating technical enforcement mechanisms:</p>
+
+<ul>
+  <li><strong>Verification systems:</strong> Proof-of-learning frameworks to ensure compliant model training</li>
+  <li><strong>Digital signatures:</strong> Data poisoning and digital proofs to ensure agreed-upon data use</li>
+  <li><strong>Hash-matching:</strong> Ensure deployed models are DI-verified ones</li>
+  <li><strong>Certification:</strong> Similar to fair trade labels, leveraging end-user purchasing power</li>
+</ul>
+
+<p><strong>Additional measures:</strong> Legal counsel for mission-aligned compliance, data sharing frameworks accounting for jurisdictional differences, mechanisms for handling deprecated datasets.</p>
 
 <hr />
 
 <h2 id="implications-for-ai-governance">Implications for AI Governance</h2>
 
-<p>Moving beyond the constraining terms of the <em>open AI</em> debate, this research proposes that:</p>
+<p>Moving beyond the constraining terms of the <em>open AI</em> debate, this research proposes three key shifts in how we think about AI governance:</p>
+
+<h3 id="1-data-governance-as-a-democratic-surface">1. Data Governance as a Democratic Surface</h3>
+
+<p><strong>Data governance</strong>—how data is generated, collected, licensed, processed, owned, stewarded, and distributed—presents a variety of decision dimensions for democratic considerations. Unlike compute or model weights, data governance offers meaningful points for community participation and value alignment.</p>
+
+<p>This shifts focus from asking “how open should AI be?” to “who participates in decisions about AI’s foundational resources?”</p>
+
+<h3 id="2-upstream-interventions-are-legitimate">2. Upstream Interventions Are Legitimate</h3>
+
+<p><strong>Upstream interventions</strong> have a legitimate role in AI governance alongside downstream risk regulation. Rather than only regulating outputs (model capabilities, access regimes, post-release conformity), policy-makers can shape AI development through the data layer.</p>
+
+<p>This complements—rather than replaces—existing regulatory approaches like the EU AI Act.</p>
+
+<h3 id="3-closing-the-paradox-of-openness">3. Closing the Paradox of Openness</h3>
+
+<p><strong>Commons-based approaches</strong> can address the paradox of openness that remains unaddressed by current AI policy debates: how to make resources accessible for beneficial development while maintaining meaningful governance and accountability.</p>
+
+<p>DIs demonstrate that openness and governance are not mutually exclusive—structured commons governance can support both innovation and accountability.</p>
+
+<hr />
+
+<h2 id="limitations--future-research">Limitations &amp; Future Research</h2>
+
+<p>This research is not intended as the final word on DIs and ML datasets. It does not make empirical claims over the precise nature of the relationship between commons-based data governance and ML development practice. Rather, it flags the under-appreciated synergy between institutional theory and challenges faced in ML dataset curation.</p>
+
+<p><strong>Areas for further investigation:</strong></p>
 
 <ul>
-  <li><strong>Data governance</strong>—how data is generated, collected, licensed, processed, owned, stewarded, and distributed—presents a variety of decision dimensions for democratic considerations</li>
-  <li><strong>Upstream interventions</strong> have a legitimate role in AI governance alongside downstream risk regulation</li>
-  <li><strong>Commons-based approaches</strong> can address the paradox of openness that remains unaddressed by current AI policy debates</li>
+  <li>Detailed DI design and implementation (sustainable funding, technical architectures)</li>
+  <li>Empirical evaluation of existing DI models</li>
+  <li>Legal frameworks across jurisdictions</li>
+  <li>Integration with existing ML development workflows</li>
 </ul>
 
 <hr />
 
 <h2 id="further-reading">Further Reading</h2>
 
-<p>This thesis draws on multiple literatures:</p>
+<h3 id="academic-literatures">Academic Literatures</h3>
+
+<p>This thesis draws on multiple research traditions:</p>
 
 <ul>
-  <li>Critical political economy of digital economies</li>
-  <li>Data management and human-computer interaction studies</li>
-  <li>Institutional theories of global governance</li>
+  <li><strong>Critical political economy:</strong> Analysis of data capitalism and digital economies</li>
+  <li><strong>Data management &amp; HCI:</strong> Practitioner-oriented research on data quality and fairness</li>
+  <li><strong>Institutional theory:</strong> Global governance and commons-based resource management</li>
 </ul>
 
-<p>For proofs-of-concept, see work from the Data Trusts Initiative, GovLab’s Data Collaboratives, and the Open Data Institute’s work on bottom-up data institutions.</p>
+<h3 id="proofs-of-concept">Proofs-of-Concept</h3>
+
+<p>For implemented examples and case studies:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Initiative</th>
+      <th>Focus</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Data Trusts Initiative</strong></td>
+      <td>Legal frameworks and pilot implementations</td>
+    </tr>
+    <tr>
+      <td><strong>GovLab Data Collaboratives</strong></td>
+      <td>Cross-sector data sharing for public good</td>
+    </tr>
+    <tr>
+      <td><strong>Open Data Institute</strong></td>
+      <td>Bottom-up data institutions and policy guidance</td>
+    </tr>
+    <tr>
+      <td><strong>Te Hiku Media</strong></td>
+      <td>Indigenous data sovereignty in practice</td>
+    </tr>
+    <tr>
+      <td><strong>Mozilla Common Voice</strong></td>
+      <td>Community-driven voice dataset</td>
+    </tr>
+  </tbody>
+</table>
 
 <hr />
 
