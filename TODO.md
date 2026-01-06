@@ -74,6 +74,35 @@
 
 ---
 
+### 3. **Expand Research Landing Pages** 🔬
+
+**Status:** ⏳ Basic scaffolding complete - expand when ready
+
+**Current state:** Landing pages at `/research/llm-energy-efficiency/` and `/research/data-institutions/` have moderate-depth content extracted from thesis LaTeX sources.
+
+**Future enhancements:**
+
+- [ ] **LLM Energy Efficiency page:**
+  - [ ] Add more figures from `_source/llm-energy-efficiency/figures/` (47 available)
+  - [ ] Create interactive visualisations (D3.js/Plotly)
+  - [ ] Add Jupyter notebooks demonstrating the measurement tool
+  - [ ] Link to live demos or hosted notebook environments
+  - [ ] Expand methodology section with code examples
+  - [ ] Add comparison tables for different model configurations
+
+- [ ] **Data Institutions page:**
+  - [ ] Add case study visualisations
+  - [ ] Create policy framework diagrams
+  - [ ] Add interactive elements for the 9 principles
+  - [ ] Link to related organisations (ODI, Data Trusts Initiative, etc.)
+
+**Resources available:**
+- LaTeX sources in `_source/` with full thesis text
+- 47 figures for LLM thesis in `_source/llm-energy-efficiency/figures/`
+- GitHub repo: https://github.com/henrycgbaker/llm-efficiency-measurement-tool
+
+---
+
 ## Next Steps
 
 ### Google Analytics Setup (Optional but Recommended)
@@ -245,4 +274,4 @@ open https://github.com/henrycgbaker/henrycgbaker.github.io/actions
 
 ---
 
-**Last Updated:** December 15, 2025
+**Last Updated:** January 6, 2026
