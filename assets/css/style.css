@@ -350,14 +350,26 @@ pre {
 }
 
 pre {
-  max-width: 500px;
+  max-width: 100%;
   padding: 8px 15px;
   background: #f8f8f8;
   border-radius: 5px;
   border: 1px solid #e5e5e5;
   overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
+@media (prefers-color-scheme: dark) {
+  pre {
+    background: #2d2d3a;
+    border-color: #404050;
+  }
+  code,
+  pre {
+    color: #e0e0e0;
+  }
+}
 table {
   width: 100%;
   border-collapse: collapse;

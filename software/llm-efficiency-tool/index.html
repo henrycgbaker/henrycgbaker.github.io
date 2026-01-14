@@ -404,46 +404,92 @@
 
 <p>The tool follows a <strong>configuration-driven, three-stage pipeline</strong> designed for reproducible distributed benchmarking.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────┐
-│                      MEASUREMENT PIPELINE                           │
-└─────────────────────────────────────────────────────────────────────┘
-                               │
-               ┌───────────────┴───────────────┐
-               ▼                               ▼
-┌──────────────────────────┐     ┌──────────────────────────┐
-│     1. CONFIGURATION     │     │      2. EXECUTION        │
-│  ──────────────────────  │     │  ──────────────────────  │
-│  • Model &amp; precision     │────▶│  • HuggingFace Accelerate│
-│  • Hardware sharding     │     │  • Tensor parallelism    │
-│  • Generation params     │     │  • Barrier synchronisation│
-│  • YAML inheritance      │     └────────────┬─────────────┘
-└──────────────────────────┘                  │
-                               ┌──────────────┼──────────────┐
-                               ▼              ▼              ▼
-                          ┌────────┐    ┌────────┐    ┌────────┐
-                          │ GPU 0  │    │ GPU 1  │    │ GPU N  │
-                          │ ────── │    │ ────── │    │ ────── │
-                          │ Energy │    │ Energy │    │ Energy │
-                          │ Tokens │    │ Tokens │    │ Tokens │
-                          │ Memory │    │ Memory │    │ Memory │
-                          └────┬───┘    └────┬───┘    └────┬───┘
-                               │              │              │
-                               └──────────────┼──────────────┘
-                                              ▼
-                               ┌──────────────────────────┐
-                               │     3. AGGREGATION       │
-                               │  ──────────────────────  │
-                               │  • Late aggregation      │
-                               │  • Raw results preserved │
-                               │  • Flexible post-analysis│
-                               └──────────────────────────┘
+<h3 id="high-level-pipeline">High-Level Pipeline</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌────────────────────────────────────────────────────────────────────────────────┐
+│                           MEASUREMENT PIPELINE                                  │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                 ┌─────────────────────┴─────────────────────┐
+                 ▼                                           ▼
+┌────────────────────────────────┐         ┌────────────────────────────────┐
+│       1. CONFIGURATION         │         │         2. EXECUTION           │
+│  ────────────────────────────  │         │  ────────────────────────────  │
+│  • Model &amp; precision           │────────▶│  • HuggingFace Accelerate      │
+│  • Hardware sharding           │         │  • Tensor/pipeline parallelism │
+│  • Generation parameters       │         │  • Barrier synchronisation     │
+│  • YAML inheritance            │         │  • Per-process metric tracking │
+└────────────────────────────────┘         └───────────────┬────────────────┘
+                                                           │
+                                     ┌─────────────────────┼─────────────────────┐
+                                     ▼                     ▼                     ▼
+                                ┌─────────┐           ┌─────────┐           ┌─────────┐
+                                │  GPU 0  │           │  GPU 1  │           │  GPU N  │
+                                │ ─────── │           │ ─────── │           │ ─────── │
+                                │ Energy  │           │ Energy  │           │ Energy  │
+                                │ Tokens  │           │ Tokens  │           │ Tokens  │
+                                │ Memory  │           │ Memory  │           │ Memory  │
+                                │ FLOPs   │           │ FLOPs   │           │ FLOPs   │
+                                └────┬────┘           └────┬────┘           └────┬────┘
+                                     │                     │                     │
+                                     └─────────────────────┼─────────────────────┘
+                                                           ▼
+                                     ┌────────────────────────────────┐
+                                     │        3. AGGREGATION          │
+                                     │  ────────────────────────────  │
+                                     │  • Late aggregation pattern    │
+                                     │  • Raw per-GPU results saved   │
+                                     │  • Flexible post-hoc analysis  │
+                                     │  • CSV/JSON export             │
+                                     └────────────────────────────────┘
 </code></pre></div></div>
 
-<h3 id="stage-1-configuration">Stage 1: Configuration</h3>
+<hr />
 
-<p>Declarative YAML configuration with inheritance via <code class="language-plaintext highlighter-rouge">_extends</code>. Define experiments without code changes:</p>
+<h3 id="stage-1-configuration-system">Stage 1: Configuration System</h3>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">model</span><span class="pi">:</span>
+<p>Declarative YAML configuration with inheritance via <code class="language-plaintext highlighter-rouge">_extends</code> enables reproducible experiments without code changes.</p>
+
+<p><strong>Configuration Inheritance:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                        CONFIGURATION INHERITANCE                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────┐
+│   base.yaml         │     Base configuration with sensible defaults
+│ ─────────────────── │
+│ model: llama-3.2-3B │
+│ precision: float16  │
+│ batch_size: 16      │
+│ num_gpus: 1         │
+└──────────┬──────────┘
+           │
+           │ _extends: base.yaml
+           ▼
+┌─────────────────────┐     ┌─────────────────────┐
+│  multi-gpu.yaml     │     │  quantized.yaml     │
+│ ─────────────────── │     │ ─────────────────── │
+│ num_gpus: 4         │     │ quantization: 4bit  │
+│ sharding: tensor_   │     │ precision: null     │
+│           parallel  │     │                     │
+└──────────┬──────────┘     └─────────────────────┘
+           │
+           │ _extends: multi-gpu.yaml
+           ▼
+┌─────────────────────┐
+│  experiment.yaml    │     Final experiment: inherits all, overrides batch
+│ ─────────────────── │
+│ batch_size: 32      │
+│ traffic: poisson    │
+└─────────────────────┘
+</code></pre></div></div>
+
+<p><strong>Example Configuration:</strong></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">_extends</span><span class="pi">:</span> <span class="s">configs/base.yaml</span>
+
+<span class="na">model</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">meta-llama/Llama-3.2-3B</span>
   <span class="na">precision</span><span class="pi">:</span> <span class="s">float16</span>
   <span class="na">quantization</span><span class="pi">:</span> <span class="kc">null</span>
@@ -451,51 +497,266 @@
 <span class="na">hardware</span><span class="pi">:</span>
   <span class="na">sharding</span><span class="pi">:</span> <span class="s">tensor_parallel</span>
   <span class="na">num_gpus</span><span class="pi">:</span> <span class="m">4</span>
+  <span class="na">device_ids</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">0</span><span class="pi">,</span> <span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">3</span><span class="pi">]</span>
 
 <span class="na">batching</span><span class="pi">:</span>
-  <span class="na">strategy</span><span class="pi">:</span> <span class="s">sorted_dynamic</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">sorted_dynamic</span>    <span class="c1"># MLPerf-aligned</span>
   <span class="na">max_batch_size</span><span class="pi">:</span> <span class="m">32</span>
+  <span class="na">token_budget</span><span class="pi">:</span> <span class="m">4096</span>
+
+<span class="na">traffic</span><span class="pi">:</span>
+  <span class="na">pattern</span><span class="pi">:</span> <span class="s">poisson</span>
+  <span class="na">qps</span><span class="pi">:</span> <span class="m">10.0</span>
+
+<span class="na">generation</span><span class="pi">:</span>
+  <span class="na">preset</span><span class="pi">:</span> <span class="s">deterministic</span>       <span class="c1"># or: standard, creative, factual</span>
+  <span class="na">max_new_tokens</span><span class="pi">:</span> <span class="m">256</span>
 </code></pre></div></div>
 
 <p>All configuration is <strong>Pydantic-validated</strong> at load time—invalid configs fail fast with clear error messages.</p>
 
+<hr />
+
 <h3 id="stage-2-distributed-execution">Stage 2: Distributed Execution</h3>
 
-<p>The runner orchestrates multi-GPU inference via HuggingFace Accelerate:</p>
+<p>The runner orchestrates multi-GPU inference via HuggingFace Accelerate with precise lifecycle management.</p>
 
-<ol>
-  <li><strong>Initialisation</strong> — Load model onto GPU(s), configure distributed backend, start CodeCarbon tracker</li>
-  <li><strong>Warm-up</strong> — Three dummy forward passes (discarded) to trigger lazy initialisations and stabilise GPU clocks</li>
-  <li><strong>Measurement</strong> — Iterate batches, generate tokens, record metrics continuously per process</li>
-  <li><strong>Collection</strong> — Stop trackers, gather per-GPU metrics, save raw results</li>
-</ol>
+<p><strong>Execution Flow:</strong></p>
 
-<p>Each GPU process tracks its own metrics independently—no cross-process aggregation during execution.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                          EXECUTION LIFECYCLE                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  1. INITIALISATION                                                          │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • Load model onto GPU(s) with specified sharding strategy                  │
+│  • Configure distributed backend (NCCL/Gloo)                                │
+│  • Initialise CodeCarbon energy tracker                                     │
+│  • Set up per-process metric collectors                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  2. WARM-UP (results discarded)                                             │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • 3 dummy forward passes                                                   │
+│  • Triggers CUDA lazy initialisations                                       │
+│  • Stabilises GPU clock frequencies                                         │
+│  • Populates KV cache                                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  3. MEASUREMENT                                                             │
+│  ───────────────────────────────────────────────────────────────────────    │
+│                                                                             │
+│    ┌─────────────────────────────────────────────────────────────────┐      │
+│    │  for each batch in dataloader:                                  │      │
+│    │      ┌──────────────────────────────────────────────────────┐   │      │
+│    │      │  barrier_sync()           # Synchronise all GPUs     │   │      │
+│    │      │  start_batch_timer()                                 │   │      │
+│    │      │  outputs = model.generate(batch, **gen_config)       │   │      │
+│    │      │  stop_batch_timer()                                  │   │      │
+│    │      │  record_tokens(outputs)   # Per-process counting     │   │      │
+│    │      │  record_memory()          # Peak GPU memory          │   │      │
+│    │      └──────────────────────────────────────────────────────┘   │      │
+│    └─────────────────────────────────────────────────────────────────┘      │
+│                                                                             │
+│  • Energy tracked continuously via CodeCarbon                               │
+│  • Each GPU process maintains independent metrics                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  4. COLLECTION                                                              │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • Stop CodeCarbon tracker                                                  │
+│  • Gather per-GPU metrics via distributed primitives                        │
+│  • Compute FLOPs (see estimation pipeline below)                            │
+│  • Save raw results to JSON (one file per GPU)                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
 
 <h3 id="stage-3-late-aggregation">Stage 3: Late Aggregation</h3>
 
-<p>The <strong>late aggregation pattern</strong> is central to the design philosophy: raw per-GPU results are preserved before any aggregation. This enables:</p>
+<p>The <strong>late aggregation pattern</strong> is central to the design philosophy: raw per-GPU results are preserved before any aggregation.</p>
 
-<ul>
-  <li><strong>Debugging</strong> — Identify which GPU had anomalous behaviour</li>
-  <li><strong>Flexible analysis</strong> — Aggregate differently for different research questions</li>
-  <li><strong>Reproducibility</strong> — Raw data always available for re-analysis</li>
-</ul>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                       LATE AGGREGATION PATTERN                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+    Raw Results (preserved)                    Aggregated Results
+    ─────────────────────────                  ─────────────────────────
+
+    ┌─────────────────────┐
+    │ gpu_0_results.json  │───┐
+    │ • energy: 0.0023 kWh│   │
+    │ • tokens: 1024      │   │
+    │ • memory: 12.4 GB   │   │
+    └─────────────────────┘   │
+                              │
+    ┌─────────────────────┐   │     ┌─────────────────────────────────┐
+    │ gpu_1_results.json  │───┼────▶│      experiment_summary.json    │
+    │ • energy: 0.0021 kWh│   │     │ ─────────────────────────────── │
+    │ • tokens: 1024      │   │     │ • total_energy: 0.0089 kWh      │
+    │ • memory: 11.8 GB   │   │     │ • total_tokens: 4096            │
+    └─────────────────────┘   │     │ • tokens_per_second: 142.3      │
+                              │     │ • energy_per_token: 2.17e-6 kWh │
+    ┌─────────────────────┐   │     │ • peak_memory: 12.4 GB          │
+    │ gpu_2_results.json  │───┤     │ • flops_per_token: 1.2e9        │
+    │ • energy: 0.0024 kWh│   │     └─────────────────────────────────┘
+    │ • tokens: 1024      │   │
+    │ • memory: 12.1 GB   │   │
+    └─────────────────────┘   │
+                              │
+    ┌─────────────────────┐   │
+    │ gpu_3_results.json  │───┘
+    │ • energy: 0.0021 kWh│
+    │ • tokens: 1024      │
+    │ • memory: 11.9 GB   │
+    └─────────────────────┘
+
+    Benefits:
+    ─────────
+    ✓ Debug anomalous GPU behaviour
+    ✓ Re-aggregate for different analyses
+    ✓ Full reproducibility from raw data
+    ✓ Identify load imbalances
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="metric-collection-architecture">Metric Collection Architecture</h3>
+
+<p>The tool collects three categories of metrics, each with multiple measurement sources.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                        METRIC COLLECTION                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────┐  ┌─────────────────────────┐  ┌─────────────────────────┐
+│        ENERGY           │  │       THROUGHPUT        │  │        COMPUTE          │
+│  ─────────────────────  │  │  ─────────────────────  │  │  ─────────────────────  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ GPU Energy (NVML) │  │  │  │ Tokens/second     │  │  │  │ FLOPs/token       │  │
+│  │ Per-device Joules │  │  │  │ End-to-end rate   │  │  │  │ (see pipeline)    │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ CPU Energy (RAPL) │  │  │  │ Latency/token     │  │  │  │ Peak GPU Memory   │  │
+│  │ Package + DRAM    │  │  │  │ Mean, P50, P99    │  │  │  │ Per-device max    │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ RAM Energy        │  │  │  │ Time to First     │  │  │  │ Device Util %     │  │
+│  │ System memory     │  │  │  │ Token (TTFT)      │  │  │  │ Compute + memory  │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │                         │
+│  │ CO₂ Emissions     │  │  │  │ Batch Throughput  │  │  │                         │
+│  │ Grid carbon int.  │  │  │  │ Requests/second   │  │  │                         │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │                         │
+│                         │  │                         │  │                         │
+└─────────────────────────┘  └─────────────────────────┘  └─────────────────────────┘
+
+        CodeCarbon                    Native timing              calflops + fallbacks
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="flops-estimation-pipeline">FLOPs Estimation Pipeline</h3>
+
+<p>FLOPs estimation uses a three-strategy fallback chain for robustness across different model architectures.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────────────┐
+│                      FLOPs ESTIMATION PIPELINE                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                    ┌─────────────────────────────────────┐
+                    │           Input: Model              │
+                    │  (architecture, params, seq_len)    │
+                    └──────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                    ┌─────────────────────────────────────┐
+                    │     Strategy 1: calflops            │
+                    │  ─────────────────────────────────  │
+                    │  • Traces actual computation graph  │
+                    │  • Most accurate for supported      │
+                    │    architectures                    │
+                    │  • Handles custom attention         │
+                    └──────────────────┬──────────────────┘
+                                       │
+                         ┌─────────────┴─────────────┐
+                         │                           │
+                    ✓ Success                   ✗ Failure
+                         │                           │
+                         ▼                           ▼
+              ┌─────────────────┐     ┌─────────────────────────────────────┐
+              │  Return FLOPs   │     │     Strategy 2: Analytical          │
+              └─────────────────┘     │  ─────────────────────────────────  │
+                                      │  • Architecture-specific formulas   │
+                                      │  • Transformer: 2 × params × tokens │
+                                      │  • Accounts for attention, FFN      │
+                                      └──────────────────┬──────────────────┘
+                                                         │
+                                           ┌─────────────┴─────────────┐
+                                           │                           │
+                                      ✓ Success                   ✗ Failure
+                                           │                           │
+                                           ▼                           ▼
+                                ┌─────────────────┐     ┌─────────────────────────────────────┐
+                                │  Return FLOPs   │     │     Strategy 3: Parameter-based     │
+                                └─────────────────┘     │  ─────────────────────────────────  │
+                                                        │  • Fallback: 2 × params × tokens    │
+                                                        │  • Works for any model              │
+                                                        │  • Less accurate but guaranteed     │
+                                                        └──────────────────┬──────────────────┘
+                                                                           │
+                                                                           ▼
+                                                                ┌─────────────────┐
+                                                                │  Return FLOPs   │
+                                                                └─────────────────┘
+</code></pre></div></div>
+
+<hr />
 
 <h3 id="code-structure">Code Structure</h3>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/llm_energy_measure/
-├── cli.py           # Typer-based CLI (experiment, config, results)
-├── config/          # YAML parsing, inheritance, presets
-├── core/            # Inference engine, metric collectors
-├── domain/          # Pydantic models for type-safe data flow
-├── orchestration/   # ExperimentOrchestrator, lifecycle management
-└── results/         # Persistence, retrieval, export
+├── cli.py              # Typer CLI: experiment, config, results subcommands
+├── config/
+│   ├── loader.py       # YAML parsing with _extends inheritance
+│   ├── validation.py   # Pydantic schemas and validation
+│   └── presets.py      # Decoder presets (deterministic, creative, etc.)
+├── core/
+│   ├── runner.py       # Distributed inference orchestration
+│   ├── energy.py       # CodeCarbon integration, energy backends
+│   ├── flops.py        # Three-strategy FLOPs estimation
+│   └── metrics.py      # Throughput and latency collectors
+├── domain/
+│   ├── config.py       # ExperimentConfig, ModelConfig, etc.
+│   ├── results.py      # InferenceResults, EnergyMetrics, etc.
+│   └── enums.py        # Precision, ShardingStrategy, BatchingMode
+├── orchestration/
+│   ├── orchestrator.py # ExperimentOrchestrator with DI
+│   ├── context.py      # ExperimentContext lifecycle management
+│   └── scheduler.py    # Daemon mode, interval/time-based scheduling
+└── results/
+    ├── persistence.py  # JSON/CSV save and load
+    ├── aggregation.py  # Late aggregation logic
+    └── export.py       # Result formatting and export
 </code></pre></div></div>
+
+<hr />
 
 <h3 id="multi-strategy-subsystems">Multi-Strategy Subsystems</h3>
 
-<p>Several components support pluggable strategies:</p>
+<p>Several components support pluggable strategies for flexible experimentation:</p>
 
 <table>
   <thead>
@@ -509,22 +770,27 @@
     <tr>
       <td><strong>Batching</strong></td>
       <td>static, dynamic, sorted, sorted_dynamic</td>
-      <td>MLPerf-aligned request aggregation</td>
+      <td>MLPerf-aligned request aggregation with optional token budgets</td>
     </tr>
     <tr>
       <td><strong>Traffic</strong></td>
       <td>constant, poisson</td>
-      <td>Simulate production load patterns</td>
+      <td>Simulate production load patterns at configurable QPS</td>
     </tr>
     <tr>
       <td><strong>Sharding</strong></td>
       <td>none, tensor_parallel, pipeline_parallel</td>
-      <td>Distribute model across GPUs</td>
+      <td>Distribute model layers across GPUs</td>
     </tr>
     <tr>
       <td><strong>FLOPs</strong></td>
       <td>calflops → analytical → parameter-based</td>
-      <td>Three-strategy fallback estimation</td>
+      <td>Three-strategy fallback for robust estimation</td>
+    </tr>
+    <tr>
+      <td><strong>Decoder</strong></td>
+      <td>deterministic, standard, creative, factual</td>
+      <td>Preset sampling configurations</td>
     </tr>
   </tbody>
 </table>
