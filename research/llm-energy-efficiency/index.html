@@ -205,6 +205,41 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
 
 <p><strong>The core insight:</strong> Two systems with the same theoretical compute requirement may exhibit markedly different energy profiles. Implementation-level factors—how models are deployed—can induce substantial variation in energy consumption, even when FLOPs counts remain constant.</p>
 
+<p>To illustrate: the same model, with identical FLOPs-per-token, can exhibit dramatically different energy profiles:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Configuration</th>
+      <th>FLOPs per Token</th>
+      <th>Energy per Token</th>
+      <th>Ratio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single GPU, batch=1, FP32</td>
+      <td>X</td>
+      <td>1.0× (baseline)</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Single GPU, batch=32, FP16</td>
+      <td>X</td>
+      <td>0.15×</td>
+      <td>6.7× more efficient</td>
+    </tr>
+    <tr>
+      <td>4 GPUs, batch=1, FP32</td>
+      <td>X</td>
+      <td>4.2×</td>
+      <td>4.2× <em>less</em> efficient</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Same model, same FLOPs, wildly different energy costs. <strong>How you deploy matters as much as what you deploy.</strong></p>
+
 <h3 id="why-this-matters-for-policy">Why This Matters for Policy</h3>
 
 <p>FLOP-counting narrows policy attention to immutable model attributes, conceptually restricting the scope of intervention to the moment of model selection. This framing overlooks downstream system-level implementation decisions and tradeoffs that shape the energy efficiency of real-world deployments. From a benchmarking perspective, the neglect of implementation-level variation translates to a lack of standardised test-time controls—creating opportunities for motivated actors to present artificially efficient performance metrics by testing under unrealistic configurations.</p>
@@ -571,7 +606,7 @@ Hertie School of Governance · Advisor: Prof. Lina Kaack · <strong>Data Science
 
 <h2 id="ongoing-development--future-directions">Ongoing Development &amp; Future Directions</h2>
 
-<p>The measurement tool developed for this research is being actively expanded. See the <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">llm-efficiency-measurement-tool</a> repository for the latest developments.</p>
+<p>The measurement tool developed for this research is being actively expanded. See the <a href="/software/llm-efficiency-tool/">tool documentation</a> for usage details and feature evolution, or the <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">GitHub repository</a> for the source code.</p>
 
 <p><strong>Current expansion areas:</strong></p>
 <ul>
