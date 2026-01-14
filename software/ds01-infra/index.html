@@ -603,6 +603,189 @@
 
 <hr />
 
+<h3 id="script-structure">Script Structure</h3>
+
+<p>The codebase follows a functional organisation matching the layer model.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                            SCRIPT STRUCTURE                                       │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+/opt/ds01-infra/
+├── scripts/
+│   ├── user/                    # Layer 2-4: User-facing commands
+│   │   ├── container-create     # L2: Create container with quota enforcement
+│   │   ├── container-start      # L2: Start existing container
+│   │   ├── container-stop       # L2: Stop container, release GPU
+│   │   ├── container-list       # L2: List user's containers
+│   │   ├── container-deploy     # L3: Orchestrated create + start + configure
+│   │   ├── container-retire     # L3: Orchestrated stop + cleanup
+│   │   ├── user-setup           # L4: Complete onboarding wizard
+│   │   └── project-init         # L4: Project scaffolding wizard
+│   │
+│   ├── docker/                  # Layer 1: AIME integration + GPU management
+│   │   ├── gpu_allocator.py     # GPU state management, MIG support
+│   │   ├── mlc-wrapper.sh       # AIME command wrapper with --image patch
+│   │   └── quota-check.sh       # Pre-flight resource validation
+│   │
+│   ├── admin/                   # Administrative utilities
+│   │   ├── add-user.sh          # Provision new user
+│   │   ├── remove-user.sh       # Deprovision user + cleanup
+│   │   └── audit-report.sh      # Generate usage reports
+│   │
+│   ├── monitoring/              # Observability
+│   │   ├── ds01-dashboard       # Real-time TUI dashboard
+│   │   └── prometheus-exporter  # Metrics for Grafana
+│   │
+│   ├── maintenance/             # Automated housekeeping
+│   │   ├── idle-cleanup.sh      # Stop idle containers (cron)
+│   │   ├── orphan-cleanup.sh    # Remove abandoned resources
+│   │   └── log-rotate.sh        # Rotate event logs
+│   │
+│   └── system/                  # One-time setup scripts
+│       ├── setup-resource-slices.sh  # Configure systemd cgroups
+│       └── deploy-commands.sh        # Symlink commands to PATH
+│
+├── config/
+│   ├── resource-limits.yaml    # Per-user/group quotas
+│   ├── gpu-config.yaml         # MIG partitioning, device mapping
+│   └── images.yaml             # Available ML images registry
+│
+└── lib/
+    ├── common.sh               # Shared shell functions
+    ├── logging.sh              # Structured event logging
+    └── validation.sh           # Input validation helpers
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="configuration-resolution">Configuration Resolution</h3>
+
+<p>Resource limits cascade from defaults through groups to user-specific overrides.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                        CONFIGURATION RESOLUTION                                   │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+                    ┌─────────────────────────────────────┐
+                    │         resource-limits.yaml        │
+                    └─────────────────────────────────────┘
+                                      │
+        ┌─────────────────────────────┼─────────────────────────────┐
+        │                             │                             │
+        ▼                             ▼                             ▼
+┌───────────────┐           ┌─────────────────┐           ┌─────────────────┐
+│   defaults:   │           │    groups:      │           │    users:       │
+│ ───────────── │           │ ─────────────── │           │ ─────────────── │
+│ gpu: 1        │           │ msc_students:   │           │ jane.researcher:│
+│ cpu: 8        │           │   gpu: 1        │           │   gpu: 4        │
+│ memory: 32G   │           │   runtime: 24h  │           │   runtime: 336h │
+│ runtime: 48h  │           │                 │           │                 │
+└───────┬───────┘           │ phd_students:   │           └────────┬────────┘
+        │                   │   gpu: 2        │                    │
+        │                   │   runtime: 168h │                    │
+        │                   └────────┬────────┘                    │
+        │                            │                             │
+        └────────────────────────────┼─────────────────────────────┘
+                                     │
+                                     ▼
+                    ┌─────────────────────────────────────┐
+                    │        Resolution Order:            │
+                    │  ─────────────────────────────────  │
+                    │                                     │
+                    │  1. Check users[username]           │
+                    │     └─▶ If found, use these values  │
+                    │                                     │
+                    │  2. Check groups[user's groups]     │
+                    │     └─▶ Merge matching group values │
+                    │                                     │
+                    │  3. Fall back to defaults           │
+                    │     └─▶ Fill any remaining fields   │
+                    │                                     │
+                    └─────────────────────────────────────┘
+                                     │
+                                     ▼
+                    ┌─────────────────────────────────────┐
+                    │     Example: alice (msc_student)    │
+                    │  ─────────────────────────────────  │
+                    │                                     │
+                    │  Resolved config:                   │
+                    │  • gpu_limit: 1      (from group)   │
+                    │  • cpu_limit: 8      (from default) │
+                    │  • memory: 32G       (from default) │
+                    │  • runtime: 24h      (from group)   │
+                    │                                     │
+                    └─────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="event-logging-architecture">Event Logging Architecture</h3>
+
+<p>All significant actions are logged to a structured event stream for auditing and debugging.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                          EVENT LOGGING FLOW                                       │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐
+│ container-create│  │ container-stop  │  │  gpu_allocator  │  │  idle-cleanup   │
+│                 │  │                 │  │                 │  │                 │
+│  User command   │  │  User command   │  │  Internal       │  │  Cron job       │
+└────────┬────────┘  └────────┬────────┘  └────────┬────────┘  └────────┬────────┘
+         │                    │                    │                    │
+         └────────────────────┼────────────────────┼────────────────────┘
+                              │                    │
+                              ▼                    ▼
+                    ┌─────────────────────────────────────┐
+                    │          lib/logging.sh             │
+                    │  ─────────────────────────────────  │
+                    │                                     │
+                    │  log_event() {                      │
+                    │    timestamp, user, action,         │
+                    │    resource, details, outcome       │
+                    │  }                                  │
+                    └─────────────────┬───────────────────┘
+                                      │
+                                      ▼
+                    ┌─────────────────────────────────────┐
+                    │   /var/log/ds01/events.jsonl        │
+                    │  ─────────────────────────────────  │
+                    │                                     │
+                    │  {"ts":"2026-01-14T10:23:45Z",      │
+                    │   "user":"alice",                   │
+                    │   "action":"container.create",      │
+                    │   "resource":"pytorch-dev._.alice", │
+                    │   "gpu":"0",                        │
+                    │   "outcome":"success"}              │
+                    │                                     │
+                    │  {"ts":"2026-01-14T10:24:01Z",      │
+                    │   "user":"bob",                     │
+                    │   "action":"gpu.allocate",          │
+                    │   "resource":"gpu:1",               │
+                    │   "outcome":"success"}              │
+                    │                                     │
+                    │  {"ts":"2026-01-14T11:00:00Z",      │
+                    │   "user":"system",                  │
+                    │   "action":"cleanup.idle",          │
+                    │   "resource":"old-job._.charlie",   │
+                    │   "outcome":"stopped"}              │
+                    │                                     │
+                    └─────────────────┬───────────────────┘
+                                      │
+                    ┌─────────────────┼─────────────────┐
+                    │                 │                 │
+                    ▼                 ▼                 ▼
+           ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+           │ Admin audit  │  │   Grafana    │  │ Debugging    │
+           │ reports      │  │  dashboards  │  │ &amp; forensics  │
+           └──────────────┘  └──────────────┘  └──────────────┘
+</code></pre></div></div>
+
+<p><strong>Log retention:</strong> Events are rotated weekly with 4-week retention. Sensitive fields (tokens, passwords) are never logged.</p>
+
+<hr />
+
 <h2 id="key-features">Key Features</h2>
 
 <h3 id="resource-management">Resource Management</h3>
