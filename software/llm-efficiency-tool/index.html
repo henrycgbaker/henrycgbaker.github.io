@@ -241,84 +241,98 @@
 
 <div style="max-height: 500px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; margin: 16px 0;">
 
-### v2.0.0 — Architectural Refactor (January 2026)
+  <h3 id="v200--architectural-refactor-january-2026">v2.0.0 — Architectural Refactor (January 2026)</h3>
 
-Ground-up rewrite with modern patterns:
+  <p>Ground-up rewrite with modern patterns:</p>
 
-- **Dependency injection** throughout the codebase
-- **Late aggregation pattern** — raw per-GPU results preserved before aggregation
-- **Pydantic validation** for all configuration and results
-- **Batching strategies** — four MLPerf-aligned modes: static, dynamic, sorted, sorted_dynamic with optional token budgets
-- **Traffic simulation** — constant or Poisson arrival patterns with configurable QPS for production-like load testing
-- **Decoder presets** — deterministic, standard, creative, factual modes plus fine-grained sampling control
-- **Multi-cycle experiments** — run 1-10 repetitions for statistical robustness
-- **Scheduled execution** — daemon mode with interval-based or time-of-day scheduling
-- **Proper parallelism** — tensor parallel and pipeline parallel sharding replacing naive device mapping
+  <ul>
+    <li><strong>Dependency injection</strong> throughout the codebase</li>
+    <li><strong>Late aggregation pattern</strong> — raw per-GPU results preserved before aggregation</li>
+    <li><strong>Pydantic validation</strong> for all configuration and results</li>
+    <li><strong>Batching strategies</strong> — four MLPerf-aligned modes: static, dynamic, sorted, sorted_dynamic with optional token budgets</li>
+    <li><strong>Traffic simulation</strong> — constant or Poisson arrival patterns with configurable QPS for production-like load testing</li>
+    <li><strong>Decoder presets</strong> — deterministic, standard, creative, factual modes plus fine-grained sampling control</li>
+    <li><strong>Multi-cycle experiments</strong> — run 1-10 repetitions for statistical robustness</li>
+    <li><strong>Scheduled execution</strong> — daemon mode with interval-based or time-of-day scheduling</li>
+    <li><strong>Proper parallelism</strong> — tensor parallel and pipeline parallel sharding replacing naive device mapping</li>
+  </ul>
 
----
+  <hr />
 
-### v1.16.0 — Production Containerisation (January 2026)
+  <h3 id="v1160--production-containerisation-january-2026">v1.16.0 — Production Containerisation (January 2026)</h3>
 
-Deployment-focused release:
+  <p>Deployment-focused release:</p>
 
-- **Multi-stage Dockerfile** for minimal production images
-- **Docker Compose profiles** for production and development workflows
-- **VS Code devcontainer** configuration with GPU passthrough
-- **Makefile targets** for common operations
-- **CUDA compatibility fixes** for multi-GPU environments
+  <ul>
+    <li><strong>Multi-stage Dockerfile</strong> for minimal production images</li>
+    <li><strong>Docker Compose profiles</strong> for production and development workflows</li>
+    <li><strong>VS Code devcontainer</strong> configuration with GPU passthrough</li>
+    <li><strong>Makefile targets</strong> for common operations</li>
+    <li><strong>CUDA compatibility fixes</strong> for multi-GPU environments</li>
+  </ul>
 
----
+  <hr />
 
-### v1.15.0 — Test Coverage &amp; Quality (December 2025)
+  <h3 id="v1150--test-coverage--quality-december-2025">v1.15.0 — Test Coverage &amp; Quality (December 2025)</h3>
 
-Quality assurance milestone:
+  <p>Quality assurance milestone:</p>
 
-- **416 passing tests** including 8 end-to-end CLI tests and 47 integration tests
-- **Methodology documentation** covering energy tracking via CodeCarbon, FLOPs estimation strategies, and distributed GPU result aggregation
+  <ul>
+    <li><strong>416 passing tests</strong> including 8 end-to-end CLI tests and 47 integration tests</li>
+    <li><strong>Methodology documentation</strong> covering energy tracking via CodeCarbon, FLOPs estimation strategies, and distributed GPU result aggregation</li>
+  </ul>
 
----
+  <hr />
 
-### v1.13.0 — CLI &amp; Experiment Orchestration (December 2025)
+  <h3 id="v1130--cli--experiment-orchestration-december-2025">v1.13.0 — CLI &amp; Experiment Orchestration (December 2025)</h3>
 
-User-friendly command-line interface:
+  <p>User-friendly command-line interface:</p>
 
-- **Typer-based CLI** with subcommands for experiment, config, and results management
-- **ExperimentOrchestrator** with dependency injection
-- **ExperimentContext** for managing experiment lifecycle
+  <ul>
+    <li><strong>Typer-based CLI</strong> with subcommands for experiment, config, and results management</li>
+    <li><strong>ExperimentOrchestrator</strong> with dependency injection</li>
+    <li><strong>ExperimentContext</strong> for managing experiment lifecycle</li>
+  </ul>
 
----
+  <hr />
 
-### v1.10.0 — Package Rename &amp; Architecture (December 2025)
+  <h3 id="v1100--package-rename--architecture-december-2025">v1.10.0 — Package Rename &amp; Architecture (December 2025)</h3>
 
-Major refactoring establishing the modern codebase:
+  <p>Major refactoring establishing the modern codebase:</p>
 
-- **Renamed** from `llm-bench` → `llm-energy-measure`
-- **Energy backend plugin registry** for extensible measurement backends
-- **FlopsEstimator** with three-strategy fallback (calflops → analytical → parameter-based)
-- **Results aggregation** with verification checks
-- **Pydantic domain models** for type-safe configuration and results
+  <ul>
+    <li><strong>Renamed</strong> from <code class="language-plaintext highlighter-rouge">llm-bench</code> → <code class="language-plaintext highlighter-rouge">llm-energy-measure</code></li>
+    <li><strong>Energy backend plugin registry</strong> for extensible measurement backends</li>
+    <li><strong>FlopsEstimator</strong> with three-strategy fallback (calflops → analytical → parameter-based)</li>
+    <li><strong>Results aggregation</strong> with verification checks</li>
+    <li><strong>Pydantic domain models</strong> for type-safe configuration and results</li>
+  </ul>
 
----
+  <hr />
 
-### v1.0.0 — Research Phase Complete (December 2025)
+  <h3 id="v100--research-phase-complete-december-2025">v1.0.0 — Research Phase Complete (December 2025)</h3>
 
-Stable multi-model benchmarking validated on production hardware (4× A100-40GB):
+  <p>Stable multi-model benchmarking validated on production hardware (4× A100-40GB):</p>
 
-- **Scenario-based YAML configuration** with inheritance support
-- **CSV export** for downstream analysis
-- **Failed experiment detection** and recovery
-- **Large model stability** improvements for 7B+ parameter models
+  <ul>
+    <li><strong>Scenario-based YAML configuration</strong> with inheritance support</li>
+    <li><strong>CSV export</strong> for downstream analysis</li>
+    <li><strong>Failed experiment detection</strong> and recovery</li>
+    <li><strong>Large model stability</strong> improvements for 7B+ parameter models</li>
+  </ul>
 
----
+  <hr />
 
-### v0.5.0 — Core Measurement (March 2025)
+  <h3 id="v050--core-measurement-march-2025">v0.5.0 — Core Measurement (March 2025)</h3>
 
-Foundation release establishing the measurement pipeline:
+  <p>Foundation release establishing the measurement pipeline:</p>
 
-- **Distributed results aggregation** across multiple GPUs
-- **FLOPs calculation** with quantisation awareness
-- **Robust process cleanup** for reliable benchmarking
-- **Optimum benchmark integration** for standardised evaluation
+  <ul>
+    <li><strong>Distributed results aggregation</strong> across multiple GPUs</li>
+    <li><strong>FLOPs calculation</strong> with quantisation awareness</li>
+    <li><strong>Robust process cleanup</strong> for reliable benchmarking</li>
+    <li><strong>Optimum benchmark integration</strong> for standardised evaluation</li>
+  </ul>
 
 </div>
 
