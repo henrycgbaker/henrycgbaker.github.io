@@ -618,4 +618,22 @@ footer {
   font-family: monospace;
 }
 
+/* Override remote theme constraints */
+pre {
+  max-width: 100% !important;
+  width: 100% !important;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre {
+    background: #2d2d3a;
+    border-color: #404050;
+  }
+  code, pre {
+    color: #e0e0e0;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
