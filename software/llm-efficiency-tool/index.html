@@ -175,11 +175,17 @@
 
 <p>A Python framework for measuring what actually matters when deploying large language models. Deployment choices—parallelism, batching, precision—can induce <strong>50×+ variation</strong> in energy-per-token for the same model. This tool quantifies it.</p>
 
-<p><a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">GitHub Repository</a> · <a href="/research/llm-energy-efficiency/">Research Findings</a> · <a href="#quick-start">Quick Start</a></p>
+<p><a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">GitHub Repository</a> · <a href="/research/llm-energy-efficiency/">Research Findings</a></p>
 
 <hr />
 
-<h2 id="what-it-measures">What It Measures</h2>
+<p><strong>Contents:</strong> <a href="#overview">Overview</a> · <a href="#quick-start">Quick Start</a> · <a href="#feature-evolution">Feature Evolution</a> · <a href="#configuration">Configuration</a> · <a href="#architecture">Architecture</a> · <a href="#citation">Citation</a></p>
+
+<hr />
+
+<h2 id="overview">Overview</h2>
+
+<h3 id="what-it-measures">What It Measures</h3>
 
 <table>
   <thead>
@@ -204,187 +210,117 @@
   </tbody>
 </table>
 
+<h3 id="key-capabilities">Key Capabilities</h3>
+
+<ul>
+  <li><strong>Multi-GPU distributed inference</strong> via HuggingFace Accelerate with tensor and pipeline parallelism</li>
+  <li><strong>YAML configuration</strong> with inheritance for clean experiment management</li>
+  <li><strong>Late aggregation pattern</strong> preserving raw per-GPU results for flexible analysis</li>
+  <li><strong>Built-in datasets</strong>: Alpaca, ShareGPT, GSM8k, MMLU, WikiText, FineWeb-Edu (plus any HuggingFace dataset)</li>
+  <li><strong>Production deployment</strong> via Docker, Docker Compose, or VS Code devcontainer</li>
+</ul>
+
+<hr />
+
+<h2 id="quick-start">Quick Start</h2>
+
+<ol>
+  <li><strong>Clone and install</strong> the repository using pip or Poetry</li>
+  <li><strong>Create a YAML config</strong> specifying model, precision, batch size, and dataset</li>
+  <li><strong>Run an experiment</strong> with <code class="language-plaintext highlighter-rouge">llm-energy-measure experiment &lt;config.yaml&gt;</code></li>
+  <li><strong>View results</strong> with <code class="language-plaintext highlighter-rouge">llm-energy-measure results show &lt;experiment_id&gt;</code></li>
+</ol>
+
+<p>The CLI supports grid searches over precision, batch size, and parallelism for systematic deployment analysis. Any HuggingFace model works out of the box.</p>
+
+<p>See the <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">GitHub README</a> for detailed installation and usage instructions.</p>
+
 <hr />
 
 <h2 id="feature-evolution">Feature Evolution</h2>
 
-<h3 id="v050--core-measurement-march-2025">v0.5.0 — Core Measurement (March 2025)</h3>
+<div style="max-height: 500px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; margin: 16px 0;">
 
-<p>Foundation release establishing the measurement pipeline:</p>
+### v2.0.0 — Architectural Refactor (January 2026)
 
-<ul>
-  <li><strong>Distributed results aggregation</strong> across multiple GPUs</li>
-  <li><strong>FLOPs calculation</strong> with quantisation awareness</li>
-  <li><strong>Robust process cleanup</strong> for reliable benchmarking</li>
-  <li><strong>Optimum benchmark integration</strong> for standardised evaluation</li>
-</ul>
+Ground-up rewrite with modern patterns:
 
-<hr />
+- **Dependency injection** throughout the codebase
+- **Late aggregation pattern** — raw per-GPU results preserved before aggregation
+- **Pydantic validation** for all configuration and results
+- **Batching strategies** — four MLPerf-aligned modes: static, dynamic, sorted, sorted_dynamic with optional token budgets
+- **Traffic simulation** — constant or Poisson arrival patterns with configurable QPS for production-like load testing
+- **Decoder presets** — deterministic, standard, creative, factual modes plus fine-grained sampling control
+- **Multi-cycle experiments** — run 1-10 repetitions for statistical robustness
+- **Scheduled execution** — daemon mode with interval-based or time-of-day scheduling
+- **Proper parallelism** — tensor parallel and pipeline parallel sharding replacing naive device mapping
 
-<h3 id="v100--research-phase-complete-december-2025">v1.0.0 — Research Phase Complete (December 2025)</h3>
+---
 
-<p>Stable multi-model benchmarking validated on production hardware (4× A100-40GB):</p>
+### v1.16.0 — Production Containerisation (January 2026)
 
-<ul>
-  <li><strong>Scenario-based YAML configuration</strong> with inheritance support</li>
-  <li><strong>CSV export</strong> for downstream analysis</li>
-  <li><strong>Failed experiment detection</strong> and recovery</li>
-  <li><strong>Large model stability</strong> improvements for 7B+ parameter models</li>
-</ul>
+Deployment-focused release:
 
-<hr />
+- **Multi-stage Dockerfile** for minimal production images
+- **Docker Compose profiles** for production and development workflows
+- **VS Code devcontainer** configuration with GPU passthrough
+- **Makefile targets** for common operations
+- **CUDA compatibility fixes** for multi-GPU environments
 
-<h3 id="v1100--package-rename--architecture-december-2025">v1.10.0 — Package Rename &amp; Architecture (December 2025)</h3>
+---
 
-<p>Major refactoring establishing the modern codebase:</p>
+### v1.15.0 — Test Coverage &amp; Quality (December 2025)
 
-<ul>
-  <li><strong>Renamed</strong> from <code class="language-plaintext highlighter-rouge">llm-bench</code> → <code class="language-plaintext highlighter-rouge">llm-energy-measure</code></li>
-  <li><strong>Energy backend plugin registry</strong> for extensible measurement backends</li>
-  <li><strong>FlopsEstimator</strong> with three-strategy fallback (calflops → analytical → parameter-based)</li>
-  <li><strong>Results aggregation</strong> with verification checks and late aggregation pattern</li>
-  <li><strong>Pydantic domain models</strong> for type-safe configuration and results</li>
-</ul>
+Quality assurance milestone:
 
-<hr />
+- **416 passing tests** including 8 end-to-end CLI tests and 47 integration tests
+- **Methodology documentation** covering energy tracking via CodeCarbon, FLOPs estimation strategies, and distributed GPU result aggregation
 
-<h3 id="v1130--cli--experiment-orchestration-december-2025">v1.13.0 — CLI &amp; Experiment Orchestration (December 2025)</h3>
+---
 
-<p>User-friendly command-line interface replacing legacy entry points:</p>
+### v1.13.0 — CLI &amp; Experiment Orchestration (December 2025)
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Run an experiment</span>
-llm-energy-measure experiment configs/llama-3b.yaml <span class="se">\</span>
-  <span class="nt">--dataset</span> HuggingFaceFW/fineweb-edu <span class="se">\</span>
-  <span class="nt">-n</span> 128
+User-friendly command-line interface:
 
-<span class="c"># View results</span>
-llm-energy-measure results show exp_20250114_143022
+- **Typer-based CLI** with subcommands for experiment, config, and results management
+- **ExperimentOrchestrator** with dependency injection
+- **ExperimentContext** for managing experiment lifecycle
 
-<span class="c"># List all experiments</span>
-llm-energy-measure results list
-</code></pre></div></div>
+---
 
-<ul>
-  <li><strong>Typer-based CLI</strong> with subcommands for experiment, config, and results</li>
-  <li><strong>ExperimentOrchestrator</strong> with dependency injection</li>
-  <li><strong>ExperimentContext</strong> for managing experiment lifecycle</li>
-</ul>
+### v1.10.0 — Package Rename &amp; Architecture (December 2025)
 
-<hr />
+Major refactoring establishing the modern codebase:
 
-<h3 id="v1150--test-coverage--quality-december-2025">v1.15.0 — Test Coverage &amp; Quality (December 2025)</h3>
+- **Renamed** from `llm-bench` → `llm-energy-measure`
+- **Energy backend plugin registry** for extensible measurement backends
+- **FlopsEstimator** with three-strategy fallback (calflops → analytical → parameter-based)
+- **Results aggregation** with verification checks
+- **Pydantic domain models** for type-safe configuration and results
 
-<p>Quality assurance milestone:</p>
+---
 
-<ul>
-  <li><strong>416 passing tests</strong> including 8 end-to-end CLI tests and 47 integration tests</li>
-  <li><strong>Methodology documentation</strong> explaining:
-    <ul>
-      <li>Energy tracking via CodeCarbon (±10-15% accuracy)</li>
-      <li>FLOPs estimation strategies and fallbacks</li>
-      <li>Distributed GPU result aggregation logic</li>
-    </ul>
-  </li>
-</ul>
+### v1.0.0 — Research Phase Complete (December 2025)
 
-<hr />
+Stable multi-model benchmarking validated on production hardware (4× A100-40GB):
 
-<h3 id="v1160--production-containerisation-january-2026">v1.16.0 — Production Containerisation (January 2026)</h3>
+- **Scenario-based YAML configuration** with inheritance support
+- **CSV export** for downstream analysis
+- **Failed experiment detection** and recovery
+- **Large model stability** improvements for 7B+ parameter models
 
-<p>Deployment-focused release:</p>
+---
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Production</span>
-docker build <span class="nt">-t</span> llm-energy-measure <span class="nb">.</span>
-docker run <span class="nt">--gpus</span> all llm-energy-measure experiment config.yaml
+### v0.5.0 — Core Measurement (March 2025)
 
-<span class="c"># Development with mounted source</span>
-docker-compose <span class="nt">-f</span> docker-compose.dev.yml up
-</code></pre></div></div>
+Foundation release establishing the measurement pipeline:
 
-<ul>
-  <li><strong>Multi-stage Dockerfile</strong> for minimal production images</li>
-  <li><strong>Docker Compose profiles</strong> for production and development workflows</li>
-  <li><strong>VS Code devcontainer</strong> configuration with GPU passthrough</li>
-  <li><strong>Makefile targets</strong> for common operations</li>
-  <li><strong>CUDA compatibility fixes</strong> for multi-GPU environments</li>
-</ul>
+- **Distributed results aggregation** across multiple GPUs
+- **FLOPs calculation** with quantisation awareness
+- **Robust process cleanup** for reliable benchmarking
+- **Optimum benchmark integration** for standardised evaluation
 
-<hr />
-
-<h3 id="v200--architectural-refactor-january-2026">v2.0.0 — Architectural Refactor (January 2026)</h3>
-
-<p>Ground-up rewrite with modern patterns:</p>
-
-<p><strong>Core Architecture</strong></p>
-<ul>
-  <li>Dependency injection throughout</li>
-  <li>Late aggregation pattern (raw per-GPU results preserved before aggregation)</li>
-  <li>Pydantic validation for all configuration and results</li>
-</ul>
-
-<p><strong>Batching Strategies</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">batching</span><span class="pi">:</span>
-  <span class="na">strategy</span><span class="pi">:</span> <span class="s">dynamic</span>      <span class="c1"># static | dynamic | sorted | sorted_dynamic</span>
-  <span class="na">batch_size</span><span class="pi">:</span> <span class="m">32</span>
-  <span class="na">token_budget</span><span class="pi">:</span> <span class="m">4096</span>     <span class="c1"># optional: max tokens per batch</span>
-</code></pre></div></div>
-
-<p>Four MLPerf-aligned strategies:</p>
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">static</code>: Fixed batch size</li>
-  <li><code class="language-plaintext highlighter-rouge">dynamic</code>: Adjusts based on sequence length</li>
-  <li><code class="language-plaintext highlighter-rouge">sorted</code>: Sorts by length for padding efficiency</li>
-  <li><code class="language-plaintext highlighter-rouge">sorted_dynamic</code>: Combines sorting with dynamic sizing</li>
-</ul>
-
-<p><strong>Traffic Simulation</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">traffic</span><span class="pi">:</span>
-  <span class="na">pattern</span><span class="pi">:</span> <span class="s">poisson</span>       <span class="c1"># constant | poisson</span>
-  <span class="na">qps</span><span class="pi">:</span> <span class="m">10</span>               <span class="c1"># queries per second</span>
-  <span class="na">duration</span><span class="pi">:</span> <span class="m">60</span>          <span class="c1"># seconds</span>
-</code></pre></div></div>
-
-<p>Simulate realistic load patterns for production-like benchmarking.</p>
-
-<p><strong>Decoder Presets</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">generation</span><span class="pi">:</span>
-  <span class="na">preset</span><span class="pi">:</span> <span class="s">standard</span>       <span class="c1"># deterministic | standard | creative | factual</span>
-  <span class="c1"># or fine-grained control:</span>
-  <span class="na">temperature</span><span class="pi">:</span> <span class="m">0.7</span>
-  <span class="na">top_p</span><span class="pi">:</span> <span class="m">0.9</span>
-  <span class="na">top_k</span><span class="pi">:</span> <span class="m">50</span>
-  <span class="na">min_p</span><span class="pi">:</span> <span class="m">0.05</span>
-  <span class="na">repetition_penalty</span><span class="pi">:</span> <span class="m">1.1</span>
-</code></pre></div></div>
-
-<p><strong>Multi-Cycle Experiments</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">experiment</span><span class="pi">:</span>
-  <span class="na">cycles</span><span class="pi">:</span> <span class="m">5</span>             <span class="c1"># run 1-10 times for statistical robustness</span>
-</code></pre></div></div>
-
-<p><strong>Scheduled Execution</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">schedule</span><span class="pi">:</span>
-  <span class="na">mode</span><span class="pi">:</span> <span class="s">daemon</span>
-  <span class="na">interval</span><span class="pi">:</span> <span class="m">3600</span>        <span class="c1"># every hour</span>
-  <span class="c1"># or time-of-day:</span>
-  <span class="na">times</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">02:00"</span><span class="pi">,</span> <span class="s2">"</span><span class="s">14:00"</span><span class="pi">]</span>
-</code></pre></div></div>
-
-<p><strong>Parallelism Options</strong></p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">hardware</span><span class="pi">:</span>
-  <span class="na">devices</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">0</span><span class="pi">,</span> <span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">3</span><span class="pi">]</span>
-  <span class="na">sharding</span><span class="pi">:</span> <span class="s">tensor_parallel</span>  <span class="c1"># tensor_parallel | pipeline_parallel | none</span>
-</code></pre></div></div>
-
-<p>Proper tensor and pipeline parallelism replacing naive device mapping.</p>
-
-<hr />
+</div>
 
 <h3 id="roadmap">Roadmap</h3>
 
@@ -400,80 +336,7 @@ docker-compose <span class="nt">-f</span> docker-compose.dev.yml up
 
 <hr />
 
-<h2 id="quick-start">Quick Start</h2>
-
-<h3 id="minimal-example">Minimal Example</h3>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Clone and install</span>
-git clone https://github.com/henrycgbaker/llm-efficiency-measurement-tool
-<span class="nb">cd </span>llm-efficiency-measurement-tool
-pip <span class="nb">install</span> <span class="nt">-e</span> <span class="nb">.</span>
-
-<span class="c"># Run with default config</span>
-llm-energy-measure experiment configs/quick_test.yaml
-</code></pre></div></div>
-
-<h3 id="grid-search">Grid Search</h3>
-
-<p>For systematic deployment analysis:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># configs/grid_search.yaml</span>
-<span class="na">sweep</span><span class="pi">:</span>
-  <span class="na">precision</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">float32</span><span class="pi">,</span> <span class="nv">float16</span><span class="pi">,</span> <span class="nv">bfloat16</span><span class="pi">]</span>
-  <span class="na">batch_size</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">1</span><span class="pi">,</span> <span class="nv">8</span><span class="pi">,</span> <span class="nv">32</span><span class="pi">]</span>
-  <span class="na">num_processes</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">4</span><span class="pi">]</span>
-</code></pre></div></div>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>llm-energy-measure experiment configs/grid_search.yaml <span class="nt">--sweep</span>
-</code></pre></div></div>
-
-<h3 id="custom-models">Custom Models</h3>
-
-<p>Any HuggingFace model works:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">model</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">mistralai/Mistral-7B-v0.1</span>
-  <span class="na">precision</span><span class="pi">:</span> <span class="s">float16</span>
-  <span class="na">quantization</span><span class="pi">:</span> <span class="s">8bit</span>  <span class="c1"># null | 4bit | 8bit</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="configuration-reference">Configuration Reference</h2>
-
-<h3 id="full-example">Full Example</h3>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># configs/experiment.yaml</span>
-<span class="na">_extends</span><span class="pi">:</span> <span class="s">configs/base.yaml</span>
-
-<span class="na">model</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">meta-llama/Llama-3.2-3B</span>
-  <span class="na">precision</span><span class="pi">:</span> <span class="s">float16</span>
-  <span class="na">quantization</span><span class="pi">:</span> <span class="kc">null</span>
-
-<span class="na">generation</span><span class="pi">:</span>
-  <span class="na">preset</span><span class="pi">:</span> <span class="s">standard</span>
-  <span class="na">max_input_tokens</span><span class="pi">:</span> <span class="m">500</span>
-  <span class="na">max_output_tokens</span><span class="pi">:</span> <span class="m">500</span>
-
-<span class="na">batching</span><span class="pi">:</span>
-  <span class="na">strategy</span><span class="pi">:</span> <span class="s">dynamic</span>
-  <span class="na">batch_size</span><span class="pi">:</span> <span class="m">32</span>
-
-<span class="na">hardware</span><span class="pi">:</span>
-  <span class="na">devices</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">0</span><span class="pi">,</span> <span class="nv">1</span><span class="pi">]</span>
-  <span class="na">sharding</span><span class="pi">:</span> <span class="s">tensor_parallel</span>
-
-<span class="na">data</span><span class="pi">:</span>
-  <span class="na">dataset</span><span class="pi">:</span> <span class="s">HuggingFaceFW/fineweb-edu</span>
-  <span class="na">split</span><span class="pi">:</span> <span class="s">train</span>
-  <span class="na">text_column</span><span class="pi">:</span> <span class="s">text</span>
-  <span class="na">num_samples</span><span class="pi">:</span> <span class="m">128</span>
-
-<span class="na">experiment</span><span class="pi">:</span>
-  <span class="na">cycles</span><span class="pi">:</span> <span class="m">3</span>
-  <span class="na">seed</span><span class="pi">:</span> <span class="m">42</span>
-</code></pre></div></div>
+<h2 id="configuration">Configuration</h2>
 
 <h3 id="key-parameters">Key Parameters</h3>
 
@@ -489,173 +352,61 @@ llm-energy-measure experiment configs/quick_test.yaml
     <tr>
       <td><strong>Precision</strong></td>
       <td><code class="language-plaintext highlighter-rouge">model.precision</code></td>
-      <td><code class="language-plaintext highlighter-rouge">float32</code>, <code class="language-plaintext highlighter-rouge">float16</code>, <code class="language-plaintext highlighter-rouge">bfloat16</code></td>
+      <td>float32, float16, bfloat16</td>
     </tr>
     <tr>
       <td><strong>Quantisation</strong></td>
       <td><code class="language-plaintext highlighter-rouge">model.quantization</code></td>
-      <td><code class="language-plaintext highlighter-rouge">null</code>, <code class="language-plaintext highlighter-rouge">4bit</code>, <code class="language-plaintext highlighter-rouge">8bit</code></td>
+      <td>null, 4bit, 8bit</td>
     </tr>
     <tr>
       <td><strong>Batching</strong></td>
       <td><code class="language-plaintext highlighter-rouge">batching.strategy</code></td>
-      <td><code class="language-plaintext highlighter-rouge">static</code>, <code class="language-plaintext highlighter-rouge">dynamic</code>, <code class="language-plaintext highlighter-rouge">sorted</code>, <code class="language-plaintext highlighter-rouge">sorted_dynamic</code></td>
+      <td>static, dynamic, sorted, sorted_dynamic</td>
     </tr>
     <tr>
       <td><strong>Parallelism</strong></td>
       <td><code class="language-plaintext highlighter-rouge">hardware.sharding</code></td>
-      <td><code class="language-plaintext highlighter-rouge">tensor_parallel</code>, <code class="language-plaintext highlighter-rouge">pipeline_parallel</code>, <code class="language-plaintext highlighter-rouge">none</code></td>
+      <td>tensor_parallel, pipeline_parallel, none</td>
     </tr>
     <tr>
       <td><strong>Traffic</strong></td>
       <td><code class="language-plaintext highlighter-rouge">traffic.pattern</code></td>
-      <td><code class="language-plaintext highlighter-rouge">constant</code>, <code class="language-plaintext highlighter-rouge">poisson</code></td>
+      <td>constant, poisson</td>
     </tr>
     <tr>
       <td><strong>Decoder</strong></td>
       <td><code class="language-plaintext highlighter-rouge">generation.preset</code></td>
-      <td><code class="language-plaintext highlighter-rouge">deterministic</code>, <code class="language-plaintext highlighter-rouge">standard</code>, <code class="language-plaintext highlighter-rouge">creative</code>, <code class="language-plaintext highlighter-rouge">factual</code></td>
+      <td>deterministic, standard, creative, factual</td>
     </tr>
   </tbody>
 </table>
+
+<p>Configs use YAML with an <code class="language-plaintext highlighter-rouge">_extends</code> directive for inheritance—override only what changes across experiments.</p>
 
 <hr />
 
 <h2 id="architecture">Architecture</h2>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────┐    ┌──────────────────────┐    ┌──────────────────┐
-│   Config     │───▶│  Distributed Runner  │───▶│  Late Aggregation│
-│   (YAML)     │    │  (HF Accelerate)     │    │  (on-demand)     │
-└──────────────┘    └──────────────────────┘    └──────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-         ┌────────┐     ┌────────┐     ┌────────┐
-         │ GPU 0  │     │ GPU 1  │     │ GPU 2  │
-         │ Energy │     │ Energy │     │ Energy │
-         │ Tokens │     │ Tokens │     │ Tokens │
-         │ Memory │     │ Memory │     │ Memory │
-         └────────┘     └────────┘     └────────┘
-              │               │               │
-              └───────────────┴───────────────┘
-                              │
-                              ▼
-                     ┌────────────────┐
-                     │  Raw Results   │
-                     │  (per-process) │
-                     └────────────────┘
-</code></pre></div></div>
+<p>The tool uses a three-stage pipeline:</p>
 
-<p><strong>Late Aggregation</strong>: Raw per-GPU results are preserved before aggregation, enabling:</p>
-<ul>
-  <li>Per-GPU metric inspection for debugging</li>
-  <li>Flexible aggregation strategies (mean, sum, max)</li>
-  <li>Reproducible raw data for reanalysis</li>
-</ul>
+<ol>
+  <li><strong>Configuration (YAML)</strong> — Hierarchical config with inheritance and Pydantic validation</li>
+  <li><strong>Distributed Runner (HF Accelerate)</strong> — Multi-GPU execution with per-process metric tracking</li>
+  <li><strong>Late Aggregation</strong> — Raw per-GPU results preserved before aggregation for debugging and flexible analysis</li>
+</ol>
 
-<hr />
-
-<h2 id="built-in-datasets">Built-in Datasets</h2>
-
-<table>
-  <thead>
-    <tr>
-      <th>Dataset</th>
-      <th>Purpose</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Alpaca</strong></td>
-      <td>Instruction following</td>
-    </tr>
-    <tr>
-      <td><strong>ShareGPT</strong></td>
-      <td>Conversational</td>
-    </tr>
-    <tr>
-      <td><strong>GSM8k</strong></td>
-      <td>Mathematical reasoning</td>
-    </tr>
-    <tr>
-      <td><strong>MMLU</strong></td>
-      <td>General knowledge</td>
-    </tr>
-    <tr>
-      <td><strong>WikiText</strong></td>
-      <td>Language modelling</td>
-    </tr>
-    <tr>
-      <td><strong>FineWeb-Edu</strong></td>
-      <td>Educational text</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Custom datasets via HuggingFace Hub:</p>
-
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">data</span><span class="pi">:</span>
-  <span class="na">dataset</span><span class="pi">:</span> <span class="s">your-org/your-dataset</span>
-  <span class="na">text_column</span><span class="pi">:</span> <span class="s">content</span>
-</code></pre></div></div>
-
-<hr />
-
-<h2 id="example-output">Example Output</h2>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>══════════════════════════════════════════════════════════════
-  LLM EFFICIENCY MEASUREMENT - RUN SUMMARY
-══════════════════════════════════════════════════════════════
-  Model:        meta-llama/Llama-3.2-3B
-  Precision:    float16
-  GPUs:         4× A100-40GB
-  Batch size:   32
-  Samples:      128
-══════════════════════════════════════════════════════════════
-
-  THROUGHPUT
-  ──────────
-  Tokens generated:     64,000
-  Tokens/second:        847.3
-  Latency/token:        1.18 ms
-  Time to first token:  23.4 ms
-
-  ENERGY
-  ──────
-  Total energy:         42.7 kJ
-  Energy/token:         0.67 mJ
-  GPU energy:           38.2 kJ (89.5%)
-  CPU energy:           3.1 kJ (7.3%)
-  RAM energy:           1.4 kJ (3.2%)
-
-  EMISSIONS
-  ─────────
-  CO₂ equivalent:       12.3 g
-  Grid region:          DE (Germany)
-
-  COMPUTE
-  ───────
-  FLOPs/token:          6.2 GFLOPs
-  Peak GPU memory:      28.4 GB
-  Utilisation (avg):    78.3%
-
-══════════════════════════════════════════════════════════════
-</code></pre></div></div>
+<p>This enables measuring how parallelism, batching, and precision interact—factors the <a href="/research/llm-energy-efficiency/">research</a> found can induce 4-6× variation in energy consumption.</p>
 
 <hr />
 
 <h2 id="citation">Citation</h2>
 
-<p>If you use this tool in research:</p>
+<p>If you use this tool in research, please cite:</p>
 
-<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@mastersthesis</span><span class="p">{</span><span class="nl">baker2025llm</span><span class="p">,</span>
-  <span class="na">title</span><span class="p">=</span><span class="s">{Benchmarking LLM Energy Efficiency:
-         Implementation-Level Factors in Inference-Time Consumption}</span><span class="p">,</span>
-  <span class="na">author</span><span class="p">=</span><span class="s">{Baker, Henry}</span><span class="p">,</span>
-  <span class="na">year</span><span class="p">=</span><span class="s">{2025}</span><span class="p">,</span>
-  <span class="na">school</span><span class="p">=</span><span class="s">{Hertie School of Governance}</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<blockquote>
+  <p>Baker, H. (2025). <em>Benchmarking LLM Energy Efficiency: Implementation-Level Factors in Inference-Time Consumption</em>. Master’s thesis, Hertie School of Governance.</p>
+</blockquote>
 
 <hr />
 
