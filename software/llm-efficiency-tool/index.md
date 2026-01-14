@@ -6,158 +6,255 @@ permalink: /software/llm-efficiency-tool/
 
 # LLM Efficiency Measurement Tool
 
-**Benchmarking Energy Consumption and Throughput in Large Language Model Inference**
+**Benchmarking energy consumption, throughput, and FLOPs in LLM inference**
 
-A Python framework for measuring what actually matters when deploying LLMs: energy consumption, throughput, and the interaction between deployment choices and efficiency.
+A Python framework for measuring what actually matters when deploying large language models. Deployment choices—parallelism, batching, precision—can induce **50×+ variation** in energy-per-token for the same model. This tool quantifies it.
 
-[GitHub Repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) · [Research Article](/research/llm-energy-efficiency/)
-
----
-
-## Why This Tool Exists
-
-When evaluating large language models, the industry focuses heavily on **capabilities**: benchmark scores, parameter counts, context lengths. But for anyone actually *deploying* these models—cloud providers, enterprises, researchers—a different question dominates: **what will this cost to run?**
-
-### The FLOPs Fallacy
-
-A common assumption is that computational cost (measured in FLOPs—floating-point operations) directly predicts energy consumption. The logic seems sound: more computation = more energy.
-
-But this assumption breaks down in practice:
-
-| Configuration | FLOPs per Token | Energy per Token | Ratio |
-|---------------|-----------------|------------------|-------|
-| Single GPU, batch=1, FP32 | X | 1.0× (baseline) | - |
-| Single GPU, batch=32, FP16 | X | 0.15× | 6.7× more efficient |
-| 4 GPUs, batch=1, FP32 | X | 4.2× | 4.2× *less* efficient |
-
-Same model, same FLOPs, wildly different energy costs. **How you deploy matters as much as what you deploy.**
-
-### The Gap This Tool Fills
-
-Existing benchmarking focuses on:
-- **Capability benchmarks** (MMLU, GSM8k, etc.): measure what models can do
-- **Speed benchmarks** (tokens/second): measure raw throughput
-- **FLOPs estimation**: measure theoretical compute
-
-What's missing:
-- **Actual energy consumption** under different deployment configurations
-- **The interaction effects** between parallelism, batching, precision, and efficiency
-- **Realistic workload simulation** beyond synthetic benchmarks
-
-This tool measures the full picture: energy, throughput, and FLOPs together, across configurable deployment scenarios.
+[GitHub Repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) · [Research Findings](/research/llm-energy-efficiency/)
 
 ---
 
-## What It Measures
-
-The tool captures three categories of metrics:
-
-### Energy Consumption
-
-| Metric | Source | Description |
-|--------|--------|-------------|
-| **GPU energy** | NVIDIA NVML | Joules consumed by GPU compute |
-| **CPU energy** | Intel RAPL / estimates | Processor energy draw |
-| **RAM energy** | Estimates | Memory subsystem power |
-| **Total energy** | CodeCarbon | Aggregated system consumption |
-| **CO₂ emissions** | CodeCarbon | Based on grid carbon intensity |
-
-Energy measurements use [CodeCarbon](https://codecarbon.io/), the emerging standard for ML energy tracking (±10-15% accuracy).
-
-### Throughput Metrics
-
-| Metric | Description |
-|--------|-------------|
-| **Tokens per second** | Generation speed |
-| **Latency per token** | Time between tokens |
-| **Time to first token** | Initial response latency |
-| **Batch throughput** | Tokens/second at different batch sizes |
-
-### Computational Metrics
-
-| Metric | Method | Description |
-|--------|--------|-------------|
-| **FLOPs per token** | calflops | Measured forward pass operations |
-| **FLOPs (analytical)** | Architecture-based | Theoretical compute from model structure |
-| **Peak memory** | torch.cuda | Maximum GPU memory during inference |
+**Contents:** [Overview](#overview) · [Quick Start](#quick-start) · [Feature Evolution](#feature-evolution) · [Configuration](#configuration) · [Architecture](#architecture) · [Citation](#citation)
 
 ---
 
-## How It Works
+## Overview
 
-### Architecture Overview
+### What It Measures
 
-![Tool Architecture](figures/architecture.png)
-*The measurement pipeline: configuration → distributed execution → late aggregation.*
+| Category | Metrics |
+|----------|---------|
+| **Energy** | GPU energy (NVML), CPU energy (RAPL), RAM energy, total system (CodeCarbon), CO₂ emissions |
+| **Throughput** | Tokens/second, latency/token, time to first token, batch throughput |
+| **Compute** | FLOPs/token (measured via calflops), FLOPs (analytical), peak GPU memory, device utilisation |
 
-The tool uses a three-stage architecture:
+### Key Capabilities
 
-```
-┌──────────────┐    ┌──────────────────────┐    ┌──────────────────┐
-│   Config     │───▶│  Distributed Runner  │───▶│   Aggregation    │
-│   (YAML)     │    │  (accelerate)        │    │   (on-demand)    │
-└──────────────┘    └──────────────────────┘    └──────────────────┘
-                              │
-              ┌───────────────┼───────────────┐
-              ▼               ▼               ▼
-         ┌────────┐     ┌────────┐     ┌────────┐
-         │ GPU 0  │     │ GPU 1  │     │ GPU 2  │
-         │ ────── │     │ ────── │     │ ────── │
-         │ Energy │     │ Energy │     │ Energy │
-         │ Tokens │     │ Tokens │     │ Tokens │
-         │ Memory │     │ Memory │     │ Memory │
-         └────────┘     └────────┘     └────────┘
-              │               │               │
-              └───────────────┴───────────────┘
-                              │
-                              ▼
-                     ┌────────────────┐
-                     │  Raw Results   │
-                     │  (per-process) │
-                     └────────────────┘
-```
+- **Multi-GPU distributed inference** via HuggingFace Accelerate with tensor and pipeline parallelism
+- **YAML configuration** with inheritance for clean experiment management
+- **Late aggregation pattern** preserving raw per-GPU results for flexible analysis
+- **Built-in datasets**: Alpaca, ShareGPT, GSM8k, MMLU, WikiText, FineWeb-Edu (plus any HuggingFace dataset)
+- **Production deployment** via Docker, Docker Compose, or VS Code devcontainer
 
-### Late Aggregation Pattern
+---
 
-A key design decision: **raw results are saved per-GPU before aggregation**.
+## Quick Start
 
-Why this matters:
-- **Debuggability**: If results look wrong, you can inspect individual GPU contributions
-- **Flexibility**: Aggregate differently for different analyses (mean vs sum vs max)
-- **Reproducibility**: Raw data preserved for future reanalysis
+1. **Clone and install** the repository using pip or Poetry
+2. **Create a YAML config** specifying model, precision, batch size, and dataset
+3. **Run an experiment** with `llm-energy-measure experiment <config.yaml>`
+4. **View results** with `llm-energy-measure results show <experiment_id>`
 
-Results are stored as:
-```
-results/
-├── run_20240115_143022/
-│   ├── raw/
-│   │   ├── process_0_metrics.json
-│   │   ├── process_1_metrics.json
-│   │   └── process_2_metrics.json
-│   ├── aggregated_metrics.json
-│   └── config.yaml
-```
+The CLI supports grid searches over precision, batch size, and parallelism for systematic deployment analysis. Any HuggingFace model works out of the box.
 
-### Distributed Execution
+See the [GitHub README](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) for detailed installation and usage instructions.
 
-The tool uses HuggingFace's [Accelerate](https://huggingface.co/docs/accelerate) for multi-GPU inference:
+---
 
-- **Tensor parallelism**: Model layers distributed across GPUs
-- **Per-process tracking**: Each GPU reports its own metrics
-- **Synchronised execution**: Barrier-based coordination for accurate timing
+## Feature Evolution
 
-This enables measuring how parallelism affects efficiency—a critical factor the research found can induce 4-6× variation in energy consumption.
+<div style="max-height: 500px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; margin: 16px 0;" markdown="1">
+
+### v2.0.0 — Architectural Refactor (January 2026)
+
+Ground-up rewrite with modern patterns:
+
+- **Dependency injection** throughout the codebase
+- **Late aggregation pattern** — raw per-GPU results preserved before aggregation
+- **Pydantic validation** for all configuration and results
+- **Batching strategies** — four MLPerf-aligned modes: static, dynamic, sorted, sorted_dynamic with optional token budgets
+- **Traffic simulation** — constant or Poisson arrival patterns with configurable QPS for production-like load testing
+- **Decoder presets** — deterministic, standard, creative, factual modes plus fine-grained sampling control
+- **Multi-cycle experiments** — run 1-10 repetitions for statistical robustness
+- **Scheduled execution** — daemon mode with interval-based or time-of-day scheduling
+- **Proper parallelism** — tensor parallel and pipeline parallel sharding replacing naive device mapping
+
+---
+
+### v1.16.0 — Production Containerisation (January 2026)
+
+Deployment-focused release:
+
+- **Multi-stage Dockerfile** for minimal production images
+- **Docker Compose profiles** for production and development workflows
+- **VS Code devcontainer** configuration with GPU passthrough
+- **Makefile targets** for common operations
+- **CUDA compatibility fixes** for multi-GPU environments
+
+---
+
+### v1.15.0 — Test Coverage & Quality (December 2025)
+
+Quality assurance milestone:
+
+- **416 passing tests** including 8 end-to-end CLI tests and 47 integration tests
+- **Methodology documentation** covering energy tracking via CodeCarbon, FLOPs estimation strategies, and distributed GPU result aggregation
+
+---
+
+### v1.13.0 — CLI & Experiment Orchestration (December 2025)
+
+User-friendly command-line interface:
+
+- **Typer-based CLI** with subcommands for experiment, config, and results management
+- **ExperimentOrchestrator** with dependency injection
+- **ExperimentContext** for managing experiment lifecycle
+
+---
+
+### v1.10.0 — Package Rename & Architecture (December 2025)
+
+Major refactoring establishing the modern codebase:
+
+- **Renamed** from `llm-bench` → `llm-energy-measure`
+- **Energy backend plugin registry** for extensible measurement backends
+- **FlopsEstimator** with three-strategy fallback (calflops → analytical → parameter-based)
+- **Results aggregation** with verification checks
+- **Pydantic domain models** for type-safe configuration and results
+
+---
+
+### v1.0.0 — Research Phase Complete (December 2025)
+
+Stable multi-model benchmarking validated on production hardware (4× A100-40GB):
+
+- **Scenario-based YAML configuration** with inheritance support
+- **CSV export** for downstream analysis
+- **Failed experiment detection** and recovery
+- **Large model stability** improvements for 7B+ parameter models
+
+---
+
+### v0.5.0 — Core Measurement (March 2025)
+
+Foundation release establishing the measurement pipeline:
+
+- **Distributed results aggregation** across multiple GPUs
+- **FLOPs calculation** with quantisation awareness
+- **Robust process cleanup** for reliable benchmarking
+- **Optimum benchmark integration** for standardised evaluation
+
+</div>
+
+### Roadmap
+
+Active development areas:
+
+- **vLLM backend** — Production-grade inference server measurements
+- **Streaming metrics** — Real-time power monitoring during generation
+- **Multi-node support** — Distributed inference across machines
+- **Agentic workloads** — Multi-step reasoning and tool-use patterns
+- **Automated reporting** — Generate comparison reports across runs
 
 ---
 
 ## Configuration
 
-### YAML-Based Setup
+### Key Parameters
 
-Experiments are configured via YAML files with inheritance support:
+| Category | Parameter | Options |
+|----------|-----------|---------|
+| **Precision** | `model.precision` | float32, float16, bfloat16 |
+| **Quantisation** | `model.quantization` | null, 4bit, 8bit |
+| **Batching** | `batching.strategy` | static, dynamic, sorted, sorted_dynamic |
+| **Parallelism** | `hardware.sharding` | tensor_parallel, pipeline_parallel, none |
+| **Traffic** | `traffic.pattern` | constant, poisson |
+| **Decoder** | `generation.preset` | deterministic, standard, creative, factual |
+
+Configs use YAML with an `_extends` directive for inheritance—override only what changes across experiments.
+
+---
+
+## Architecture
+
+The tool follows a **configuration-driven, three-stage pipeline** designed for reproducible distributed benchmarking.
+
+### High-Level Pipeline
+
+```
+┌────────────────────────────────────────────────────────────────────────────────┐
+│                           MEASUREMENT PIPELINE                                  │
+└────────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                 ┌─────────────────────┴─────────────────────┐
+                 ▼                                           ▼
+┌────────────────────────────────┐         ┌────────────────────────────────┐
+│       1. CONFIGURATION         │         │         2. EXECUTION           │
+│  ────────────────────────────  │         │  ────────────────────────────  │
+│  • Model & precision           │────────▶│  • HuggingFace Accelerate      │
+│  • Hardware sharding           │         │  • Tensor/pipeline parallelism │
+│  • Generation parameters       │         │  • Barrier synchronisation     │
+│  • YAML inheritance            │         │  • Per-process metric tracking │
+└────────────────────────────────┘         └───────────────┬────────────────┘
+                                                           │
+                                     ┌─────────────────────┼─────────────────────┐
+                                     ▼                     ▼                     ▼
+                                ┌─────────┐           ┌─────────┐           ┌─────────┐
+                                │  GPU 0  │           │  GPU 1  │           │  GPU N  │
+                                │ ─────── │           │ ─────── │           │ ─────── │
+                                │ Energy  │           │ Energy  │           │ Energy  │
+                                │ Tokens  │           │ Tokens  │           │ Tokens  │
+                                │ Memory  │           │ Memory  │           │ Memory  │
+                                │ FLOPs   │           │ FLOPs   │           │ FLOPs   │
+                                └────┬────┘           └────┬────┘           └────┬────┘
+                                     │                     │                     │
+                                     └─────────────────────┼─────────────────────┘
+                                                           ▼
+                                     ┌────────────────────────────────┐
+                                     │        3. AGGREGATION          │
+                                     │  ────────────────────────────  │
+                                     │  • Late aggregation pattern    │
+                                     │  • Raw per-GPU results saved   │
+                                     │  • Flexible post-hoc analysis  │
+                                     │  • CSV/JSON export             │
+                                     └────────────────────────────────┘
+```
+
+---
+
+### Stage 1: Configuration System
+
+Declarative YAML configuration with inheritance via `_extends` enables reproducible experiments without code changes.
+
+**Configuration Inheritance:**
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        CONFIGURATION INHERITANCE                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────┐
+│   base.yaml         │     Base configuration with sensible defaults
+│ ─────────────────── │
+│ model: llama-3.2-3B │
+│ precision: float16  │
+│ batch_size: 16      │
+│ num_gpus: 1         │
+└──────────┬──────────┘
+           │
+           │ _extends: base.yaml
+           ▼
+┌─────────────────────┐     ┌─────────────────────┐
+│  multi-gpu.yaml     │     │  quantized.yaml     │
+│ ─────────────────── │     │ ─────────────────── │
+│ num_gpus: 4         │     │ quantization: 4bit  │
+│ sharding: tensor_   │     │ precision: null     │
+│           parallel  │     │                     │
+└──────────┬──────────┘     └─────────────────────┘
+           │
+           │ _extends: multi-gpu.yaml
+           ▼
+┌─────────────────────┐
+│  experiment.yaml    │     Final experiment: inherits all, overrides batch
+│ ─────────────────── │
+│ batch_size: 32      │
+│ traffic: poisson    │
+└─────────────────────┘
+```
+
+**Example Configuration:**
 
 ```yaml
-# configs/experiment.yaml
 _extends: configs/base.yaml
 
 model:
@@ -165,306 +262,284 @@ model:
   precision: float16
   quantization: null
 
-generation:
-  max_input_tokens: 500
-  max_output_tokens: 500
-  temperature: 1.0
-  top_p: 0.9
-
 hardware:
-  devices: [0, 1, 2, 3]
-  num_processes: 4
+  sharding: tensor_parallel
+  num_gpus: 4
+  device_ids: [0, 1, 2, 3]
 
-data:
-  dataset: HuggingFaceFW/fineweb-edu
-  split: train
-  num_samples: 128
+batching:
+  strategy: sorted_dynamic    # MLPerf-aligned
+  max_batch_size: 32
+  token_budget: 4096
+
+traffic:
+  pattern: poisson
+  qps: 10.0
+
+generation:
+  preset: deterministic       # or: standard, creative, factual
+  max_new_tokens: 256
 ```
 
-### Configuration Inheritance
-
-The `_extends` directive enables hierarchical configs:
-
-```
-base.yaml                    # Defaults
-├── llama-base.yaml          # LLaMA family settings
-│   ├── llama-1b.yaml        # 1B model specifics
-│   └── llama-3b.yaml        # 3B model specifics
-└── mistral-base.yaml        # Mistral family settings
-```
-
-Override only what changes—cleaner configs, fewer errors.
-
-### Key Parameters
-
-| Category | Parameters | Options |
-|----------|------------|---------|
-| **Precision** | `precision` | float32, float16, bfloat16 |
-| **Quantisation** | `quantization` | null, 4bit, 8bit |
-| **Parallelism** | `num_processes` | 1-N (number of GPUs) |
-| **Batching** | `batch_size` | 1-64+ |
-| **Generation** | `temperature`, `top_p`, `top_k` | Sampling parameters |
-| **Latency sim** | `delay_ms`, `burst_size` | Simulate network conditions |
+All configuration is **Pydantic-validated** at load time—invalid configs fail fast with clear error messages.
 
 ---
 
-## Technical Deep-Dives
+### Stage 2: Distributed Execution
 
-### Energy Measurement Pipeline
+The runner orchestrates multi-GPU inference via HuggingFace Accelerate with precise lifecycle management.
 
-Energy tracking wraps the inference loop:
+**Execution Flow:**
 
-```python
-# Simplified measurement flow
-tracker = EmissionsTracker()
-tracker.start()
-
-for batch in dataloader:
-    outputs = model.generate(batch)
-    record_tokens(outputs)
-
-emissions_data = tracker.stop()
 ```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          EXECUTION LIFECYCLE                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
 
-CodeCarbon queries hardware counters:
-- **NVIDIA GPUs**: NVML `nvmlDeviceGetTotalEnergyConsumption()`
-- **Intel CPUs**: RAPL (Running Average Power Limit) via `/sys/class/powercap/`
-- **AMD CPUs**: Estimated from TDP and utilisation
-
-Measurements capture:
-- Total energy (Joules)
-- Power draw over time (Watts)
-- Carbon emissions (kg CO₂eq, based on grid region)
-
-### FLOPs Calculation Methods
-
-The tool supports multiple FLOPs estimation approaches:
-
-**1. calflops (measured)**
-```python
-from calflops import calculate_flops
-flops, macs, params = calculate_flops(
-    model=model,
-    input_shape=(batch_size, seq_length),
-    output_as_string=False
-)
-```
-Traces actual forward pass operations—most accurate for complex architectures.
-
-**2. Architecture-based (analytical)**
-```
-FLOPs ≈ 2 × params × seq_length  # Simplified
-```
-For transformers:
-```
-FLOPs = layers × (
-    12 × hidden² × seq +           # Attention
-    8 × hidden × intermediate × seq # MLP
-)
-```
-Useful when profiling overhead is prohibitive.
-
-**3. Parameter-based (heuristic)**
-```
-FLOPs ≈ 2 × parameters × tokens_generated
-```
-Roughest estimate, but fast and model-agnostic.
-
-### Handling Measurement Noise
-
-Shared servers introduce variance. The tool addresses this through:
-
-- **Multiple runs**: Execute experiments across different time windows
-- **Warm-up passes**: 3 dummy forward passes before measurement (discarded)
-- **Fresh process initialisation**: Each run starts from clean state
-- **Statistical reporting**: Report mean, std, and percentiles
-
----
-
-## Deployment Options
-
-### Local Installation (Poetry)
-
-```bash
-git clone https://github.com/henrycgbaker/llm-efficiency-measurement-tool
-cd llm-efficiency-measurement-tool
-poetry install
-poetry run python run_experiment.py --config configs/experiment.yaml
-```
-
-### Docker (Reproducible)
-
-```bash
-# Production: baked-in package
-docker build -t llm-efficiency .
-docker run --gpus all llm-efficiency --config configs/experiment.yaml
-
-# Development: mounted source
-docker-compose -f docker-compose.dev.yml up
-```
-
-### VS Code Devcontainer
-
-The repository includes a `.devcontainer/` configuration for full IDE support with GPU passthrough—ideal for iterative development.
-
----
-
-## Built-in Datasets
-
-The tool supports standard benchmarking datasets:
-
-| Dataset | Purpose | Default Columns |
-|---------|---------|-----------------|
-| **Alpaca** | Instruction following | instruction, input |
-| **ShareGPT** | Conversational | conversations |
-| **GSM8k** | Mathematical reasoning | question |
-| **MMLU** | General knowledge | question, choices |
-| **WikiText** | Language modelling | text |
-| **FineWeb-Edu** | Educational text | text |
-
-Custom datasets work via HuggingFace Hub paths:
-
-```yaml
-data:
-  dataset: your-org/your-dataset
-  split: train
-  text_column: content
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  1. INITIALISATION                                                          │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • Load model onto GPU(s) with specified sharding strategy                  │
+│  • Configure distributed backend (NCCL/Gloo)                                │
+│  • Initialise CodeCarbon energy tracker                                     │
+│  • Set up per-process metric collectors                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  2. WARM-UP (results discarded)                                             │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • 3 dummy forward passes                                                   │
+│  • Triggers CUDA lazy initialisations                                       │
+│  • Stabilises GPU clock frequencies                                         │
+│  • Populates KV cache                                                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  3. MEASUREMENT                                                             │
+│  ───────────────────────────────────────────────────────────────────────    │
+│                                                                             │
+│    ┌─────────────────────────────────────────────────────────────────┐      │
+│    │  for each batch in dataloader:                                  │      │
+│    │      ┌──────────────────────────────────────────────────────┐   │      │
+│    │      │  barrier_sync()           # Synchronise all GPUs     │   │      │
+│    │      │  start_batch_timer()                                 │   │      │
+│    │      │  outputs = model.generate(batch, **gen_config)       │   │      │
+│    │      │  stop_batch_timer()                                  │   │      │
+│    │      │  record_tokens(outputs)   # Per-process counting     │   │      │
+│    │      │  record_memory()          # Peak GPU memory          │   │      │
+│    │      └──────────────────────────────────────────────────────┘   │      │
+│    └─────────────────────────────────────────────────────────────────┘      │
+│                                                                             │
+│  • Energy tracked continuously via CodeCarbon                               │
+│  • Each GPU process maintains independent metrics                           │
+└─────────────────────────────────────────────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  4. COLLECTION                                                              │
+│  ───────────────────────────────────────────────────────────────────────    │
+│  • Stop CodeCarbon tracker                                                  │
+│  • Gather per-GPU metrics via distributed primitives                        │
+│  • Compute FLOPs (see estimation pipeline below)                            │
+│  • Save raw results to JSON (one file per GPU)                              │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Example Results
+### Stage 3: Late Aggregation
 
-A typical output includes:
+The **late aggregation pattern** is central to the design philosophy: raw per-GPU results are preserved before any aggregation.
 
 ```
-══════════════════════════════════════════════════════════════
-  LLM EFFICIENCY MEASUREMENT - RUN SUMMARY
-══════════════════════════════════════════════════════════════
-  Model:        meta-llama/Llama-3.2-3B
-  Precision:    float16
-  GPUs:         4× A100-40GB
-  Batch size:   32
-  Samples:      128
-══════════════════════════════════════════════════════════════
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       LATE AGGREGATION PATTERN                               │
+└─────────────────────────────────────────────────────────────────────────────┘
 
-  THROUGHPUT
-  ──────────
-  Tokens generated:     64,000
-  Tokens/second:        847.3
-  Latency/token:        1.18 ms
-  Time to first token:  23.4 ms
+    Raw Results (preserved)                    Aggregated Results
+    ─────────────────────────                  ─────────────────────────
 
-  ENERGY
-  ──────
-  Total energy:         42.7 kJ
-  Energy/token:         0.67 mJ
-  GPU energy:           38.2 kJ (89.5%)
-  CPU energy:           3.1 kJ (7.3%)
-  RAM energy:           1.4 kJ (3.2%)
+    ┌─────────────────────┐
+    │ gpu_0_results.json  │───┐
+    │ • energy: 0.0023 kWh│   │
+    │ • tokens: 1024      │   │
+    │ • memory: 12.4 GB   │   │
+    └─────────────────────┘   │
+                              │
+    ┌─────────────────────┐   │     ┌─────────────────────────────────┐
+    │ gpu_1_results.json  │───┼────▶│      experiment_summary.json    │
+    │ • energy: 0.0021 kWh│   │     │ ─────────────────────────────── │
+    │ • tokens: 1024      │   │     │ • total_energy: 0.0089 kWh      │
+    │ • memory: 11.8 GB   │   │     │ • total_tokens: 4096            │
+    └─────────────────────┘   │     │ • tokens_per_second: 142.3      │
+                              │     │ • energy_per_token: 2.17e-6 kWh │
+    ┌─────────────────────┐   │     │ • peak_memory: 12.4 GB          │
+    │ gpu_2_results.json  │───┤     │ • flops_per_token: 1.2e9        │
+    │ • energy: 0.0024 kWh│   │     └─────────────────────────────────┘
+    │ • tokens: 1024      │   │
+    │ • memory: 12.1 GB   │   │
+    └─────────────────────┘   │
+                              │
+    ┌─────────────────────┐   │
+    │ gpu_3_results.json  │───┘
+    │ • energy: 0.0021 kWh│
+    │ • tokens: 1024      │
+    │ • memory: 11.9 GB   │
+    └─────────────────────┘
 
-  EMISSIONS
-  ─────────
-  CO₂ equivalent:       12.3 g
-  Grid region:          DE (Germany)
-
-  COMPUTE
-  ───────
-  FLOPs/token:          6.2 GFLOPs
-  Peak GPU memory:      28.4 GB
-  Utilisation (avg):    78.3%
-
-══════════════════════════════════════════════════════════════
-```
-
----
-
-## Research Findings
-
-This tool powered a comprehensive study of LLM inference efficiency. Key findings:
-
-| Factor | Effect on Energy | Insight |
-|--------|------------------|---------|
-| **Tensor parallelism** | +100-500% | More GPUs often *increases* energy for small models |
-| **Batch size** | -60-90% | Larger batches dramatically improve efficiency |
-| **FP16 vs FP32** | -35-40% | Half precision yields consistent gains |
-| **INT8/INT4** | Variable | Benefits depend on backend optimisation |
-| **Decoding strategy** | <5% | Minimal impact—choose based on quality needs |
-
-**The headline finding**: Implementation choices can induce **50×+ variation** in energy-per-token for the same model. Deployment decisions matter as much as model selection.
-
-See the [full research article](/research/llm-energy-efficiency/) for detailed analysis and methodology.
-
----
-
-## Comparison to Alternatives
-
-| Tool | Energy | Throughput | FLOPs | Multi-GPU | Config System |
-|------|--------|------------|-------|-----------|---------------|
-| **This tool** | ✓ | ✓ | ✓ | ✓ (distributed) | YAML with inheritance |
-| **CodeCarbon** | ✓ | ✗ | ✗ | Partial | N/A (library only) |
-| **ML Energy Score** | ✓ | ✓ | ✗ | ✗ | Fixed configs |
-| **vLLM benchmarks** | ✗ | ✓ | ✗ | ✓ | CLI args |
-| **DeepSpeed profiler** | ✗ | ✓ | ✓ | ✓ | JSON configs |
-
-This tool uniquely combines energy, throughput, and FLOPs measurement in a single configurable framework designed for systematic deployment analysis.
-
----
-
-## Getting Started
-
-### Minimal Example
-
-```bash
-# Clone and install
-git clone https://github.com/henrycgbaker/llm-efficiency-measurement-tool
-cd llm-efficiency-measurement-tool
-pip install -e .
-
-# Run with default config
-python run_experiment.py --config configs/quick_test.yaml
-```
-
-### Grid Search
-
-For systematic deployment analysis:
-
-```yaml
-# configs/grid_search.yaml
-sweep:
-  precision: [float32, float16]
-  batch_size: [1, 8, 32]
-  num_processes: [1, 2, 4]
-```
-
-```bash
-python run_grid_search.py --config configs/grid_search.yaml
-```
-
-### Custom Models
-
-Any HuggingFace model works:
-
-```yaml
-model:
-  name: mistralai/Mistral-7B-v0.1
-  # or local path
-  name: /path/to/local/model
+    Benefits:
+    ─────────
+    ✓ Debug anomalous GPU behaviour
+    ✓ Re-aggregate for different analyses
+    ✓ Full reproducibility from raw data
+    ✓ Identify load imbalances
 ```
 
 ---
 
-## Roadmap
+### Metric Collection Architecture
 
-Active development areas:
+The tool collects three categories of metrics, each with multiple measurement sources.
 
-- **vLLM backend**: Production-grade inference server measurements
-- **Streaming metrics**: Real-time power monitoring during generation
-- **Multi-node support**: Distributed inference across machines
-- **Agentic workloads**: Multi-step reasoning and tool-use patterns
-- **Automated reporting**: Generate comparison reports across runs
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        METRIC COLLECTION                                     │
+└─────────────────────────────────────────────────────────────────────────────┘
 
-Contributions welcome—see [issues](https://github.com/henrycgbaker/llm-efficiency-measurement-tool/issues) for planned features.
+┌─────────────────────────┐  ┌─────────────────────────┐  ┌─────────────────────────┐
+│        ENERGY           │  │       THROUGHPUT        │  │        COMPUTE          │
+│  ─────────────────────  │  │  ─────────────────────  │  │  ─────────────────────  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ GPU Energy (NVML) │  │  │  │ Tokens/second     │  │  │  │ FLOPs/token       │  │
+│  │ Per-device Joules │  │  │  │ End-to-end rate   │  │  │  │ (see pipeline)    │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ CPU Energy (RAPL) │  │  │  │ Latency/token     │  │  │  │ Peak GPU Memory   │  │
+│  │ Package + DRAM    │  │  │  │ Mean, P50, P99    │  │  │  │ Per-device max    │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │  ┌───────────────────┐  │
+│  │ RAM Energy        │  │  │  │ Time to First     │  │  │  │ Device Util %     │  │
+│  │ System memory     │  │  │  │ Token (TTFT)      │  │  │  │ Compute + memory  │  │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │  └───────────────────┘  │
+│                         │  │                         │  │                         │
+│  ┌───────────────────┐  │  │  ┌───────────────────┐  │  │                         │
+│  │ CO₂ Emissions     │  │  │  │ Batch Throughput  │  │  │                         │
+│  │ Grid carbon int.  │  │  │  │ Requests/second   │  │  │                         │
+│  └───────────────────┘  │  │  └───────────────────┘  │  │                         │
+│                         │  │                         │  │                         │
+└─────────────────────────┘  └─────────────────────────┘  └─────────────────────────┘
+
+        CodeCarbon                    Native timing              calflops + fallbacks
+```
+
+---
+
+### FLOPs Estimation Pipeline
+
+FLOPs estimation uses a three-strategy fallback chain for robustness across different model architectures.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                      FLOPs ESTIMATION PIPELINE                               │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                    ┌─────────────────────────────────────┐
+                    │           Input: Model              │
+                    │  (architecture, params, seq_len)    │
+                    └──────────────────┬──────────────────┘
+                                       │
+                                       ▼
+                    ┌─────────────────────────────────────┐
+                    │     Strategy 1: calflops            │
+                    │  ─────────────────────────────────  │
+                    │  • Traces actual computation graph  │
+                    │  • Most accurate for supported      │
+                    │    architectures                    │
+                    │  • Handles custom attention         │
+                    └──────────────────┬──────────────────┘
+                                       │
+                         ┌─────────────┴─────────────┐
+                         │                           │
+                    ✓ Success                   ✗ Failure
+                         │                           │
+                         ▼                           ▼
+              ┌─────────────────┐     ┌─────────────────────────────────────┐
+              │  Return FLOPs   │     │     Strategy 2: Analytical          │
+              └─────────────────┘     │  ─────────────────────────────────  │
+                                      │  • Architecture-specific formulas   │
+                                      │  • Transformer: 2 × params × tokens │
+                                      │  • Accounts for attention, FFN      │
+                                      └──────────────────┬──────────────────┘
+                                                         │
+                                           ┌─────────────┴─────────────┐
+                                           │                           │
+                                      ✓ Success                   ✗ Failure
+                                           │                           │
+                                           ▼                           ▼
+                                ┌─────────────────┐     ┌─────────────────────────────────────┐
+                                │  Return FLOPs   │     │     Strategy 3: Parameter-based     │
+                                └─────────────────┘     │  ─────────────────────────────────  │
+                                                        │  • Fallback: 2 × params × tokens    │
+                                                        │  • Works for any model              │
+                                                        │  • Less accurate but guaranteed     │
+                                                        └──────────────────┬──────────────────┘
+                                                                           │
+                                                                           ▼
+                                                                ┌─────────────────┐
+                                                                │  Return FLOPs   │
+                                                                └─────────────────┘
+```
+
+---
+
+### Code Structure
+
+```
+src/llm_energy_measure/
+├── cli.py              # Typer CLI: experiment, config, results subcommands
+├── config/
+│   ├── loader.py       # YAML parsing with _extends inheritance
+│   ├── validation.py   # Pydantic schemas and validation
+│   └── presets.py      # Decoder presets (deterministic, creative, etc.)
+├── core/
+│   ├── runner.py       # Distributed inference orchestration
+│   ├── energy.py       # CodeCarbon integration, energy backends
+│   ├── flops.py        # Three-strategy FLOPs estimation
+│   └── metrics.py      # Throughput and latency collectors
+├── domain/
+│   ├── config.py       # ExperimentConfig, ModelConfig, etc.
+│   ├── results.py      # InferenceResults, EnergyMetrics, etc.
+│   └── enums.py        # Precision, ShardingStrategy, BatchingMode
+├── orchestration/
+│   ├── orchestrator.py # ExperimentOrchestrator with DI
+│   ├── context.py      # ExperimentContext lifecycle management
+│   └── scheduler.py    # Daemon mode, interval/time-based scheduling
+└── results/
+    ├── persistence.py  # JSON/CSV save and load
+    ├── aggregation.py  # Late aggregation logic
+    └── export.py       # Result formatting and export
+```
+
+---
+
+### Multi-Strategy Subsystems
+
+Several components support pluggable strategies for flexible experimentation:
+
+| Subsystem | Strategies | Purpose |
+|-----------|------------|---------|
+| **Batching** | static, dynamic, sorted, sorted_dynamic | MLPerf-aligned request aggregation with optional token budgets |
+| **Traffic** | constant, poisson | Simulate production load patterns at configurable QPS |
+| **Sharding** | none, tensor_parallel, pipeline_parallel | Distribute model layers across GPUs |
+| **FLOPs** | calflops → analytical → parameter-based | Three-strategy fallback for robust estimation |
+| **Decoder** | deterministic, standard, creative, factual | Preset sampling configurations |
+
+This architecture enables measuring how parallelism, batching, and precision interact—factors the [research](/research/llm-energy-efficiency/) found can induce 4-6× variation in energy consumption.
 
 ---
 
@@ -472,16 +547,10 @@ Contributions welcome—see [issues](https://github.com/henrycgbaker/llm-efficie
 
 If you use this tool in research, please cite:
 
-```bibtex
-@mastersthesis{baker2025llm,
-  title={Benchmarking LLM Energy Efficiency:
-         Implementation-Level Factors in Inference-Time Consumption},
-  author={Baker, Henry},
-  year={2025},
-  school={Hertie School of Governance}
-}
-```
+> Baker, H. (2025). *The Implementation Gap: Inducing Variation in LLM Inference-time Energy Efficiency for Fixed Computational Workloads*. Masters of Data Science for Public Policy thesis, Hertie School.
 
 ---
 
 [← Back to Software](/software/)
+
+<p style="text-align: center; color: #6a737d; font-size: 0.85em; margin-top: 2em;">Last updated: January 2026</p>

@@ -36,6 +36,16 @@ FLOPs quantify the number of arithmetic operations required to generate a given 
 
 **The core insight:** Two systems with the same theoretical compute requirement may exhibit markedly different energy profiles. Implementation-level factors—how models are deployed—can induce substantial variation in energy consumption, even when FLOPs counts remain constant.
 
+To illustrate: the same model, with identical FLOPs-per-token, can exhibit dramatically different energy profiles:
+
+| Configuration | FLOPs per Token | Energy per Token | Ratio |
+|---------------|-----------------|------------------|-------|
+| Single GPU, batch=1, FP32 | X | 1.0× (baseline) | — |
+| Single GPU, batch=32, FP16 | X | 0.15× | 6.7× more efficient |
+| 4 GPUs, batch=1, FP32 | X | 4.2× | 4.2× *less* efficient |
+
+Same model, same FLOPs, wildly different energy costs. **How you deploy matters as much as what you deploy.**
+
 ### Why This Matters for Policy
 
 FLOP-counting narrows policy attention to immutable model attributes, conceptually restricting the scope of intervention to the moment of model selection. This framing overlooks downstream system-level implementation decisions and tradeoffs that shape the energy efficiency of real-world deployments. From a benchmarking perspective, the neglect of implementation-level variation translates to a lack of standardised test-time controls—creating opportunities for motivated actors to present artificially efficient performance metrics by testing under unrealistic configurations.
@@ -266,7 +276,7 @@ The substantial variability demonstrated here highlights opportunities for energ
 
 ## Ongoing Development & Future Directions
 
-The measurement tool developed for this research is being actively expanded. See the [llm-efficiency-measurement-tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) repository for the latest developments.
+The measurement tool developed for this research is being actively expanded. See the [tool documentation](/software/llm-efficiency-tool/) for usage details and feature evolution, or the [GitHub repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) for the source code.
 
 **Current expansion areas:**
 - Agentic AI workflows and multi-step reasoning
