@@ -402,15 +402,134 @@
 
 <h2 id="architecture">Architecture</h2>
 
-<p>The tool uses a three-stage pipeline:</p>
+<p>The tool follows a <strong>configuration-driven, three-stage pipeline</strong> designed for reproducible distributed benchmarking.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────────────┐
+│                      MEASUREMENT PIPELINE                           │
+└─────────────────────────────────────────────────────────────────────┘
+                               │
+               ┌───────────────┴───────────────┐
+               ▼                               ▼
+┌──────────────────────────┐     ┌──────────────────────────┐
+│     1. CONFIGURATION     │     │      2. EXECUTION        │
+│  ──────────────────────  │     │  ──────────────────────  │
+│  • Model &amp; precision     │────▶│  • HuggingFace Accelerate│
+│  • Hardware sharding     │     │  • Tensor parallelism    │
+│  • Generation params     │     │  • Barrier synchronisation│
+│  • YAML inheritance      │     └────────────┬─────────────┘
+└──────────────────────────┘                  │
+                               ┌──────────────┼──────────────┐
+                               ▼              ▼              ▼
+                          ┌────────┐    ┌────────┐    ┌────────┐
+                          │ GPU 0  │    │ GPU 1  │    │ GPU N  │
+                          │ ────── │    │ ────── │    │ ────── │
+                          │ Energy │    │ Energy │    │ Energy │
+                          │ Tokens │    │ Tokens │    │ Tokens │
+                          │ Memory │    │ Memory │    │ Memory │
+                          └────┬───┘    └────┬───┘    └────┬───┘
+                               │              │              │
+                               └──────────────┼──────────────┘
+                                              ▼
+                               ┌──────────────────────────┐
+                               │     3. AGGREGATION       │
+                               │  ──────────────────────  │
+                               │  • Late aggregation      │
+                               │  • Raw results preserved │
+                               │  • Flexible post-analysis│
+                               └──────────────────────────┘
+</code></pre></div></div>
+
+<h3 id="stage-1-configuration">Stage 1: Configuration</h3>
+
+<p>Declarative YAML configuration with inheritance via <code class="language-plaintext highlighter-rouge">_extends</code>. Define experiments without code changes:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">model</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">meta-llama/Llama-3.2-3B</span>
+  <span class="na">precision</span><span class="pi">:</span> <span class="s">float16</span>
+  <span class="na">quantization</span><span class="pi">:</span> <span class="kc">null</span>
+
+<span class="na">hardware</span><span class="pi">:</span>
+  <span class="na">sharding</span><span class="pi">:</span> <span class="s">tensor_parallel</span>
+  <span class="na">num_gpus</span><span class="pi">:</span> <span class="m">4</span>
+
+<span class="na">batching</span><span class="pi">:</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">sorted_dynamic</span>
+  <span class="na">max_batch_size</span><span class="pi">:</span> <span class="m">32</span>
+</code></pre></div></div>
+
+<p>All configuration is <strong>Pydantic-validated</strong> at load time—invalid configs fail fast with clear error messages.</p>
+
+<h3 id="stage-2-distributed-execution">Stage 2: Distributed Execution</h3>
+
+<p>The runner orchestrates multi-GPU inference via HuggingFace Accelerate:</p>
 
 <ol>
-  <li><strong>Configuration (YAML)</strong> — Hierarchical config with inheritance and Pydantic validation</li>
-  <li><strong>Distributed Runner (HF Accelerate)</strong> — Multi-GPU execution with per-process metric tracking</li>
-  <li><strong>Late Aggregation</strong> — Raw per-GPU results preserved before aggregation for debugging and flexible analysis</li>
+  <li><strong>Initialisation</strong> — Load model onto GPU(s), configure distributed backend, start CodeCarbon tracker</li>
+  <li><strong>Warm-up</strong> — Three dummy forward passes (discarded) to trigger lazy initialisations and stabilise GPU clocks</li>
+  <li><strong>Measurement</strong> — Iterate batches, generate tokens, record metrics continuously per process</li>
+  <li><strong>Collection</strong> — Stop trackers, gather per-GPU metrics, save raw results</li>
 </ol>
 
-<p>This enables measuring how parallelism, batching, and precision interact—factors the <a href="/research/llm-energy-efficiency/">research</a> found can induce 4-6× variation in energy consumption.</p>
+<p>Each GPU process tracks its own metrics independently—no cross-process aggregation during execution.</p>
+
+<h3 id="stage-3-late-aggregation">Stage 3: Late Aggregation</h3>
+
+<p>The <strong>late aggregation pattern</strong> is central to the design philosophy: raw per-GPU results are preserved before any aggregation. This enables:</p>
+
+<ul>
+  <li><strong>Debugging</strong> — Identify which GPU had anomalous behaviour</li>
+  <li><strong>Flexible analysis</strong> — Aggregate differently for different research questions</li>
+  <li><strong>Reproducibility</strong> — Raw data always available for re-analysis</li>
+</ul>
+
+<h3 id="code-structure">Code Structure</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/llm_energy_measure/
+├── cli.py           # Typer-based CLI (experiment, config, results)
+├── config/          # YAML parsing, inheritance, presets
+├── core/            # Inference engine, metric collectors
+├── domain/          # Pydantic models for type-safe data flow
+├── orchestration/   # ExperimentOrchestrator, lifecycle management
+└── results/         # Persistence, retrieval, export
+</code></pre></div></div>
+
+<h3 id="multi-strategy-subsystems">Multi-Strategy Subsystems</h3>
+
+<p>Several components support pluggable strategies:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Subsystem</th>
+      <th>Strategies</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Batching</strong></td>
+      <td>static, dynamic, sorted, sorted_dynamic</td>
+      <td>MLPerf-aligned request aggregation</td>
+    </tr>
+    <tr>
+      <td><strong>Traffic</strong></td>
+      <td>constant, poisson</td>
+      <td>Simulate production load patterns</td>
+    </tr>
+    <tr>
+      <td><strong>Sharding</strong></td>
+      <td>none, tensor_parallel, pipeline_parallel</td>
+      <td>Distribute model across GPUs</td>
+    </tr>
+    <tr>
+      <td><strong>FLOPs</strong></td>
+      <td>calflops → analytical → parameter-based</td>
+      <td>Three-strategy fallback estimation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This architecture enables measuring how parallelism, batching, and precision interact—factors the <a href="/research/llm-energy-efficiency/">research</a> found can induce 4-6× variation in energy consumption.</p>
 
 <hr />
 
