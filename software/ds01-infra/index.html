@@ -264,37 +264,342 @@
 
 <h2 id="architecture">Architecture</h2>
 
-<p>DS01 uses a five-layer architecture that separates concerns and provides clear extension points:</p>
+<p>DS01 uses a <strong>five-layer architecture</strong> that separates concerns and provides clear extension points, following a “wrap, don’t replace” philosophy.</p>
+
+<h3 id="system-overview">System Overview</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              DS01 INFRASTRUCTURE                                  │
+│  ┌────────────────────────────────────────────────────────────────────────────┐  │
+│  │     Resource Management          User Workflows          Automation        │  │
+│  │     ──────────────────           ──────────────          ──────────        │  │
+│  │     • Per-user quotas            • Wizards               • Idle cleanup    │  │
+│  │     • GPU allocation             • Onboarding            • Event logging   │  │
+│  │     • Priority scheduling        • Project init          • Audit trail     │  │
+│  │     • MIG partitioning           • Help system           • Cron jobs       │  │
+│  └────────────────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                           AIME ML CONTAINERS                                      │
+│  150+ pre-built images • Container lifecycle commands • ~2.5% patched for DS01   │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│                      DOCKER + NVIDIA CONTAINER TOOLKIT                            │
+│  Container runtime • GPU passthrough • cgroup isolation                           │
+└──────────────────────────────────────────────────────────────────────────────────┘
+</code></pre></div></div>
+
+<hr />
 
 <h3 id="the-layer-model">The Layer Model</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌─────────────────────────────────────────────────────────────┐
-│  Layer 4: Workflow Wizards                                  │
-│  Complete guided experiences (user-setup, project-init)     │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 3: Orchestrators                                     │
-│  Higher-level deployment workflows                          │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 2: Atomic Commands                                   │
-│  Individual utilities (container-*, image-*)                │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 1: AIME ML Containers                                │
-│  11 core container lifecycle commands (hidden from users)   │
-├─────────────────────────────────────────────────────────────┤
-│  Layer 0: Docker + NVIDIA Container Toolkit                 │
-│  Foundational runtime                                       │
-└─────────────────────────────────────────────────────────────┘
+<p>Each layer depends only on the layer below it, making the system modular and independently testable.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                              COMMAND LAYER MODEL                                  │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 4: Workflow Wizards                                                        │
+│  ────────────────────────────────────────────────────────────────────────────    │
+│  Complete guided experiences for common tasks                                     │
+│                                                                                   │
+│  Commands: user-setup, project-init                                               │
+│  Users:    Everyone (students, researchers)                                       │
+│  Purpose:  Zero-to-working in minutes, no Docker knowledge required               │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 3: Orchestrators                                                           │
+│  ────────────────────────────────────────────────────────────────────────────    │
+│  Multi-step workflows composing atomic commands                                   │
+│                                                                                   │
+│  Commands: container-deploy, container-retire, project-launch                     │
+│  Users:    Power users, researchers                                               │
+│  Purpose:  Common sequences bundled with sensible defaults                        │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 2: Atomic Commands                                                         │
+│  ────────────────────────────────────────────────────────────────────────────    │
+│  Single-purpose utilities for fine-grained control                                │
+│                                                                                   │
+│  Commands: container-create, container-start, container-stop, container-list,     │
+│            image-list, image-pull, check-limits, gpu-status                       │
+│  Users:    Power users, admins                                                    │
+│  Purpose:  Building blocks for custom workflows                                   │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 1: AIME ML Containers                                                      │
+│  ────────────────────────────────────────────────────────────────────────────    │
+│  Upstream container lifecycle commands (hidden from DS01 users)                   │
+│                                                                                   │
+│  Commands: mlc-create, mlc-start, mlc-stop, mlc-list, mlc-open, mlc-remove, ...   │
+│  Users:    DS01 internals only                                                    │
+│  Purpose:  Battle-tested container management, 150+ ML images                     │
+└──────────────────────────────────────────────────────────────────────────────────┘
+                                          │
+                                          ▼
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│  LAYER 0: Docker + NVIDIA Container Toolkit                                       │
+│  ────────────────────────────────────────────────────────────────────────────    │
+│  Foundational container runtime with GPU support                                  │
+│                                                                                   │
+│  Components: dockerd, containerd, nvidia-ctk, systemd cgroups                     │
+│  Users:      System only                                                          │
+│  Purpose:    Industry-standard container execution                                │
+└──────────────────────────────────────────────────────────────────────────────────┘
 </code></pre></div></div>
 
-<p>Each layer only depends on the layer below it, making the system modular and testable.</p>
+<p><strong>Why this matters:</strong></p>
 
-<h3 id="why-this-structure-matters">Why This Structure Matters</h3>
+<ul>
+  <li><strong>For students</strong>: Interact with Layer 4 wizards—<code class="language-plaintext highlighter-rouge">user-setup</code> handles SSH keys, VS Code, and first container launch automatically</li>
+  <li><strong>For researchers</strong>: Use Layer 2-3 commands for fine-grained control while still benefiting from quota enforcement</li>
+  <li><strong>For admins</strong>: Debug issues at the appropriate layer; AIME commands work independently for isolation testing</li>
+</ul>
 
-<p><strong>For users</strong>: They interact primarily with Layers 3-4. A student running <code class="language-plaintext highlighter-rouge">user-setup</code> gets a complete onboarding experience—SSH keys configured, VS Code integration set up, first container launched—without touching Docker directly.</p>
+<hr />
 
-<p><strong>For power users</strong>: Layer 2 commands provide fine-grained control when needed. A researcher can use <code class="language-plaintext highlighter-rouge">container-create</code> with specific resource flags while still benefiting from quota enforcement.</p>
+<h3 id="gpu-allocation-flow">GPU Allocation Flow</h3>
 
-<p><strong>For admins</strong>: The layered design means issues can be debugged at the appropriate level. AIME commands work independently, so container problems can be isolated from DS01 enhancements.</p>
+<p>The GPU allocator implements priority-based scheduling with MIG awareness.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                            GPU ALLOCATION FLOW                                    │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+                         ┌─────────────────────────┐
+                         │   User requests GPU(s)  │
+                         │   via container-create  │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │  Load user config from  │
+                         │  resource-limits.yaml   │
+                         └────────────┬────────────┘
+                                      │
+                                      ▼
+                              ┌───────────────┐
+                              │ Within quota? │
+                              └───────┬───────┘
+                                      │
+                        ┌─────────────┴─────────────┐
+                        │                           │
+                       No                          Yes
+                        │                           │
+                        ▼                           ▼
+               ┌────────────────┐       ┌─────────────────────────┐
+               │ Reject request │       │  Load GPU state from    │
+               │ Show quota info│       │  /var/lib/ds01/         │
+               └────────────────┘       │  gpu-state.json         │
+                                        └────────────┬────────────┘
+                                                     │
+                                                     ▼
+                                        ┌─────────────────────────┐
+                                        │  Check MIG config       │
+                                        │  (full GPU vs partition)│
+                                        └────────────┬────────────┘
+                                                     │
+                                                     ▼
+                                             ┌───────────────┐
+                                             │ GPU available?│
+                                             └───────┬───────┘
+                                                     │
+                                       ┌─────────────┴─────────────┐
+                                       │                           │
+                                      No                          Yes
+                                       │                           │
+                                       ▼                           ▼
+                              ┌────────────────┐       ┌─────────────────────────┐
+                              │ Queue request  │       │  Acquire file lock      │
+                              │ Notify user    │       │  Allocate GPU(s)        │
+                              └────────────────┘       │  Update gpu-state.json  │
+                                                       │  Release lock           │
+                                                       └────────────┬────────────┘
+                                                                    │
+                                                                    ▼
+                                                       ┌─────────────────────────┐
+                                                       │  Set environment:       │
+                                                       │  NVIDIA_VISIBLE_DEVICES │
+                                                       │  CUDA_VISIBLE_DEVICES   │
+                                                       └────────────┬────────────┘
+                                                                    │
+                                                                    ▼
+                                                       ┌─────────────────────────┐
+                                                       │  Launch container       │
+                                                       │  Apply cgroup limits    │
+                                                       │  Log to events.jsonl    │
+                                                       └─────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="resource-enforcement">Resource Enforcement</h3>
+
+<p>Multiple enforcement mechanisms work together to ensure fair resource sharing.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                          RESOURCE ENFORCEMENT STACK                               │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────┐  ┌──────────────────────────┐  ┌──────────────────────────┐
+│     QUOTA ENFORCEMENT    │  │    RUNTIME ENFORCEMENT   │  │   LIFECYCLE ENFORCEMENT  │
+│  ──────────────────────  │  │  ──────────────────────  │  │  ──────────────────────  │
+│                          │  │                          │  │                          │
+│  ┌────────────────────┐  │  │  ┌────────────────────┐  │  │  ┌────────────────────┐  │
+│  │ resource-limits    │  │  │  │ systemd cgroups    │  │  │  │ Idle detection     │  │
+│  │ .yaml              │  │  │  │                    │  │  │  │                    │  │
+│  │                    │  │  │  │ • CPU shares       │  │  │  │ • SSH activity     │  │
+│  │ • gpu_limit        │  │  │  │ • Memory hard cap  │  │  │  │ • Terminal sessions│  │
+│  │ • cpu_limit        │  │  │  │ • GPU isolation    │  │  │  │ • Process count    │  │
+│  │ • memory_limit     │  │  │  │ • OOM handling     │  │  │  │                    │  │
+│  │ • max_runtime_hrs  │  │  │  │                    │  │  │  │ Default: 48h       │  │
+│  └────────────────────┘  │  │  └────────────────────┘  │  │  └────────────────────┘  │
+│                          │  │                          │  │                          │
+│  ┌────────────────────┐  │  │  ┌────────────────────┐  │  │  ┌────────────────────┐  │
+│  │ Priority system    │  │  │  │ Docker wrapper     │  │  │  │ Runtime limits     │  │
+│  │                    │  │  │  │                    │  │  │  │                    │  │
+│  │ user &gt; group &gt;     │  │  │  │ • --cpus flag      │  │  │  │ • Max container    │  │
+│  │ defaults           │  │  │  │ • --memory flag    │  │  │  │   lifetime         │  │
+│  │                    │  │  │  │ • --gpus flag      │  │  │  │ • Auto-stop        │  │
+│  └────────────────────┘  │  │  └────────────────────┘  │  │  └────────────────────┘  │
+│                          │  │                          │  │                          │
+│  Applied at:             │  │  Applied at:             │  │  Applied via:            │
+│  Container creation      │  │  Container runtime       │  │  Cron + systemd timers   │
+│                          │  │                          │  │                          │
+└──────────────────────────┘  └──────────────────────────┘  └──────────────────────────┘
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="container-lifecycle">Container Lifecycle</h3>
+
+<p>Containers follow a managed lifecycle with automatic cleanup.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                           CONTAINER LIFECYCLE                                     │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌──────────┐          ┌──────────┐          ┌──────────┐          ┌──────────┐
+     │ CREATED  │─────────▶│ RUNNING  │─────────▶│ STOPPED  │─────────▶│ REMOVED  │
+     └──────────┘          └──────────┘          └──────────┘          └──────────┘
+          │                     │                     │                     │
+          │                     │                     │                     │
+          ▼                     ▼                     ▼                     ▼
+    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+    │ • Quota check│     │ • GPU active │     │ • GPU freed  │     │ • Logs saved │
+    │ • GPU alloc  │     │ • Cgroups    │     │ • Idle timer │     │ • State clean│
+    │ • State file │     │   enforced   │     │   stopped    │     │ • Image kept │
+    │ • Event log  │     │ • Monitoring │     │ • Event log  │     │   (or pruned)│
+    └──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
+
+                              │
+              ┌───────────────┼───────────────┐
+              │               │               │
+              ▼               ▼               ▼
+        ┌──────────┐   ┌──────────────┐   ┌──────────┐
+        │ User     │   │ Idle timeout │   │ Runtime  │
+        │ request  │   │ (48h default)│   │ limit    │
+        │          │   │              │   │ exceeded │
+        └──────────┘   └──────────────┘   └──────────┘
+
+                    Triggers for RUNNING → STOPPED
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="user-onboarding-flow">User Onboarding Flow</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">user-setup</code> wizard automates complete onboarding.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                           USER ONBOARDING FLOW                                    │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  user-setup --guided                                                            │
+└────────────────────────────────────────────────────────┬────────────────────────┘
+                                                         │
+     ┌───────────────────────────────────────────────────┼────────────────────────┐
+     │                                                   │                        │
+     ▼                                                   ▼                        ▼
+┌─────────────┐                                   ┌─────────────┐          ┌─────────────┐
+│ 1. HOME DIR │                                   │ 2. SSH KEYS │          │ 3. VS CODE  │
+│ ─────────── │                                   │ ─────────── │          │ ─────────── │
+│             │                                   │             │          │             │
+│ Create:     │                                   │ Generate:   │          │ Configure:  │
+│ ~/projects/ │                                   │ ~/.ssh/     │          │ Remote-SSH  │
+│ ~/data/     │                                   │ id_ed25519  │          │ extension   │
+│ ~/.config/  │                                   │             │          │             │
+└──────┬──────┘                                   └──────┬──────┘          └──────┬──────┘
+       │                                                 │                        │
+       └─────────────────────────┬───────────────────────┴────────────────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │ 4. STARTER CONTAINER    │
+                    │ ─────────────────────── │
+                    │                         │
+                    │ Launch:                 │
+                    │ • PyTorch + Jupyter     │
+                    │ • 1 GPU allocated       │
+                    │ • Mounted ~/projects    │
+                    └────────────┬────────────┘
+                                 │
+                                 ▼
+                    ┌─────────────────────────┐
+                    │ 5. FIRST STEPS GUIDE    │
+                    │ ─────────────────────── │
+                    │                         │
+                    │ Print:                  │
+                    │ • Jupyter URL           │
+                    │ • SSH command           │
+                    │ • Quick reference       │
+                    │ • Help resources        │
+                    └─────────────────────────┘
+
+    Total time: ~10 minutes (no Docker knowledge required)
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="help-system-architecture">Help System Architecture</h3>
+
+<p>The four-tier help system supports users from quick lookups to deep learning.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>┌──────────────────────────────────────────────────────────────────────────────────┐
+│                           HELP SYSTEM TIERS                                       │
+└──────────────────────────────────────────────────────────────────────────────────┘
+
+┌────────────────────┐   ┌────────────────────┐   ┌────────────────────┐   ┌────────────────────┐
+│      --help        │   │      --info        │   │    --concepts      │   │     --guided       │
+│  ────────────────  │   │  ────────────────  │   │  ────────────────  │   │  ────────────────  │
+│                    │   │                    │   │                    │   │                    │
+│  Quick reference   │   │  Full docs         │   │  Educational       │   │  Interactive       │
+│                    │   │                    │   │                    │   │                    │
+│  • Syntax          │   │  • All options     │   │  • Why, not how    │   │  • Step-by-step    │
+│  • Common flags    │   │  • Examples        │   │  • Docker basics   │   │  • Prompts         │
+│  • Exit codes      │   │  • Edge cases      │   │  • GPU concepts    │   │  • Validation      │
+│                    │   │                    │   │  • Best practices  │   │  • Confirmation    │
+│                    │   │                    │   │                    │   │                    │
+│  Audience:         │   │  Audience:         │   │  Audience:         │   │  Audience:         │
+│  Returning users   │   │  Power users       │   │  Learners          │   │  First-time users  │
+│                    │   │                    │   │                    │   │                    │
+│  Length: ~20 lines │   │  Length: ~100 lines│   │  Length: ~50 lines │   │  Length: varies    │
+└────────────────────┘   └────────────────────┘   └────────────────────┘   └────────────────────┘
+
+                    Increasing detail and interactivity ──────────────────────▶
+</code></pre></div></div>
 
 <hr />
 
@@ -704,6 +1009,41 @@ container-create <span class="nt">--name</span> my-project <span class="nt">--im
 
 <hr />
 
+<h2 id="feature-evolution">Feature Evolution</h2>
+
+<div style="max-height: 400px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; margin: 16px 0;">
+
+  <h3 id="v110--semantic-versioning-january-2026">v1.1.0 — Semantic Versioning (January 2026)</h3>
+
+  <p>Development workflow improvements:</p>
+
+  <ul>
+    <li><strong>Commitizen integration</strong> for conventional commits</li>
+    <li><strong>Semantic versioning</strong> with automated changelog generation</li>
+    <li><strong>CI/CD improvements</strong> for release automation</li>
+  </ul>
+
+  <hr />
+
+  <h3 id="v100--mvp-release-december-2025">v1.0.0 — MVP Release (December 2025)</h3>
+
+  <p>Initial stable release for production use at Hertie School’s Data Science Lab:</p>
+
+  <ul>
+    <li><strong>Container lifecycle management</strong> — <code class="language-plaintext highlighter-rouge">container-deploy</code> and <code class="language-plaintext highlighter-rouge">container-retire</code> commands</li>
+    <li><strong>GPU allocation</strong> — MIG-aware scheduling with per-user limits and priority queuing</li>
+    <li><strong>Custom image building</strong> — Docker images with CUDA support via multi-stage builds</li>
+    <li><strong>Resource enforcement</strong> — systemd cgroups and OPA authorisation policies</li>
+    <li><strong>Five-layer command hierarchy</strong> — Docker → MLC → Atomic → Orchestrators → Wizards</li>
+    <li><strong>Centralised event logging</strong> — Structured logs to <code class="language-plaintext highlighter-rouge">/var/log/ds01/events.jsonl</code></li>
+    <li><strong>Stateless GPU allocator</strong> — File locking mechanism for concurrent access</li>
+    <li><strong>Comprehensive documentation</strong> — Getting started, how-to guides, command reference, troubleshooting</li>
+  </ul>
+
+</div>
+
+<hr />
+
 <h2 id="roadmap">Roadmap</h2>
 
 <p>DS01 is under active development. Planned features:</p>
@@ -728,6 +1068,8 @@ container-create <span class="nt">--name</span> my-project <span class="nt">--im
 <hr />
 
 <p><a href="/software/">← Back to Software</a></p>
+
+<p style="text-align: center; color: #6a737d; font-size: 0.85em; margin-top: 2em;">Last updated: January 2026</p>
 
 
       <br>
