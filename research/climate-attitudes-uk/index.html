@@ -165,6 +165,96 @@
       html.dark-mode .nav-item .dropdown a:hover {
         background: #21262d;
       }
+
+      /* Table of Contents sidebar */
+      .toc-sidebar {
+        display: none;
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 200px;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        font-size: 0.85rem;
+        padding: 1rem;
+        background: #f9f9f9;
+        border-left: 2px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .toc-sidebar.visible {
+        display: block;
+      }
+
+      .toc-sidebar h4 {
+        margin: 0 0 0.75rem 0;
+        font-size: 0.9rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .toc-sidebar ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .toc-sidebar li {
+        margin-bottom: 0.5rem;
+      }
+
+      .toc-sidebar a {
+        color: #555;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0;
+        border-left: 2px solid transparent;
+        padding-left: 0.5rem;
+        transition: all 0.2s;
+      }
+
+      .toc-sidebar a:hover {
+        color: #000;
+        border-left-color: #39c;
+      }
+
+      .toc-sidebar a.active {
+        color: #39c;
+        border-left-color: #39c;
+        font-weight: 500;
+      }
+
+      /* Dark mode TOC */
+      html.dark-mode .toc-sidebar {
+        background: #161b22;
+        border-left-color: #30363d;
+      }
+
+      html.dark-mode .toc-sidebar h4 {
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-sidebar a {
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-sidebar a:hover {
+        color: #e0e0e0;
+        border-left-color: #58a6ff;
+      }
+
+      html.dark-mode .toc-sidebar a.active {
+        color: #58a6ff;
+        border-left-color: #58a6ff;
+      }
+
+      /* Hide TOC on smaller screens */
+      @media (max-width: 1200px) {
+        .toc-sidebar {
+          display: none !important;
+        }
+      }
     </style>
 
   </head>
@@ -219,29 +309,47 @@
         </div>
 
         <!-- Navigation Menu -->
+        
+        
+        
+
         <nav class="page-navigation">
           <a href="/" >Home</a>
 
           <a href="/experience/" >Experience</a>
 
+          
           <span class="nav-item">
             <a href="/research/" class="active">Research</a>
             <div class="dropdown">
-              <a href="/research/llm-energy-efficiency/">Benchmarking LLM Energy Efficiency</a>
-              <a href="/research/data-institutions/">Governance of Data Institutions</a>
-              <a href="/research/climate-attitudes-uk/">Mapping UK Climate Attitudes</a>
+              <a href="/research/#benchmarking-llm-energy-efficiency">LLM Energy Efficiency</a>
+              <a href="/research/#governance-of-data-institutions">Data Institutions</a>
+              <a href="/research/#uk-climate-attitudes-bayesian-hierarchical-irt-model-for-latent-public-sentiment-from-proprietary-longitudinal-polling-data">UK Climate Attitudes</a>
             </div>
           </span>
+          
 
-          <a href="/teaching/" >Teaching</a>
+          
+          <span class="nav-item">
+            <a href="/teaching/" >Teaching</a>
+            <div class="dropdown">
+              <a href="/teaching/#deep-learning">Deep Learning</a>
+              <a href="/teaching/#data-structures--algorithms">Data Structures & Algorithms</a>
+              <a href="/teaching/#mathematics-for-data-science">Maths for Data Science</a>
+            </div>
+          </span>
+          
 
+          
           <span class="nav-item">
             <a href="/software/" >Software</a>
             <div class="dropdown">
-              <a href="/software/ds01-infra/">DS01 Infrastructure</a>
-              <a href="/software/llm-efficiency-tool/">LLM Efficiency Measurement Tool</a>
+              <a href="/software/#data-science-lab-infrastructure">DS Lab Infrastructure</a>
+              <a href="/software/#llm-efficiency-measurement-tool">LLM Efficiency Tool</a>
+              <a href="/software/#synthetic-data-generator-for-energy-markets">Energy Market Data Generator</a>
             </div>
           </span>
+          
         </nav>
 
       </header>
@@ -819,6 +927,13 @@ Research collaboration with Looking for Growth · Data: Nationally representativ
       
 
       </section>
+
+      <!-- Table of Contents Sidebar -->
+      <nav class="toc-sidebar" id="toc-sidebar">
+        <h4>On this page</h4>
+        <ul id="toc-list"></ul>
+      </nav>
+
       <footer>
 
       </footer>
@@ -828,5 +943,64 @@ Research collaboration with Looking for Growth · Data: Nationally representativ
 
     <script src="/assets/js/dark-mode-toggle.js"></script>
     <script src="/assets/js/email-link.js"></script>
+
+    <!-- Table of Contents Script -->
+    <script>
+      (function() {
+        const tocSidebar = document.getElementById('toc-sidebar');
+        const tocList = document.getElementById('toc-list');
+        const section = document.querySelector('section');
+
+        if (!tocSidebar || !tocList || !section) return;
+
+        // Get all h3 headings in the content section
+        const headings = section.querySelectorAll('h3');
+
+        // Only show TOC if 3+ headings
+        if (headings.length < 3) return;
+
+        // Build TOC
+        headings.forEach(function(heading, index) {
+          // Ensure heading has an ID for linking
+          if (!heading.id) {
+            heading.id = 'section-' + index;
+          }
+
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + heading.id;
+          a.textContent = heading.textContent;
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+
+        // Show the TOC
+        tocSidebar.classList.add('visible');
+
+        // Scroll spy - highlight current section
+        const tocLinks = tocList.querySelectorAll('a');
+
+        function updateActiveLink() {
+          let current = '';
+
+          headings.forEach(function(heading) {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 150) {
+              current = heading.id;
+            }
+          });
+
+          tocLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+              link.classList.add('active');
+            }
+          });
+        }
+
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+      })();
+    </script>
   </body>
 </html>
