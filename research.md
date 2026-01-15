@@ -60,9 +60,11 @@ Applied machine learning to electricity grid forecasting and optimization. Devel
 
 ### UK Climate Attitudes: Bayesian hierarchical IRT model for latent public sentiment from proprietary longitudinal polling data
 
-**With:** Looking for Growth proprietary polling data
+**With:** Looking for Growth proprietary polling data (N=3,000 nationally representative UK survey, 2025)
 
-...
+Bayesian hierarchical latent trait model measuring three dimensions of British climate attitudes: economic optimism, environmentalism, and support for radical reform. Identifies party affiliation as the strongest predictor, reveals counterintuitive patterns (older cohorts support reform; material insecurity correlates with pro-environment views), and provides actionable audience segmentation for climate communication.
+
+[Web Article](/research/climate-attitudes-uk/) · [GitHub: Analysis & Model Code](https://github.com/henrycgbaker/climate-attitudes-uk-2025-hierarchical-bayesian-model)
 
 ---
 
