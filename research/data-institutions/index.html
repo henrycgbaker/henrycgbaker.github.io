@@ -119,15 +119,25 @@
         display: none;
         position: absolute;
         top: 100%;
-        left: 0;
+        left: -0.5rem;
         background: #fff;
         border: 1px solid #ddd;
         border-radius: 4px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        min-width: 200px;
+        min-width: 220px;
         padding: 0.5rem 0;
         z-index: 1000;
-        margin-top: 0.25rem;
+        padding-top: 0.75rem;
+      }
+
+      /* Invisible bridge to prevent dropdown from closing */
+      .nav-item .dropdown::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 0;
+        right: 0;
+        height: 10px;
       }
 
       .nav-item:hover .dropdown {
@@ -791,8 +801,8 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
         // Get all h3 headings in the content section
         const headings = section.querySelectorAll('h3');
 
-        // Only show TOC if 3+ headings
-        if (headings.length < 3) return;
+        // Only show TOC if there are headings
+        if (headings.length === 0) return;
 
         // Build TOC
         headings.forEach(function(heading, index) {
