@@ -204,6 +204,11 @@
         margin-bottom: 0.5rem;
       }
 
+      .toc-sidebar li.toc-h3 {
+        margin-left: 0.75rem;
+        font-size: 0.8rem;
+      }
+
       .toc-sidebar a {
         color: #555;
         text-decoration: none;
@@ -798,8 +803,8 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
 
         if (!tocSidebar || !tocList || !section) return;
 
-        // Get all h3 headings in the content section
-        const headings = section.querySelectorAll('h3');
+        // Get all h2 and h3 headings in the content section
+        const headings = section.querySelectorAll('h2, h3');
 
         // Only show TOC if there are headings
         if (headings.length === 0) return;
@@ -815,6 +820,9 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
           const a = document.createElement('a');
           a.href = '#' + heading.id;
           a.textContent = heading.textContent;
+          if (heading.tagName === 'H3') {
+            li.classList.add('toc-h3');
+          }
           li.appendChild(a);
           tocList.appendChild(li);
         });
