@@ -93,18 +93,67 @@
         padding: 0.5rem 0;
       }
 
-      .page-navigation a {
-        display: inline;
+      .page-navigation > a,
+      .page-navigation .nav-item {
+        display: inline-block;
         margin-right: 1rem;
+        position: relative;
+      }
+
+      .page-navigation a {
         text-decoration: none;
       }
 
-      .page-navigation a:hover {
+      .page-navigation > a:hover,
+      .page-navigation .nav-item > a:hover {
         text-decoration: underline;
       }
 
-      .page-navigation a.active {
+      .page-navigation a.active,
+      .page-navigation .nav-item > a.active {
         font-weight: bold;
+      }
+
+      /* Dropdown styles */
+      .nav-item .dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        min-width: 200px;
+        padding: 0.5rem 0;
+        z-index: 1000;
+        margin-top: 0.25rem;
+      }
+
+      .nav-item:hover .dropdown {
+        display: block;
+      }
+
+      .nav-item .dropdown a {
+        display: block;
+        padding: 0.4rem 1rem;
+        white-space: nowrap;
+      }
+
+      .nav-item .dropdown a:hover {
+        background: #f5f5f5;
+        text-decoration: none;
+      }
+
+      /* Dark mode dropdown */
+      html.dark-mode .nav-item .dropdown {
+        background: #161b22;
+        border-color: #30363d;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      }
+
+      html.dark-mode .nav-item .dropdown a:hover {
+        background: #21262d;
       }
     </style>
 
@@ -162,10 +211,27 @@
         <!-- Navigation Menu -->
         <nav class="page-navigation">
           <a href="/" >Home</a>
+
           <a href="/experience/" class="active">Experience</a>
-          <a href="/research/" >Research</a>
+
+          <span class="nav-item">
+            <a href="/research/" >Research</a>
+            <div class="dropdown">
+              <a href="/research/llm-energy-efficiency/">Benchmarking LLM Energy Efficiency</a>
+              <a href="/research/data-institutions/">Governance of Data Institutions</a>
+              <a href="/research/climate-attitudes-uk/">Mapping UK Climate Attitudes</a>
+            </div>
+          </span>
+
           <a href="/teaching/" >Teaching</a>
-          <a href="/software/" >Software</a>
+
+          <span class="nav-item">
+            <a href="/software/" >Software</a>
+            <div class="dropdown">
+              <a href="/software/ds01-infra/">DS01 Infrastructure</a>
+              <a href="/software/llm-efficiency-tool/">LLM Efficiency Measurement Tool</a>
+            </div>
+          </span>
         </nav>
 
       </header>
