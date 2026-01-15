@@ -85,15 +85,25 @@
         display: none;
         position: absolute;
         top: 100%;
-        left: 0;
+        left: -0.5rem;
         background: #fff;
         border: 1px solid #ddd;
         border-radius: 4px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        min-width: 200px;
+        min-width: 220px;
         padding: 0.5rem 0;
         z-index: 1000;
-        margin-top: 0.25rem;
+        padding-top: 0.75rem;
+      }
+
+      /* Invisible bridge to prevent dropdown from closing */
+      .nav-item .dropdown::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        left: 0;
+        right: 0;
+        height: 10px;
       }
 
       .nav-item:hover .dropdown {
@@ -104,6 +114,7 @@
         display: block;
         padding: 0.4rem 1rem;
         white-space: nowrap;
+        text-align: left;
       }
 
       .nav-item .dropdown a:hover {
@@ -120,6 +131,126 @@
 
       html.dark-mode .nav-item .dropdown a:hover {
         background: #21262d;
+      }
+
+      /* Table of Contents sidebar */
+      .toc-sidebar {
+        display: none;
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        width: 200px;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        font-size: 0.85rem;
+        padding: 1rem;
+        background: #f9f9f9;
+        border-left: 2px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .toc-sidebar.visible {
+        display: block;
+      }
+
+      .toc-sidebar h4 {
+        margin: 0 0 0.75rem 0;
+        font-size: 0.9rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .toc-sidebar ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .toc-sidebar li {
+        margin-bottom: 0.5rem;
+      }
+
+      .toc-sidebar li.toc-h3 {
+        margin-left: 0.75rem;
+        font-size: 0.8rem;
+      }
+
+      /* Page titles - make them stand out */
+      section h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #39c;
+      }
+
+      section h2 {
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      html.dark-mode section h1 {
+        border-bottom-color: #58a6ff;
+      }
+
+      html.dark-mode section h2 {
+        color: #e0e0e0;
+      }
+
+      .toc-sidebar a {
+        color: #555;
+        text-decoration: none;
+        display: block;
+        padding: 0.2rem 0;
+        border-left: 2px solid transparent;
+        padding-left: 0.5rem;
+        transition: all 0.2s;
+      }
+
+      .toc-sidebar a:hover {
+        color: #000;
+        border-left-color: #39c;
+      }
+
+      .toc-sidebar a.active {
+        color: #39c;
+        border-left-color: #39c;
+        font-weight: 500;
+      }
+
+      /* Dark mode TOC */
+      html.dark-mode .toc-sidebar {
+        background: #161b22;
+        border-left-color: #30363d;
+      }
+
+      html.dark-mode .toc-sidebar h4 {
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-sidebar a {
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-sidebar a:hover {
+        color: #e0e0e0;
+        border-left-color: #58a6ff;
+      }
+
+      html.dark-mode .toc-sidebar a.active {
+        color: #58a6ff;
+        border-left-color: #58a6ff;
+      }
+
+      /* Hide TOC on smaller screens */
+      @media (max-width: 1200px) {
+        .toc-sidebar {
+          display: none !important;
+        }
       }
     </style>
 
@@ -183,26 +314,47 @@
         </div>
 
         <!-- Navigation Menu -->
+        {% assign research_page = site.pages | where: "url", "/research/" | first %}
+        {% assign teaching_page = site.pages | where: "url", "/teaching/" | first %}
+        {% assign software_page = site.pages | where: "url", "/software/" | first %}
+
         <nav class="page-navigation">
           <a href="/" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
 
           <a href="/experience/" {% if page.url contains "experience" %}class="active"{% endif %}>Experience</a>
 
+          {% if research_page.nav_sections %}
           <span class="nav-item">
             <a href="/research/" {% if page.url contains "research" %}class="active"{% endif %}>Research</a>
-            <div class="dropdown">{% for p in site.pages %}{% if p.url contains '/research/' %}{% unless p.url == '/research/' or p.url contains '/figures/' %}
-              <a href="{{ p.url }}">{{ p.title }}</a>{% endunless %}{% endif %}{% endfor %}
+            <div class="dropdown">{% for section in research_page.nav_sections %}
+              <a href="/research/#{{ section.id }}">{{ section.title }}</a>{% endfor %}
             </div>
           </span>
+          {% else %}
+          <a href="/research/" {% if page.url contains "research" %}class="active"{% endif %}>Research</a>
+          {% endif %}
 
+          {% if teaching_page.nav_sections %}
+          <span class="nav-item">
+            <a href="/teaching/" {% if page.url contains "teaching" %}class="active"{% endif %}>Teaching</a>
+            <div class="dropdown">{% for section in teaching_page.nav_sections %}
+              <a href="/teaching/#{{ section.id }}">{{ section.title }}</a>{% endfor %}
+            </div>
+          </span>
+          {% else %}
           <a href="/teaching/" {% if page.url contains "teaching" %}class="active"{% endif %}>Teaching</a>
+          {% endif %}
 
+          {% if software_page.nav_sections %}
           <span class="nav-item">
             <a href="/software/" {% if page.url contains "software" %}class="active"{% endif %}>Software</a>
-            <div class="dropdown">{% for p in site.pages %}{% if p.url contains '/software/' %}{% unless p.url == '/software/' or p.url contains '/figures/' %}
-              <a href="{{ p.url }}">{{ p.title }}</a>{% endunless %}{% endif %}{% endfor %}
+            <div class="dropdown">{% for section in software_page.nav_sections %}
+              <a href="/software/#{{ section.id }}">{{ section.title }}</a>{% endfor %}
             </div>
           </span>
+          {% else %}
+          <a href="/software/" {% if page.url contains "software" %}class="active"{% endif %}>Software</a>
+          {% endif %}
         </nav>
 
       </header>
@@ -217,6 +369,13 @@
       {% endif %}
 
       </section>
+
+      <!-- Table of Contents Sidebar -->
+      <nav class="toc-sidebar" id="toc-sidebar">
+        <h4>On this page</h4>
+        <ul id="toc-list"></ul>
+      </nav>
+
       <footer>
 
       </footer>
@@ -235,5 +394,67 @@
 
     <script src="/assets/js/dark-mode-toggle.js"></script>
     <script src="/assets/js/email-link.js"></script>
+
+    <!-- Table of Contents Script -->
+    <script>
+      (function() {
+        const tocSidebar = document.getElementById('toc-sidebar');
+        const tocList = document.getElementById('toc-list');
+        const section = document.querySelector('section');
+
+        if (!tocSidebar || !tocList || !section) return;
+
+        // Get all h2 and h3 headings in the content section
+        const headings = section.querySelectorAll('h2, h3');
+
+        // Only show TOC if there are headings
+        if (headings.length === 0) return;
+
+        // Build TOC
+        headings.forEach(function(heading, index) {
+          // Ensure heading has an ID for linking
+          if (!heading.id) {
+            heading.id = 'section-' + index;
+          }
+
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + heading.id;
+          a.textContent = heading.textContent;
+          if (heading.tagName === 'H3') {
+            li.classList.add('toc-h3');
+          }
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+
+        // Show the TOC
+        tocSidebar.classList.add('visible');
+
+        // Scroll spy - highlight current section
+        const tocLinks = tocList.querySelectorAll('a');
+
+        function updateActiveLink() {
+          let current = '';
+
+          headings.forEach(function(heading) {
+            const rect = heading.getBoundingClientRect();
+            if (rect.top <= 150) {
+              current = heading.id;
+            }
+          });
+
+          tocLinks.forEach(function(link) {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+              link.classList.add('active');
+            }
+          });
+        }
+
+        window.addEventListener('scroll', updateActiveLink);
+        updateActiveLink();
+      })();
+    </script>
   </body>
 </html>

@@ -2,6 +2,13 @@
 layout: homepage
 title: Research
 permalink: /research/
+nav_sections:
+  - id: benchmarking-llm-energy-efficiency
+    title: LLM Energy Efficiency
+  - id: governance-of-data-institutions
+    title: Data Institutions
+  - id: uk-climate-attitudes-bayesian-hierarchical-irt-model-for-latent-public-sentiment-from-proprietary-longitudinal-polling-data
+    title: UK Climate Attitudes
 ---
 
 # Publications & Research
@@ -14,7 +21,7 @@ permalink: /research/
 
 Analysis of transformer model energy consumption across different deployment configurations. Demonstrates substantial variability (up to 500×) in inference-time energy efficiency under fixed FLOPs constraints, highlighting the limitations of theoretical proxies for real-world energy costs.
 
-Advisor: Prof. Lina Kaack · Award: Data Science Thesis Award 2025
+Advisor: Prof. Lynn Kaack · Award: Data Science Thesis Award 2025
 
 [Web Article](/research/llm-energy-efficiency/) · [Submitted Thesis](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [Experimental Data & Analysis Scripts](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Measurement Tool](https://github.com/henrycgbaker/llm-efficiency-measurement-tool)
 
@@ -50,7 +57,7 @@ Comprehensive benchmarking of computational efficiency across different AI syste
 
 ### ML-Strom: Machine Learning for Electricity Grid Analysis
 
-**With:** Prof. Lion Hirth (Hertie School), Prof. Lina Kaack (Hertie School)
+**With:** Prof. Lion Hirth (Hertie School), Prof. Lynn Kaack (Hertie School)
 
 Applied machine learning to electricity grid forecasting and optimization. Developed models for renewable energy integration and grid stability analysis.
 

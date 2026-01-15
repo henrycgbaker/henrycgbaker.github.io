@@ -2,6 +2,13 @@
 layout: homepage
 title: Software
 permalink: /software/
+nav_sections:
+  - id: data-science-lab-infrastructure
+    title: DS Lab Infrastructure
+  - id: llm-efficiency-measurement-tool
+    title: LLM Efficiency Tool
+  - id: synthetic-data-generator-for-energy-markets
+    title: Energy Market Data Generator
 ---
 
 # Software Projects

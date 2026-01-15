@@ -2,6 +2,13 @@
 layout: homepage
 title: Teaching
 permalink: /teaching/
+nav_sections:
+  - id: deep-learning
+    title: Deep Learning
+  - id: data-structures--algorithms
+    title: Data Structures & Algorithms
+  - id: mathematics-for-data-science
+    title: Maths for Data Science
 ---
 
 # Teaching
