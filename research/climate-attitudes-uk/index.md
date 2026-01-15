@@ -2,6 +2,7 @@
 layout: homepage
 title: Mapping UK Climate Attitudes
 permalink: /research/climate-attitudes-uk/
+math: true
 ---
 
 # Mapping UK Climate Attitudes
