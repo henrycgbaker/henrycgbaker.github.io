@@ -1,0 +1,77 @@
+%!TEX program = xelatex
+\documentclass[11pt,a4paper,sans]{moderncv}
+
+% ModernCV theme
+\moderncvstyle{classic}
+\moderncvcolor{blue}
+
+\usepackage[scale=0.85]{geometry}
+\usepackage{fontspec}
+
+% Japanese font
+\newfontfamily\japanesefont{Hiragino Kaku Gothic Pro}[Scale=0.85]
+\newcommand{\jp}[1]{{\japanesefont #1}}
+
+% Personal data
+\name{Henry}{Baker}
+\title{Data Scientist | Policy Researcher}
+\phone[mobile]{+49 15566 470660}
+\phone[fixed]{+44 7715 427104}
+
+\begin{document}
+
+\makecvtitle
+
+\section{Education}
+
+\cventry{2022--2025}{Dual Degree: MPP \& MSc Data Science}{Hertie School of Governance}{Berlin}{}{%
+MPP: GPA 4.0 (1.2 -- \textit{sehr gut}) | MSc: GPA 4.0 (1.1 -- \textit{sehr gut})\newline
+Data for Good Scholar; full funding.\newline
+MPP Thesis: \textit{governance of data institutions}, Prof.\ J.\ Bryson.\newline
+MSc Thesis: \textit{benchmarking LLM energy efficiency}, Prof.\ L.\ Kaack.\newline
+\textcolor{gray}{Data Science Thesis Award 2025.}}
+
+\cventry{2021--2022}{1st Year Diploma, Global Studies}{Erasmus Mundus}{}{GPA 4.0 (1.0)}{Funding: European Commission.}
+
+\cventry{2011--2014}{BA Modern History -- First Class}{University of Oxford}{}{}{%
+L H Martin Prize for Academic Excellence (2014)\newline
+College Award (2013) | Distinction in Prelim Exams \& Finals (2012)\newline
+Scholar: Grimshaw Exhibition}
+
+\section{Professional Experience}
+
+\cventry{05.2023--present}{Research Engineer / Research Associate / Lead TA}{Hertie Data Science Lab}{Berlin}{}{%
+\textbullet\ Developing lab infrastructure \& supporting computational research\newline
+\textbullet\ DiD analysis (M.\ Kayser); ML-Strom project (L.\ Hirth \& L.\ Kaack)\newline
+\textbullet\ Lead TA: Mathematics for Data Science; Data Structures \& Algorithms; Deep Learning}
+
+\cventry{08.2023--07.2024}{Policy Researcher}{Global Public Policy Institute (GPPi)}{Berlin}{}{Foresight \& Future-oriented Analysis}
+
+\cventry{04.2020--09.2021}{Product Manager}{Rakuten Mobile \jp{(楽天モバイル)}}{Tokyo}{}{LEAP (Learning Platform)}
+
+\cventry{04.2016--03.2020}{Department Manager / Programme Manager}{Ashinaga Foundation \jp{一般財団法人あしなが育英会}}{Tokyo}{}{%
+\textbullet\ Department Manager: Monitoring \& Evaluation\newline
+\textbullet\ Programme Manager: Partnerships \& Outreach}
+
+\section{Research Affiliations}
+\cvitem{ODI}{Open Data Institute -- \textit{Data-centric AI project} (London); Research Fellow}
+\cvitem{Weizenbaum}{Weizenbaum Institute -- \textit{Digitalization, Sustainability, and Participation} (Berlin); Associate Researcher}
+
+\section{Interests}
+\cvitem{}{Sustainable computing \& Green AI | Applied ML: DL, NLP, CompVis, causal ML}
+\cvitem{}{Computational social science: Bayesian hierarchical modelling; forecasting; causal inference}
+\cvitem{}{Decision theory: algorithmic game theory, mechanism design}
+
+\section{Technical Skills}
+\cvitem{Languages}{Python, R, Stan, SQL, Bash}
+\cvitem{DL}{PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace}
+\cvitem{Data}{Scikit-Learn, Pandas, NumPy, Matplotlib}
+\cvitem{MLOps}{Docker, MLflow, Flask, Streamlit}
+\cvitem{Markup}{HTML, XML, CSS, \LaTeX}
+
+\section{Languages}
+\cvitemwithcomment{English}{Native}{}
+\cvitemwithcomment{Japanese}{\jp{日本語能力試験二級}}{Business proficient}
+\cvitemwithcomment{French}{Conversant}{}
+
+\end{document}

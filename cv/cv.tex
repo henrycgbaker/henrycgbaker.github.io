@@ -1,0 +1,285 @@
+%!TEX program = xelatex
+\documentclass[a4paper,10pt]{article}
+
+% =============================================================================
+% PACKAGES
+% =============================================================================
+\usepackage[left=1.4cm, right=1.4cm, top=1.4cm, bottom=1.4cm]{geometry}
+\usepackage{paracol}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{tabularx}
+
+% =============================================================================
+% FONTS - Montserrat static fonts with strong visual hierarchy
+% =============================================================================
+% Base font: Medium weight for body, Bold for emphasis
+\setmainfont{Montserrat}[
+    Scale = 0.92,
+    UprightFont = Montserrat-Medium,
+    BoldFont = Montserrat-Bold,
+    ItalicFont = Montserrat-MediumItalic,
+    BoldItalicFont = Montserrat-BoldItalic
+]
+
+% Black weight (900) for name
+\newfontfamily\montserratblack{Montserrat-Black}[Scale = 0.92]
+
+% ExtraBold weight (800) for section headers
+\newfontfamily\montserratextrabold{Montserrat-ExtraBold}[Scale = 0.92]
+
+% Bold weight (700) for institution names
+\newfontfamily\montserratbold{Montserrat-Bold}[Scale = 0.92]
+
+% SemiBold weight (600)
+\newfontfamily\montserratsemibold{Montserrat-SemiBold}[Scale = 0.92]
+
+% Japanese font
+\newfontfamily\japanesefont{Hiragino Kaku Gothic Pro}[Scale=0.85]
+\newcommand{\jp}[1]{{\japanesefont #1}}
+
+% =============================================================================
+% COLOURS
+% =============================================================================
+\definecolor{black}{HTML}{1a1a1a}
+\definecolor{darkgrey}{HTML}{4a4a4a}
+\definecolor{medgrey}{HTML}{6a6a6a}
+\definecolor{lightgrey}{HTML}{8a8a8a}
+\definecolor{rule}{HTML}{2a2a2a}
+
+\color{black}
+
+% =============================================================================
+% HYPERREF
+% =============================================================================
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0}
+}
+
+% =============================================================================
+% LAYOUT
+% =============================================================================
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\pagestyle{empty}
+
+% Two columns: 32% sidebar, 68% main
+\columnratio{0.32}
+\setlength{\columnsep}{1.1cm}
+
+% Tight lists
+\setlist{nosep, leftmargin=*, labelindent=0pt}
+
+% =============================================================================
+% CUSTOM COMMANDS
+% =============================================================================
+
+% Main section header (right column) - BOLD, larger
+\newcommand{\cvsection}[1]{%
+    \vspace{1.2em}%
+    {\montserratbold\fontsize{15}{17}\selectfont\MakeUppercase{#1}}\\[-0.2em]%
+    {\color{rule}\rule{2cm}{2pt}}%
+    \vspace{0.6em}\par%
+}
+
+% Sidebar section header - BOLD
+\newcommand{\sidebarsection}[1]{%
+    \vspace{1em}%
+    {\montserratbold\fontsize{11}{13}\selectfont\MakeUppercase{#1}}\\[-0.2em]%
+    {\color{rule}\rule{1.5cm}{2pt}}%
+    \vspace{0.5em}\par%
+}
+
+% Education entry: institution (dates) - SEMIBOLD uppercase
+\newcommand{\educationentry}[4]{%
+    {\montserratsemibold\fontsize{10}{12}\selectfont\MakeUppercase{#1 (#2)}}\\[0.2em]%
+    #3%
+    \ifx&#4&\else\vspace{0.2em}\\#4\fi%
+    \vspace{0.8em}\par%
+}
+
+% Professional entry - SEMIBOLD for company name
+\newcommand{\cventry}[3]{%
+    {\montserratsemibold\fontsize{10}{12}\selectfont\MakeUppercase{#1}}\\[0.1em]%
+    {\color{medgrey}\fontsize{9}{11}\selectfont #2 (#3)}%
+    \vspace{0.4em}\par%
+}
+
+% Role within professional entry - SEMIBOLD for role title
+\newcommand{\cvrole}[2]{%
+    {\montserratsemibold #1}\ {#2}%
+}
+
+% Skill category - SEMIBOLD for category
+\newcommand{\skillcat}[2]{%
+    {\montserratsemibold #1:} {#2}%
+}
+
+% Sidebar text style
+\newcommand{\sidebartext}[1]{%
+    {\fontsize{9}{12}\selectfont #1}%
+}
+
+% Main text style
+\newcommand{\maintext}[1]{%
+    {\fontsize{9.5}{13}\selectfont #1}%
+}
+
+% =============================================================================
+% DOCUMENT
+% =============================================================================
+\begin{document}
+
+\begin{paracol}{2}
+
+% =============================================================================
+% LEFT COLUMN - SIDEBAR
+% =============================================================================
+
+% --- NAME ---
+\vspace*{-0.3em}
+{\montserratblack\fontsize{30}{34}\selectfont HENRY}\\[0.1em]
+{\montserratblack\fontsize{30}{34}\selectfont BAKER}
+
+\vspace{0.9em}
+
+% --- TAGLINE ---
+{\fontsize{7.5}{10}\selectfont\color{medgrey}\addfontfeature{LetterSpace=5}%
+PROFESSIONAL\\
+EXPERIENCE EAST-ASIA,\\
+EUROPE \& AFRICA.\\
+HISTORIAN.\\
+DATA SCIENTIST,\\
+POLICY RESEARCHER.}
+
+% --- INTERESTS ---
+\sidebarsection{Interests}
+
+\sidebartext{%
+{\montserratsemibold Sustainable computing} \& Green AI\par\vspace{0.25em}
+{\montserratsemibold Applied ML:} DL, NLP, CompVis, causal ML\par\vspace{0.25em}
+{\montserratsemibold Computational social science:} Bayesian hierarchical modelling; forecasting; causal inference.\par\vspace{0.25em}
+{\montserratsemibold Decision theory:} algorithmic game theory, mechanism design%
+}
+
+% --- TECHNICAL ---
+\sidebarsection{Technical}
+
+\sidebartext{%
+\skillcat{Languages}{Python, R, Stan, SQL, Bash}\par\vspace{0.2em}
+\skillcat{DL}{PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace}\par\vspace{0.2em}
+\skillcat{Data}{Scikit-Learn, Pandas, NumPy, Matplotlib}\par\vspace{0.2em}
+\skillcat{MLOps}{Docker, MLflow, Flask, Streamlit}\par\vspace{0.2em}
+\skillcat{Markup}{HTML, XML, CSS, \LaTeX}\par\vspace{0.2em}
+\skillcat{Project}{JIRA, Confluence}%
+}
+
+% --- LANGUAGES ---
+\sidebarsection{Languages}
+
+\sidebartext{%
+\begin{tabular}{@{}l@{\hspace{1em}}l@{}}
+English & Native\\[0.35em]
+Japanese & \jp{日本語能力試験二級}\\
+         & {\color{darkgrey}(Business proficient)}\\[0.35em]
+French & Conversant
+\end{tabular}%
+}
+
+% --- RESEARCH AFFILIATIONS ---
+\sidebarsection{Research Affiliations}
+
+\sidebartext{%
+{\montserratsemibold Open Data Institute (The ODI):} {\itshape Data-centric AI project} (London); Research Fellow\par\vspace{0.4em}
+{\montserratsemibold Weizenbaum Institute:} {\itshape Digitalization, Sustainability, and Participation} (Berlin); Associate Researcher%
+}
+
+% --- CONTACT ---
+\sidebarsection{Contact}
+
+\sidebartext{%
++49 15566 470660\\
++44 7715 427104%
+}
+
+% =============================================================================
+% RIGHT COLUMN - MAIN
+% =============================================================================
+\switchcolumn
+
+\vspace*{-0.5em}
+
+% --- EDUCATION ---
+\cvsection{Education}
+
+\educationentry{Hertie School of Governance}{2022--2025}{%
+\maintext{%
+Dual Degree: Public Policy \& Data Science\\[0.15em]
+{\montserratsemibold MPP:} GPA 4.0 (1.2 -- {\itshape sehr gut})\\
+{\montserratsemibold MSc:} GPA 4.0 (1.1 -- {\itshape sehr gut})\\[0.3em]
+Data for Good Scholar; full funding.\\
+MPP Thesis: {\itshape governance of data institutions}, Prof.\ J.\ Bryson.\\
+MSc Thesis: {\itshape benchmarking LLM energy efficiency}, Prof.\ L.\ Kaack.\\
+\hspace{1.2em}{\color{darkgrey}Data Science Thesis Award 2025.}%
+}}{}
+
+\educationentry{Erasmus Mundus Global Studies}{2021--2022}{%
+\maintext{%
+1st year diploma: GPA 4.0 (1.0 -- {\itshape sehr gut})\\
+Funding: European Commission.%
+}}{}
+
+\educationentry{University of Oxford}{2011--2014}{%
+\maintext{%
+BA, Modern History -- First Class\\[0.2em]
+\begin{tabular}{@{}r@{\hspace{0.6em}}l@{}}
+2014 & L H Martin Prize for Academic Excellence\\
+2013 & College Award (academic)\\
+2012 & Distinction in Prelim Exams \& Finals\\
+     & {\color{darkgrey}Scholar: Grimshaw Exhibition}
+\end{tabular}%
+}}{}
+
+% --- PROFESSIONAL ---
+\cvsection{Professional}
+
+\cventry{Hertie Data Science Lab}{Berlin}{05.2023 -- present}
+
+\maintext{%
+\cvrole{Research Engineer:}{developing lab infrastructure \& supporting computational research}\par\vspace{0.25em}
+\cvrole{Research Associate:}{DiD analysis (M.\ Kayser); ML-Strom project (L.\ Hirth \& L.\ Kaack)}\par\vspace{0.25em}
+\cvrole{Lead Teaching Assistant:}{Mathematics for Data Science; Data Structures \& Algorithms; Deep Learning}%
+}
+
+\vspace{0.9em}
+
+\cventry{Global Public Policy Institute (GPPi)}{Berlin}{08.2023 -- 07.2024}
+
+\maintext{%
+\cvrole{Policy Researcher,}{Foresight \& Future-oriented Analysis}%
+}
+
+\vspace{0.9em}
+
+\cventry{Rakuten Mobile \jp{(楽天モバイル)}}{Tokyo}{04.2020 -- 09.2021}
+
+\maintext{%
+\cvrole{Product Manager,}{LEAP (Learning Platform)}%
+}
+
+\vspace{0.9em}
+
+\cventry{Ashinaga Foundation \jp{一般財団法人あしなが育英会}}{Tokyo}{04.2016 -- 03.2020}
+
+\maintext{%
+\cvrole{Department Manager,}{Monitoring \& Evaluation}\par\vspace{0.25em}
+\cvrole{Programme Manager,}{Partnerships \& Outreach}%
+}
+
+\end{paracol}
+
+\end{document}

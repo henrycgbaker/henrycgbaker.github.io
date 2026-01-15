@@ -1,0 +1,105 @@
+%!TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tabularx}
+
+% Font: Times-style for academic look
+\setmainfont{Times New Roman}
+
+% Japanese font
+\newfontfamily\japanesefont{Hiragino Kaku Gothic Pro}[Scale=0.85]
+\newcommand{\jp}[1]{{\japanesefont #1}}
+
+% Section formatting - academic style
+\titleformat{\section}{\large\scshape}{}{0em}{}[\vspace{-0.5em}\hrulefill]
+\titlespacing*{\section}{0pt}{1.5em}{0.6em}
+
+\titleformat{\subsection}{\normalsize\bfseries}{}{0em}{}
+\titlespacing*{\subsection}{0pt}{0.8em}{0.3em}
+
+% No page numbers
+\pagestyle{empty}
+
+\setlist[itemize]{nosep, leftmargin=1.5em}
+
+\begin{document}
+
+% Header
+\begin{center}
+    {\LARGE\scshape Henry Baker}\\[0.8em]
+    {\small Data Scientist \textbar{} Policy Researcher \textbar{} Historian}\\[0.3em]
+    {\small Tel: +49 15566 470660 / +44 7715 427104}
+\end{center}
+
+\section*{Research Affiliations}
+
+\noindent\textbf{Open Data Institute (ODI)}, London\\
+Research Fellow, \textit{Data-centric AI project}\\[0.5em]
+\textbf{Weizenbaum Institute}, Berlin\\
+Associate Researcher, \textit{Digitalization, Sustainability, and Participation}
+
+\section*{Education}
+
+\noindent\textbf{Hertie School of Governance}, Berlin \hfill 2022--2025\\
+\textit{Dual Degree: Master of Public Policy \& MSc Data Science}\\
+MPP: GPA 4.0 (1.2 -- \textit{sehr gut}); MSc: GPA 4.0 (1.1 -- \textit{sehr gut})\\
+Data for Good Scholar (full funding)\\
+MPP Thesis: ``Governance of Data Institutions'' (Supervisor: Prof.\ J.\ Bryson)\\
+MSc Thesis: ``Benchmarking LLM Energy Efficiency'' (Supervisor: Prof.\ L.\ Kaack)\\
+\hspace{1em}\textit{Data Science Thesis Award 2025}\\[0.8em]
+
+\noindent\textbf{Erasmus Mundus Programme -- Global Studies} \hfill 2021--2022\\
+\textit{First Year Diploma}\\
+GPA 4.0 (1.0 -- \textit{sehr gut}); European Commission funding\\[0.8em]
+
+\noindent\textbf{University of Oxford} \hfill 2011--2014\\
+\textit{BA Modern History -- First Class Honours}\\
+L H Martin Prize for Academic Excellence (2014)\\
+College Award for Academic Performance (2013)\\
+Distinction in Preliminary Examinations \& Finals (2012)\\
+Grimshaw Exhibition Scholar
+
+\section*{Professional Experience}
+
+\noindent\textbf{Hertie Data Science Lab}, Berlin \hfill 05.2023--present\\
+\textit{Research Engineer; Research Associate; Lead Teaching Assistant}
+\begin{itemize}
+    \item Developing lab infrastructure and supporting computational research
+    \item Research Associate: Difference-in-Differences analysis (Prof.\ M.\ Kayser); ML-Strom project (Prof.\ L.\ Hirth \& Prof.\ L.\ Kaack)
+    \item Lead TA: Mathematics for Data Science; Data Structures \& Algorithms; Deep Learning
+\end{itemize}
+
+\vspace{0.5em}
+\noindent\textbf{Global Public Policy Institute (GPPi)}, Berlin \hfill 08.2023--07.2024\\
+\textit{Policy Researcher, Foresight \& Future-oriented Analysis}\\[0.8em]
+
+\noindent\textbf{Rakuten Mobile} \jp{(楽天モバイル)}, Tokyo \hfill 04.2020--09.2021\\
+\textit{Product Manager, LEAP Learning Platform}\\[0.8em]
+
+\noindent\textbf{Ashinaga Foundation} \jp{一般財団法人あしなが育英会}, Tokyo \hfill 04.2016--03.2020\\
+\textit{Department Manager, Monitoring \& Evaluation}\\
+\textit{Programme Manager, Partnerships \& Outreach}
+
+\section*{Research Interests}
+
+Sustainable computing \& Green AI; Applied machine learning (deep learning, NLP, computer vision, causal ML); Computational social science (Bayesian hierarchical modelling, forecasting, causal inference); Decision theory (algorithmic game theory, mechanism design)
+
+\section*{Technical Skills}
+
+\noindent\textbf{Programming:} Python, R, Stan, SQL, Bash\\
+\textbf{Deep Learning:} PyTorch, TensorFlow, JAX, vLLM, TensorRT, HuggingFace\\
+\textbf{Data Science:} Scikit-Learn, Pandas, NumPy, Matplotlib\\
+\textbf{MLOps:} Docker, MLflow, Flask, Streamlit\\
+\textbf{Markup:} HTML, XML, CSS, \LaTeX
+
+\section*{Languages}
+
+\noindent English (Native) | Japanese (\jp{日本語能力試験二級}, Business proficient) | French (Conversant)
+
+\end{document}

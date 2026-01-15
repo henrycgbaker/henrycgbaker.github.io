@@ -1,0 +1,104 @@
+%!TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+% Font setup
+\setmainfont{Montserrat}[
+    Scale = 0.95,
+    UprightFont = Montserrat-Regular,
+    BoldFont = Montserrat-Bold,
+    ItalicFont = Montserrat-Italic,
+    BoldItalicFont = Montserrat-BoldItalic
+]
+
+% Japanese font
+\newfontfamily\japanesefont{Hiragino Kaku Gothic Pro}[Scale=0.85]
+\newcommand{\jp}[1]{{\japanesefont #1}}
+
+% Colors
+\definecolor{accent}{HTML}{2c3e50}
+\definecolor{lightgray}{HTML}{666666}
+
+% Section formatting
+\titleformat{\section}{\large\bfseries\color{accent}}{}{0em}{}[\titlerule]
+\titlespacing*{\section}{0pt}{1.5em}{0.8em}
+
+% No page numbers
+\pagestyle{empty}
+
+% Custom commands
+\newcommand{\entry}[4]{%
+    \textbf{#1} \hfill \textcolor{lightgray}{#2}\\
+    \textit{#3} \hfill \textcolor{lightgray}{#4}\\[0.3em]
+}
+
+\newcommand{\entrydetail}[1]{%
+    \hspace{1em}#1\\[0.2em]
+}
+
+\setlist[itemize]{nosep, leftmargin=1.5em, label=\textbullet}
+
+\begin{document}
+
+% Header
+\begin{center}
+    {\Huge\bfseries HENRY BAKER}\\[0.5em]
+    {\color{lightgray}Data Scientist | Policy Researcher | Historian}\\[0.3em]
+    {\small +49 15566 470660 \quad | \quad +44 7715 427104}
+\end{center}
+
+\section{Education}
+
+\entry{Hertie School of Governance}{Berlin}{Dual Degree: MPP \& MSc Data Science}{2022--2025}
+\entrydetail{MPP: GPA 4.0 (1.2 -- \textit{sehr gut}) | MSc: GPA 4.0 (1.1 -- \textit{sehr gut})}
+\entrydetail{Data for Good Scholar; full funding.}
+\entrydetail{MPP Thesis: \textit{governance of data institutions}, Prof.\ J.\ Bryson.}
+\entrydetail{MSc Thesis: \textit{benchmarking LLM energy efficiency}, Prof.\ L.\ Kaack. \textcolor{lightgray}{(Thesis Award 2025)}}
+
+\entry{Erasmus Mundus Global Studies}{}{1st Year Diploma -- GPA 4.0}{2021--2022}
+\entrydetail{European Commission funding.}
+
+\entry{University of Oxford}{}{BA Modern History -- First Class}{2011--2014}
+\entrydetail{L H Martin Prize for Academic Excellence (2014) | College Award (2013)}
+\entrydetail{Distinction in Prelim Exams \& Finals | Scholar: Grimshaw Exhibition}
+
+\section{Experience}
+
+\entry{Hertie Data Science Lab}{Berlin}{Research Engineer / Research Associate / Lead TA}{05.2023--present}
+\begin{itemize}
+    \item Developing lab infrastructure \& supporting computational research
+    \item DiD analysis (M.\ Kayser); ML-Strom project (L.\ Hirth \& L.\ Kaack)
+    \item Lead TA: Mathematics for Data Science; Data Structures \& Algorithms; Deep Learning
+\end{itemize}
+
+\vspace{0.5em}
+\entry{Global Public Policy Institute (GPPi)}{Berlin}{Policy Researcher, Foresight \& Future-oriented Analysis}{08.2023--07.2024}
+
+\vspace{0.5em}
+\entry{Rakuten Mobile \jp{(楽天モバイル)}}{Tokyo}{Product Manager, LEAP (Learning Platform)}{04.2020--09.2021}
+
+\vspace{0.5em}
+\entry{Ashinaga Foundation \jp{一般財団法人あしなが育英会}}{Tokyo}{Department Manager / Programme Manager}{04.2016--03.2020}
+\begin{itemize}
+    \item Department Manager: Monitoring \& Evaluation
+    \item Programme Manager: Partnerships \& Outreach
+\end{itemize}
+
+\section{Research Affiliations}
+
+\textbf{Open Data Institute (ODI)} -- \textit{Data-centric AI project} (London); Research Fellow\\
+\textbf{Weizenbaum Institute} -- \textit{Digitalization, Sustainability, and Participation} (Berlin); Associate Researcher
+
+\section{Skills \& Interests}
+
+\textbf{Technical:} Python, R, Stan, SQL | PyTorch, TensorFlow, JAX, HuggingFace | Docker, MLflow\\
+\textbf{Languages:} English (Native), Japanese (\jp{日本語能力試験二級} -- Business proficient), French (Conversant)\\
+\textbf{Interests:} Sustainable computing \& Green AI | Computational social science | Decision theory
+
+\end{document}
