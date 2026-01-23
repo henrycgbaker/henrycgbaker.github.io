@@ -350,7 +350,7 @@
         <br>
         {% endif %}
         {% if site.email %}
-        <email><a href="mailto:{{ site.email }}">{{ site.email }}</a></email>
+        <email><a href="mailto:{{ site.email }}" onclick="navigator.clipboard.writeText('{{ site.email }}').then(() => { this.title = 'Email copied!'; setTimeout(() => this.title = 'Click to email or copy', 2000); });" title="Click to email or copy">{{ site.email }}</a></email>
         {% endif %}
 
         <br>
