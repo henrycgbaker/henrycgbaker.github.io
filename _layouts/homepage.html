@@ -350,7 +350,10 @@
         <br>
         {% endif %}
         {% if site.email %}
-        <email><a href="mailto:{{ site.email }}" onclick="navigator.clipboard.writeText('{{ site.email }}').then(() => { this.title = 'Email copied!'; setTimeout(() => this.title = 'Click to email or copy', 2000); });" title="Click to email or copy">{{ site.email }}</a></email>
+        <email>
+          <a href="mailto:{{ site.email }}" id="email-link" title="Click to email">{{ site.email }}</a>
+          <span id="email-copied-tooltip" style="display: none; position: absolute; background: #333; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px;">Email copied!</span>
+        </email>
         {% endif %}
 
         <br>
@@ -469,7 +472,37 @@
     {% endif %}
 
     <script src="/assets/js/dark-mode-toggle.js"></script>
-    <script src="/assets/js/email-link.js"></script>
+
+    <!-- Email copy functionality -->
+    <script>
+      (function() {
+        const emailLink = document.getElementById('email-link');
+        const tooltip = document.getElementById('email-copied-tooltip');
+
+        if (emailLink && tooltip) {
+          emailLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const email = this.textContent;
+
+            // Try to copy to clipboard
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(email).then(function() {
+                // Show tooltip
+                tooltip.style.display = 'inline';
+                setTimeout(function() {
+                  tooltip.style.display = 'none';
+                }, 2000);
+              }).catch(function(err) {
+                console.error('Failed to copy email:', err);
+              });
+            }
+
+            // Still try to open mailto
+            window.location.href = 'mailto:' + email;
+          });
+        }
+      })();
+    </script>
 
     <!-- Table of Contents Script -->
     <script>
