@@ -225,6 +225,7 @@
         box-shadow: -2px 0 8px rgba(0,0,0,0.1);
         width: 30px;
         white-space: nowrap;
+        font-family: inherit;
       }
 
       .toc-toggle:hover {
@@ -235,15 +236,6 @@
 
       .toc-container.hidden {
         display: none;
-      }
-
-      .toc-sidebar h4 {
-        margin: 0 0 0.75rem 0;
-        font-size: 0.9rem;
-        color: #666;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        flex-shrink: 0;
       }
 
       .toc-sidebar ul {
@@ -1108,7 +1100,6 @@
       <div class="toc-container hidden" id="toc-container">
         <button class="toc-toggle" id="toc-toggle" aria-label="Toggle table of contents">ON THIS PAGE</button>
         <nav class="toc-sidebar" id="toc-sidebar">
-          <h4>On this page</h4>
           <ul id="toc-list"></ul>
         </nav>
       </div>
