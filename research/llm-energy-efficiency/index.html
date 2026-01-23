@@ -192,7 +192,7 @@
         top: 0;
         right: 0;
         width: 220px;
-        max-height: calc(100vh - 140px);
+        max-height: calc(100vh - 120px);
         overflow-y: auto;
         font-size: 0.85rem;
         padding: 1rem;
@@ -200,6 +200,8 @@
         border-left: 2px solid #ddd;
         border-radius: 4px 0 0 4px;
         box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
       }
 
       /* Toggle tab button - attached to left of TOC */
@@ -241,12 +243,15 @@
         color: #666;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        flex-shrink: 0;
       }
 
       .toc-sidebar ul {
         list-style: none;
         margin: 0;
         padding: 0;
+        flex: 1;
+        overflow-y: auto;
       }
 
       .toc-sidebar li {
