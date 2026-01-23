@@ -54,13 +54,21 @@
     {% endif %}
 
     <style>
+      email {
+        display: inline-block;
+        position: relative;
+        z-index: 10;
+      }
+
       email a {
         cursor: pointer;
         text-decoration: none;
+        pointer-events: auto;
       }
 
       email a:hover {
         text-decoration: underline;
+        color: #39c;
       }
 
       .page-navigation {
