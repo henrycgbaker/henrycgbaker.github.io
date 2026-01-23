@@ -10,7 +10,7 @@ permalink: /software/llm-efficiency-tool/
 
 A Python framework for measuring what actually matters when deploying large language models. Deployment choices—parallelism, batching, precision, and inference backend—can induce **50×+ variation** in energy-per-token for the same model. This tool quantifies it across multiple backends (PyTorch, vLLM, TensorRT).
 
-[GitHub Repository](https://github.com/henrycgbaker/LLefficiencyMeasure) · [Research Findings](/research/llm-energy-efficiency/)
+[GitHub Repository](https://github.com/henrycgbaker/LLenergyMeasure) · [Research Findings](/research/llm-energy-efficiency/)
 
 ---
 
@@ -49,7 +49,7 @@ A Python framework for measuring what actually matters when deploying large lang
 
 The CLI (`lem`) supports grid searches over precision, batch size, parallelism, and backends for systematic deployment analysis. Any HuggingFace model works out of the box.
 
-See the [GitHub README](https://github.com/henrycgbaker/LLefficiencyMeasure) for detailed installation and usage instructions.
+See the [GitHub README](https://github.com/henrycgbaker/LLenergyMeasure) for detailed installation and usage instructions.
 
 ---
 

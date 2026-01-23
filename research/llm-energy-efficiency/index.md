@@ -9,7 +9,7 @@ permalink: /research/llm-energy-efficiency/
 **Masters of Data Science for Public Policy Thesis, 2025**
 Hertie School of Governance · Advisor: Prof. Lynn Kaack · **Data Science Thesis Award 2025**
 
-[Download Thesis (PDF)](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [GitHub: LLefficiencyMeasure](https://github.com/henrycgbaker/LLefficiencyMeasure)
+[Download Thesis (PDF)](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [GitHub: LLenergyMeasure](https://github.com/henrycgbaker/LLenergyMeasure)
 
 ---
 
@@ -276,7 +276,7 @@ The substantial variability demonstrated here highlights opportunities for energ
 
 ## Ongoing Development & Future Directions
 
-The measurement tool developed for this research is being actively expanded. See the [tool documentation](/software/llm-efficiency-tool/) for usage details and feature evolution, or the [GitHub repository](https://github.com/henrycgbaker/LLefficiencyMeasure) for the source code.
+The measurement tool developed for this research is being actively expanded. See the [tool documentation](/software/llm-efficiency-tool/) for usage details and feature evolution, or the [GitHub repository](https://github.com/henrycgbaker/LLenergyMeasure) for the source code.
 
 **Current expansion areas:**
 - Agentic AI workflows and multi-step reasoning

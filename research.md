@@ -23,7 +23,7 @@ Analysis of transformer model energy consumption across different deployment con
 
 Advisor: Prof. Lynn Kaack · Award: Data Science Thesis Award 2025
 
-[Web Article](/research/llm-energy-efficiency/) · [Submitted Thesis](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [Experimental Data & Analysis Scripts](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Measurement Tool](https://github.com/henrycgbaker/LLefficiencyMeasure)
+[Web Article](/research/llm-energy-efficiency/) · [Submitted Thesis](/assets/files/research/llm-energy-efficiency-thesis.pdf) · [Experimental Data & Analysis Scripts](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Measurement Tool](https://github.com/henrycgbaker/LLenergyMeasure)
 
 ---
 

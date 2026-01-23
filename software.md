@@ -29,7 +29,7 @@ Multi-user GPU container management for academic machine learning. An open-sourc
 
 A Python framework for benchmarking energy consumption, throughput, and FLOPs in large language model inference across multiple backends (PyTorch, vLLM, TensorRT). Designed for systematic deployment analysis and backend comparison.
 
-[Detailed Article](/software/llm-efficiency-tool/) · [GitHub Repository](https://github.com/henrycgbaker/LLefficiencyMeasure) · [Example Research Application](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Research Findings](/research/llm-energy-efficiency/)
+[Detailed Article](/software/llm-efficiency-tool/) · [GitHub Repository](https://github.com/henrycgbaker/LLenergyMeasure) · [Example Research Application](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Research Findings](/research/llm-energy-efficiency/)
 
 ---
 
