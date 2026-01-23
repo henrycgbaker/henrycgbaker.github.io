@@ -203,6 +203,7 @@
         top: 0;
         right: 0;
         width: 220px;
+        min-height: 200px;
         max-height: 100%;
         overflow-y: auto;
         font-size: 0.85rem;
@@ -211,7 +212,6 @@
         border-left: 2px solid #ddd;
         border-radius: 4px 0 0 4px;
         box-shadow: -2px 0 8px rgba(0,0,0,0.1);
-        z-index: 2;
       }
 
       /* Toggle tab button - attached to left of TOC */
@@ -236,7 +236,6 @@
         box-shadow: -2px 0 8px rgba(0,0,0,0.1);
         width: 30px;
         white-space: nowrap;
-        z-index: 1;
       }
 
       .toc-toggle:hover {
@@ -255,22 +254,16 @@
         color: #666;
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        position: relative;
-        z-index: 3;
       }
 
       .toc-sidebar ul {
         list-style: none;
         margin: 0;
         padding: 0;
-        position: relative;
-        z-index: 3;
       }
 
       .toc-sidebar li {
         margin-bottom: 0.5rem;
-        position: relative;
-        z-index: 3;
       }
 
       .toc-sidebar li.toc-h3 {
@@ -311,8 +304,6 @@
         border-left: 2px solid transparent;
         padding-left: 0.5rem;
         transition: all 0.2s;
-        position: relative;
-        z-index: 3;
       }
 
       .toc-sidebar a:hover {
