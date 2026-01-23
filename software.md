@@ -25,9 +25,9 @@ Multi-user GPU container management for academic machine learning. An open-sourc
 
 ---
 
-## LLM Efficiency Measurement Tool
+## LLenergyMeasure
 
-A Python framework for benchmarking energy consumption, throughput, and FLOPs in large language model inference. Designed for systematic deployment analysis across configurations.
+A Python framework for benchmarking energy consumption, throughput, and FLOPs in large language model inference across multiple backends (PyTorch, vLLM, TensorRT). Designed for systematic deployment analysis and backend comparison.
 
 [Detailed Article](/software/llm-efficiency-tool/) · [GitHub Repository](https://github.com/henrycgbaker/LLefficiencyMeasure) · [Example Research Application](https://github.com/henrycgbaker/LLM-efficiency-experimental-data-analysis-MSc-thesis) · [Research Findings](/research/llm-energy-efficiency/)
 

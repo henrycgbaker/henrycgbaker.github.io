@@ -276,7 +276,7 @@ The substantial variability demonstrated here highlights opportunities for energ
 
 ## Ongoing Development & Future Directions
 
-The measurement tool developed for this research is being actively expanded. See the [tool documentation](/software/llm-efficiency-tool/) for usage details and feature evolution, or the [GitHub repository](https://github.com/henrycgbaker/llm-efficiency-measurement-tool) for the source code.
+The measurement tool developed for this research is being actively expanded. See the [tool documentation](/software/llm-efficiency-tool/) for usage details and feature evolution, or the [GitHub repository](https://github.com/henrycgbaker/LLefficiencyMeasure) for the source code.
 
 **Current expansion areas:**
 - Agentic AI workflows and multi-step reasoning

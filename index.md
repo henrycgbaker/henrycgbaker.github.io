@@ -58,7 +58,7 @@ My background spans East Asia, Europe, and Sub-Saharan Africa, with experience i
 
 ## Software
 
-- **LLM Energy Efficieny Measure:** a tool to....
+- **LLenergyMeasure:** Python framework for benchmarking energy consumption, throughput, and FLOPs in LLM inference across multiple backends (PyTorch, vLLM, TensorRT)
 
 [See all software →](/software.md)
 
