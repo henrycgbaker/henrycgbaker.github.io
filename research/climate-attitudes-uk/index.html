@@ -181,15 +181,20 @@
       .toc-container {
         position: fixed;
         top: 100px;
-        right: -260px;
-        width: 260px;
+        right: -252px;
+        width: 252px;
         max-height: calc(100vh - 140px);
         transition: right 0.3s ease;
         z-index: 100;
+        pointer-events: none;
       }
 
       .toc-container.visible {
         right: 0;
+      }
+
+      .toc-container > * {
+        pointer-events: auto;
       }
 
       /* Table of Contents sidebar */
