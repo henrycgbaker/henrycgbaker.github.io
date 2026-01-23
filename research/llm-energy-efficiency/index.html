@@ -173,7 +173,6 @@
         top: 100px;
         right: -252px;
         width: 252px;
-        max-height: calc(100vh - 140px);
         transition: right 0.3s ease;
         z-index: 100;
         pointer-events: none;
@@ -193,8 +192,7 @@
         top: 0;
         right: 0;
         width: 220px;
-        min-height: 200px;
-        max-height: 100%;
+        max-height: calc(100vh - 140px);
         overflow-y: auto;
         font-size: 0.85rem;
         padding: 1rem;
@@ -207,9 +205,8 @@
       /* Toggle tab button - attached to left of TOC */
       .toc-toggle {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: -32px;
-        transform: translateY(-50%);
         background: #f9f9f9;
         border: 2px solid #ddd;
         border-right: none;
