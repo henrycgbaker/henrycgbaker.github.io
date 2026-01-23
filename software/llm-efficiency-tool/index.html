@@ -264,6 +264,153 @@
         display: none;
       }
 
+      /* Contact Form container - positioned below TOC */
+      .contact-form-container {
+        position: fixed;
+        top: 320px;
+        right: -402px;
+        width: 402px;
+        transition: right 0.3s ease;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      .contact-form-container.visible {
+        right: 0;
+      }
+
+      .contact-form-container > * {
+        pointer-events: auto;
+      }
+
+      .contact-form-container.hidden {
+        display: none;
+      }
+
+      /* Contact Form sidebar */
+      .contact-form-sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 370px;
+        max-height: calc(100vh - 340px);
+        overflow-y: auto;
+        font-size: 0.9rem;
+        padding: 1.5rem;
+        background: #f9f9f9;
+        border-left: 2px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      }
+
+      /* Contact form toggle button */
+      .contact-form-toggle {
+        position: absolute;
+        top: 0;
+        left: -32px;
+        background: #f9f9f9;
+        border: 2px solid #ddd;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        padding: 1rem 0.35rem;
+        cursor: pointer;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #666;
+        letter-spacing: 0.5px;
+        transition: background 0.2s, color 0.2s;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        width: 30px;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+
+      .contact-form-toggle:hover {
+        background: #39c;
+        color: #fff;
+        border-color: #39c;
+      }
+
+      /* Contact form styling */
+      .contact-form-sidebar form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .contact-form-sidebar label {
+        display: block;
+        margin-bottom: 0.4rem;
+        font-weight: 500;
+        font-size: 0.85rem;
+      }
+
+      .contact-form-sidebar input,
+      .contact-form-sidebar textarea {
+        width: 100%;
+        padding: 0.6rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+        margin-bottom: 1rem;
+        font-family: inherit;
+      }
+
+      .contact-form-sidebar textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .contact-form-sidebar button {
+        background-color: #333;
+        color: white;
+        padding: 0.7rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.2s;
+      }
+
+      .contact-form-sidebar button:hover {
+        background-color: #39c;
+      }
+
+      /* Dark mode contact form */
+      html.dark-mode .contact-form-sidebar {
+        background: #161b22;
+        border-left-color: #30363d;
+      }
+
+      html.dark-mode .contact-form-toggle {
+        background: #161b22;
+        border-color: #30363d;
+        color: #c9d1d9;
+      }
+
+      html.dark-mode .contact-form-toggle:hover {
+        background: #58a6ff;
+        border-color: #58a6ff;
+      }
+
+      html.dark-mode .contact-form-sidebar input,
+      html.dark-mode .contact-form-sidebar textarea {
+        background: #0d1117;
+        border-color: #30363d;
+        color: #c9d1d9;
+      }
+
+      html.dark-mode .contact-form-sidebar button {
+        background-color: #238636;
+      }
+
+      html.dark-mode .contact-form-sidebar button:hover {
+        background-color: #2ea043;
+      }
+
       .toc-sidebar ul {
         list-style: none;
         margin: 0;
@@ -363,9 +510,12 @@
         border-color: #58a6ff;
       }
 
-      /* Hide TOC on smaller screens */
+      /* Hide TOC and Contact Form on smaller screens */
       @media (max-width: 1200px) {
         .toc-container {
+          display: none !important;
+        }
+        .contact-form-container {
           display: none !important;
         }
       }
@@ -1133,6 +1283,29 @@
         </nav>
       </div>
 
+      <!-- Contact Form Sidebar -->
+      <div class="contact-form-container" id="contact-form-container">
+        <button class="contact-form-toggle" id="contact-form-toggle" aria-label="Toggle contact form">CONTACT</button>
+        <div class="contact-form-sidebar" id="contact-form-sidebar">
+          <h3 style="margin-top: 0; margin-bottom: 1rem; font-size: 1.1rem;">Get in Touch</h3>
+          <form action="https://formspree.io/f/xjgyokrz" method="POST">
+            <label for="contact-name">Name *</label>
+            <input type="text" id="contact-name" name="name" required>
+
+            <label for="contact-email">Email *</label>
+            <input type="email" id="contact-email" name="email" required>
+
+            <label for="contact-subject">Subject</label>
+            <input type="text" id="contact-subject" name="subject">
+
+            <label for="contact-message">Message *</label>
+            <textarea id="contact-message" name="message" required></textarea>
+
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+
       <footer>
 
       </footer>
@@ -1245,6 +1418,33 @@
 
         window.addEventListener('scroll', updateActiveLink);
         updateActiveLink();
+      })();
+    </script>
+
+    <!-- Contact Form Toggle Script -->
+    <script>
+      (function() {
+        const contactFormContainer = document.getElementById('contact-form-container');
+        const contactFormToggle = document.getElementById('contact-form-toggle');
+
+        if (!contactFormContainer || !contactFormToggle) return;
+
+        // Toggle container on button click
+        contactFormToggle.addEventListener('click', function() {
+          contactFormContainer.classList.toggle('visible');
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', function(event) {
+          if (!contactFormContainer.contains(event.target)) {
+            contactFormContainer.classList.remove('visible');
+          }
+        });
+
+        // Prevent closing when clicking inside the form
+        contactFormContainer.addEventListener('click', function(event) {
+          event.stopPropagation();
+        });
       })();
     </script>
   </body>
