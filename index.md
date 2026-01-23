@@ -37,7 +37,7 @@ My background spans East Asia, Europe, and Sub-Saharan Africa, with experience i
 - **Japanese** — ⽇本語能⼒試験⼆級 (Business proficient)
 - **French** — Conversant
 
-[## Teaching](/teaching.md)
+## Teaching
 
 **Teaching Associate** on the Hertie School of Governance's MSc Data Science programme:
 
@@ -45,16 +45,22 @@ My background spans East Asia, Europe, and Sub-Saharan Africa, with experience i
 - Data Structures & Algorithms (Lead TA, '25)
 - Deep Learning (TA '25)
 
-[## Research Projects](/research.md)
+[See full teaching details →](/teaching.md)
+
+## Research Projects
 
 - **LLM Energy Efficiency Measurement:** Benchmarking transformer model energy consumption
 - **ML-Strom:** Machine learning for electricity grid analysis (with L. Hirth & L. Kaack)
 - **UK Climate Attitudes:** Bayesian hierarchical IRT model to extract latent public sentiment from proprietary longitudinal polling data
 - **DiD Analysis:** Difference-in-Differences causal inference studies (with M. Kayser)
 
-[## Software](/software.md)
+[See all research projects →](/research.md)
+
+## Software
 
 - **LLM Energy Efficieny Measure:** a tool to....
+
+[See all software →](/software.md)
 
 ---
 
