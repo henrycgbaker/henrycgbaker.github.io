@@ -169,22 +169,57 @@
 
       /* Table of Contents sidebar */
       .toc-sidebar {
-        display: none;
         position: fixed;
         top: 100px;
-        right: 20px;
-        width: 200px;
+        right: -220px;
+        width: 220px;
         max-height: calc(100vh - 140px);
         overflow-y: auto;
         font-size: 0.85rem;
         padding: 1rem;
         background: #f9f9f9;
         border-left: 2px solid #ddd;
-        border-radius: 4px;
+        border-radius: 4px 0 0 4px;
+        transition: right 0.3s ease;
+        z-index: 100;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
       }
 
       .toc-sidebar.visible {
-        display: block;
+        right: 0;
+      }
+
+      /* Toggle tab button */
+      .toc-toggle {
+        position: fixed;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        background: #f9f9f9;
+        border: 2px solid #ddd;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        padding: 0.75rem 0.4rem;
+        cursor: pointer;
+        z-index: 99;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #666;
+        letter-spacing: 1px;
+        transition: background 0.2s, color 0.2s;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+      }
+
+      .toc-toggle:hover {
+        background: #39c;
+        color: #fff;
+        border-color: #39c;
+      }
+
+      .toc-toggle.hidden {
+        display: none;
       }
 
       .toc-sidebar h4 {
@@ -280,9 +315,22 @@
         border-left-color: #58a6ff;
       }
 
+      html.dark-mode .toc-toggle {
+        background: #161b22;
+        border-color: #30363d;
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-toggle:hover {
+        background: #58a6ff;
+        color: #fff;
+        border-color: #58a6ff;
+      }
+
       /* Hide TOC on smaller screens */
       @media (max-width: 1200px) {
-        .toc-sidebar {
+        .toc-sidebar,
+        .toc-toggle {
           display: none !important;
         }
       }
@@ -391,7 +439,7 @@
 <p><strong>Masters of Data Science for Public Policy Thesis, 2025</strong>
 Hertie School of Governance · Advisor: Prof. Lynn Kaack · <strong>Data Science Thesis Award 2025</strong></p>
 
-<p><a href="/assets/files/research/llm-energy-efficiency-thesis.pdf">Download Thesis (PDF)</a> · <a href="https://github.com/henrycgbaker/llm-efficiency-measurement-tool">GitHub: llm-efficiency-measurement-tool</a></p>
+<p><a href="/assets/files/research/llm-energy-efficiency-thesis.pdf">Download Thesis (PDF)</a> · <a href="https://github.com/henrycgbaker/LLefficiencyMeasure">GitHub: LLefficiencyMeasure</a></p>
 
 <hr />
 
@@ -857,6 +905,7 @@ Hertie School of Governance · Advisor: Prof. Lynn Kaack · <strong>Data Science
       </section>
 
       <!-- Table of Contents Sidebar -->
+      <button class="toc-toggle hidden" id="toc-toggle" aria-label="Toggle table of contents">ON THIS PAGE</button>
       <nav class="toc-sidebar" id="toc-sidebar">
         <h4>On this page</h4>
         <ul id="toc-list"></ul>
@@ -876,10 +925,11 @@ Hertie School of Governance · Advisor: Prof. Lynn Kaack · <strong>Data Science
     <script>
       (function() {
         const tocSidebar = document.getElementById('toc-sidebar');
+        const tocToggle = document.getElementById('toc-toggle');
         const tocList = document.getElementById('toc-list');
         const section = document.querySelector('section');
 
-        if (!tocSidebar || !tocList || !section) return;
+        if (!tocSidebar || !tocToggle || !tocList || !section) return;
 
         // Get all h2 and h3 headings in the content section
         const headings = section.querySelectorAll('h2, h3');
@@ -905,12 +955,23 @@ Hertie School of Governance · Advisor: Prof. Lynn Kaack · <strong>Data Science
           tocList.appendChild(li);
         });
 
-        // Show the TOC
-        tocSidebar.classList.add('visible');
+        // Show the toggle button
+        tocToggle.classList.remove('hidden');
+
+        // Toggle sidebar on button click
+        tocToggle.addEventListener('click', function() {
+          tocSidebar.classList.toggle('visible');
+        });
+
+        // Close sidebar when clicking a link
+        const tocLinks = tocList.querySelectorAll('a');
+        tocLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            tocSidebar.classList.remove('visible');
+          });
+        });
 
         // Scroll spy - highlight current section
-        const tocLinks = tocList.querySelectorAll('a');
-
         function updateActiveLink() {
           let current = '';
 
