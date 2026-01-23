@@ -167,33 +167,42 @@
         background: #21262d;
       }
 
-      /* Table of Contents sidebar */
-      .toc-sidebar {
+      /* Table of Contents container */
+      .toc-container {
         position: fixed;
         top: 100px;
-        right: -220px;
-        width: 220px;
+        right: -260px;
+        width: 260px;
         max-height: calc(100vh - 140px);
+        transition: right 0.3s ease;
+        z-index: 100;
+      }
+
+      .toc-container.visible {
+        right: 0;
+      }
+
+      /* Table of Contents sidebar */
+      .toc-sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 220px;
+        height: 100%;
         overflow-y: auto;
         font-size: 0.85rem;
         padding: 1rem;
         background: #f9f9f9;
         border-left: 2px solid #ddd;
         border-radius: 4px 0 0 4px;
-        transition: right 0.3s ease;
-        z-index: 100;
         box-shadow: -2px 0 8px rgba(0,0,0,0.1);
       }
 
-      .toc-sidebar.visible {
-        right: 0;
-      }
-
-      /* Toggle tab button */
+      /* Toggle tab button - attached to left of TOC */
       .toc-toggle {
-        position: fixed;
+        position: absolute;
         top: 50%;
-        right: 0;
+        left: 0;
         transform: translateY(-50%);
         background: #f9f9f9;
         border: 2px solid #ddd;
@@ -201,7 +210,6 @@
         border-radius: 4px 0 0 4px;
         padding: 0.75rem 0.4rem;
         cursor: pointer;
-        z-index: 99;
         writing-mode: vertical-rl;
         text-orientation: mixed;
         font-size: 0.75rem;
@@ -218,7 +226,7 @@
         border-color: #39c;
       }
 
-      .toc-toggle.hidden {
+      .toc-container.hidden {
         display: none;
       }
 
@@ -329,8 +337,7 @@
 
       /* Hide TOC on smaller screens */
       @media (max-width: 1200px) {
-        .toc-sidebar,
-        .toc-toggle {
+        .toc-container {
           display: none !important;
         }
       }
@@ -853,11 +860,13 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
       </section>
 
       <!-- Table of Contents Sidebar -->
-      <button class="toc-toggle hidden" id="toc-toggle" aria-label="Toggle table of contents">ON THIS PAGE</button>
-      <nav class="toc-sidebar" id="toc-sidebar">
-        <h4>On this page</h4>
-        <ul id="toc-list"></ul>
-      </nav>
+      <div class="toc-container hidden" id="toc-container">
+        <button class="toc-toggle" id="toc-toggle" aria-label="Toggle table of contents">ON THIS PAGE</button>
+        <nav class="toc-sidebar" id="toc-sidebar">
+          <h4>On this page</h4>
+          <ul id="toc-list"></ul>
+        </nav>
+      </div>
 
       <footer>
 
@@ -872,12 +881,13 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
     <!-- Table of Contents Script -->
     <script>
       (function() {
+        const tocContainer = document.getElementById('toc-container');
         const tocSidebar = document.getElementById('toc-sidebar');
         const tocToggle = document.getElementById('toc-toggle');
         const tocList = document.getElementById('toc-list');
         const section = document.querySelector('section');
 
-        if (!tocSidebar || !tocToggle || !tocList || !section) return;
+        if (!tocContainer || !tocSidebar || !tocToggle || !tocList || !section) return;
 
         // Get all h2 and h3 headings in the content section
         const headings = section.querySelectorAll('h2, h3');
@@ -903,19 +913,19 @@ Hertie School of Governance · Advisor: Prof. Joanna Bryson</p>
           tocList.appendChild(li);
         });
 
-        // Show the toggle button
-        tocToggle.classList.remove('hidden');
+        // Show the container
+        tocContainer.classList.remove('hidden');
 
-        // Toggle sidebar on button click
+        // Toggle container on button click
         tocToggle.addEventListener('click', function() {
-          tocSidebar.classList.toggle('visible');
+          tocContainer.classList.toggle('visible');
         });
 
-        // Close sidebar when clicking a link
+        // Close container when clicking a link
         const tocLinks = tocList.querySelectorAll('a');
         tocLinks.forEach(function(link) {
           link.addEventListener('click', function() {
-            tocSidebar.classList.remove('visible');
+            tocContainer.classList.remove('visible');
           });
         });
 
