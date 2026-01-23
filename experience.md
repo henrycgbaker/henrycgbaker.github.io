@@ -4,9 +4,11 @@ title: Experience
 permalink: /experience/
 ---
 
-# Career Journey
+# Professional & Research Experience
 
 My professional experience spans three continents, blending policy research, data science, and product management.
+
+## Career Journey
 
 <div style="margin: 3rem 0;">
 
@@ -131,21 +133,6 @@ My professional experience spans three continents, blending policy research, dat
 </div>
 
 </div>
-
-## Geographic Reach
-
-- **East Asia:** Japan (5 years) - product management, educational partnerships
-- **Europe:** Germany, UK, Belgium (4 years) - policy research, data science, governance
-- **Africa:** Field work and partnerships across sub-Saharan Africa
-- **Global:** Cross-continental research on policy, sustainability, and technology
-
-## Key Transitions
-
-**→ From Education to Technology:** Moved from educational scholarships to product management in mobile telecommunications
-**→ From Practice to Research:** Shifted from operational management to data science and policy research
-**→ From Regional to Global:** Developed expertise across continents with focus on sustainable computing and governance
-
----
 
 ## Research Affiliations
 

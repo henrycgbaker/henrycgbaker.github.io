@@ -30,7 +30,7 @@ Lab materials and exercises covering neural network architectures, problem appli
 - Generative models (VAEs, GANs)
 - Practical implementation with PyTorch
 
-[GitHub Repository](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/henry_notes/deep_learning/main.pdf) · [ML Prerequisite Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/henry_notes/machine_learning/main.pdf)
+[GitHub Repository](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/deep_learning_hb_companion_notes/main.pdf) · [ML Prerequisite Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/machine_learning_hb_companion_notes/main.pdf)
 
 ---
 
@@ -47,7 +47,7 @@ Lab materials and exercises covering fundamental data structures and algorithmic
 - Algorithm complexity analysis (Big O notation)
 - Problem-solving strategies and coding exercises
 
-[GitHub Repository](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025/blob/main/henry_notes/data_structures_algorithms/main.pdf)
+[GitHub Repository](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025) · [Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-C9-data-structures-algorithms-2025/blob/main/dsa_hb_companion_notes/main.pdf)
 
 ---
 
@@ -62,4 +62,4 @@ Foundational mathematics for data science and machine learning.
 - **Linear Algebra** - Vectors, matrices, eigenvalues, singular value decomposition, matrix factorization
 - **Optimisation** - Gradient descent, convex optimisation, constrained optimisation
 
-[Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/henry_notes/maths_for_data_science/main.pdf)
+[Companion Notes (PDF)](https://github.com/henrycgbaker/GRAD-E1394-deep-learning-labs-2025/blob/main/maths_for_data_science_hb_companion_notes/main.pdf)

@@ -133,38 +133,83 @@
         background: #21262d;
       }
 
-      /* Table of Contents sidebar */
-      .toc-sidebar {
-        display: none;
+      /* Table of Contents container */
+      .toc-container {
         position: fixed;
         top: 100px;
-        right: 20px;
-        width: 200px;
-        max-height: calc(100vh - 140px);
+        right: -252px;
+        width: 252px;
+        transition: right 0.3s ease;
+        z-index: 100;
+        pointer-events: none;
+      }
+
+      .toc-container.visible {
+        right: 0;
+      }
+
+      .toc-container > * {
+        pointer-events: auto;
+      }
+
+      /* Table of Contents sidebar */
+      .toc-sidebar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 220px;
+        max-height: calc(100vh - 120px);
         overflow-y: auto;
         font-size: 0.85rem;
         padding: 1rem;
         background: #f9f9f9;
         border-left: 2px solid #ddd;
-        border-radius: 4px;
+        border-radius: 4px 0 0 4px;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
       }
 
-      .toc-sidebar.visible {
-        display: block;
-      }
-
-      .toc-sidebar h4 {
-        margin: 0 0 0.75rem 0;
-        font-size: 0.9rem;
+      /* Toggle tab button - attached to left of TOC */
+      .toc-toggle {
+        position: absolute;
+        top: 0;
+        left: -32px;
+        background: #f9f9f9;
+        border: 2px solid #ddd;
+        border-right: none;
+        border-radius: 4px 0 0 4px;
+        padding: 1rem 0.35rem;
+        cursor: pointer;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-size: 0.75rem;
+        font-weight: 600;
         color: #666;
-        text-transform: uppercase;
         letter-spacing: 0.5px;
+        transition: background 0.2s, color 0.2s;
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        width: 30px;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+
+      .toc-toggle:hover {
+        background: #39c;
+        color: #fff;
+        border-color: #39c;
+      }
+
+      .toc-container.hidden {
+        display: none;
       }
 
       .toc-sidebar ul {
         list-style: none;
         margin: 0;
         padding: 0;
+        flex: 1;
+        overflow-y: auto;
       }
 
       .toc-sidebar li {
@@ -246,9 +291,21 @@
         border-left-color: #58a6ff;
       }
 
+      html.dark-mode .toc-toggle {
+        background: #161b22;
+        border-color: #30363d;
+        color: #8b949e;
+      }
+
+      html.dark-mode .toc-toggle:hover {
+        background: #58a6ff;
+        color: #fff;
+        border-color: #58a6ff;
+      }
+
       /* Hide TOC on smaller screens */
       @media (max-width: 1200px) {
-        .toc-sidebar {
+        .toc-container {
           display: none !important;
         }
       }
@@ -371,10 +428,12 @@
       </section>
 
       <!-- Table of Contents Sidebar -->
-      <nav class="toc-sidebar" id="toc-sidebar">
-        <h4>On this page</h4>
-        <ul id="toc-list"></ul>
-      </nav>
+      <div class="toc-container hidden" id="toc-container">
+        <button class="toc-toggle" id="toc-toggle" aria-label="Toggle table of contents">ON THIS PAGE</button>
+        <nav class="toc-sidebar" id="toc-sidebar">
+          <ul id="toc-list"></ul>
+        </nav>
+      </div>
 
       <footer>
 
@@ -398,11 +457,13 @@
     <!-- Table of Contents Script -->
     <script>
       (function() {
+        const tocContainer = document.getElementById('toc-container');
         const tocSidebar = document.getElementById('toc-sidebar');
+        const tocToggle = document.getElementById('toc-toggle');
         const tocList = document.getElementById('toc-list');
         const section = document.querySelector('section');
 
-        if (!tocSidebar || !tocList || !section) return;
+        if (!tocContainer || !tocSidebar || !tocToggle || !tocList || !section) return;
 
         // Get all h2 and h3 headings in the content section
         const headings = section.querySelectorAll('h2, h3');
@@ -428,12 +489,23 @@
           tocList.appendChild(li);
         });
 
-        // Show the TOC
-        tocSidebar.classList.add('visible');
+        // Show the container
+        tocContainer.classList.remove('hidden');
+
+        // Toggle container on button click
+        tocToggle.addEventListener('click', function() {
+          tocContainer.classList.toggle('visible');
+        });
+
+        // Close container when clicking a link
+        const tocLinks = tocList.querySelectorAll('a');
+        tocLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            tocContainer.classList.remove('visible');
+          });
+        });
 
         // Scroll spy - highlight current section
-        const tocLinks = tocList.querySelectorAll('a');
-
         function updateActiveLink() {
           let current = '';
 
