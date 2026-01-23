@@ -639,11 +639,11 @@
       </header>
       <section>
 
-      <h1 id="llm-efficiency-measurement-tool">LLM Efficiency Measurement Tool</h1>
+      <h1 id="llenergymeasure">LLenergyMeasure</h1>
 
 <p><strong>Benchmarking energy consumption, throughput, and FLOPs in LLM inference</strong></p>
 
-<p>A Python framework for measuring what actually matters when deploying large language models. Deployment choices—parallelism, batching, precision—can induce <strong>50×+ variation</strong> in energy-per-token for the same model. This tool quantifies it.</p>
+<p>A Python framework for measuring what actually matters when deploying large language models. Deployment choices—parallelism, batching, precision, and inference backend—can induce <strong>50×+ variation</strong> in energy-per-token for the same model. This tool quantifies it across multiple backends (PyTorch, vLLM, TensorRT).</p>
 
 <p><a href="https://github.com/henrycgbaker/LLefficiencyMeasure">GitHub Repository</a> · <a href="/research/llm-energy-efficiency/">Research Findings</a></p>
 
@@ -683,11 +683,13 @@
 <h3 id="key-capabilities">Key Capabilities</h3>
 
 <ul>
-  <li><strong>Multi-GPU distributed inference</strong> via HuggingFace Accelerate with tensor and pipeline parallelism</li>
-  <li><strong>YAML configuration</strong> with inheritance for clean experiment management</li>
+  <li><strong>Multiple inference backends</strong> — PyTorch (native TP/PP), vLLM (production server), TensorRT (NVIDIA optimised)</li>
+  <li><strong>Multi-GPU distributed inference</strong> via HuggingFace Accelerate, vLLM, or TensorRT with tensor and pipeline parallelism</li>
+  <li><strong>Campaign orchestration</strong> for running multiple configs across cycles with statistical comparison</li>
+  <li><strong>YAML configuration</strong> with backend-specific parameters and inheritance for clean experiment management</li>
   <li><strong>Late aggregation pattern</strong> preserving raw per-GPU results for flexible analysis</li>
   <li><strong>Built-in datasets</strong>: Alpaca, ShareGPT, GSM8k, MMLU, WikiText, FineWeb-Edu (plus any HuggingFace dataset)</li>
-  <li><strong>Production deployment</strong> via Docker, Docker Compose, or VS Code devcontainer</li>
+  <li><strong>Production deployment</strong> via Docker with one-click setup, Docker Compose profiles, or VS Code devcontainer</li>
 </ul>
 
 <hr />
@@ -696,12 +698,12 @@
 
 <ol>
   <li><strong>Clone and install</strong> the repository using pip or Poetry</li>
-  <li><strong>Create a YAML config</strong> specifying model, precision, batch size, and dataset</li>
-  <li><strong>Run an experiment</strong> with <code class="language-plaintext highlighter-rouge">llm-energy-measure experiment &lt;config.yaml&gt;</code></li>
-  <li><strong>View results</strong> with <code class="language-plaintext highlighter-rouge">llm-energy-measure results show &lt;experiment_id&gt;</code></li>
+  <li><strong>Create a YAML config</strong> specifying model, backend, precision, batch size, and dataset</li>
+  <li><strong>Run an experiment</strong> with <code class="language-plaintext highlighter-rouge">lem experiment &lt;config.yaml&gt;</code></li>
+  <li><strong>View results</strong> with <code class="language-plaintext highlighter-rouge">lem results show &lt;experiment_id&gt;</code></li>
 </ol>
 
-<p>The CLI supports grid searches over precision, batch size, and parallelism for systematic deployment analysis. Any HuggingFace model works out of the box.</p>
+<p>The CLI (<code class="language-plaintext highlighter-rouge">lem</code>) supports grid searches over precision, batch size, parallelism, and backends for systematic deployment analysis. Any HuggingFace model works out of the box.</p>
 
 <p>See the <a href="https://github.com/henrycgbaker/LLefficiencyMeasure">GitHub README</a> for detailed installation and usage instructions.</p>
 
@@ -711,20 +713,24 @@
 
 <div style="max-height: 500px; overflow-y: auto; border: 1px solid #e1e4e8; border-radius: 6px; padding: 16px; margin: 16px 0;">
 
-  <h3 id="v200--architectural-refactor-january-2026">v2.0.0 — Architectural Refactor (January 2026)</h3>
+  <h3 id="v200--architectural-refactor--multi-backend-support-january-2026">v2.0.0 — Architectural Refactor &amp; Multi-Backend Support (January 2026)</h3>
 
-  <p>Ground-up rewrite with modern patterns:</p>
+  <p>Ground-up rewrite with modern patterns and production-grade backends:</p>
 
   <ul>
+    <li><strong>Multiple inference backends</strong> — PyTorch (native), vLLM (production server), TensorRT (NVIDIA optimised)</li>
+    <li><strong>Backend-native configuration</strong> — backend-specific parameters nested under backend name (e.g., <code class="language-plaintext highlighter-rouge">vllm.gpu_memory_utilization</code>)</li>
+    <li><strong>Campaign orchestration</strong> — run multiple configs across cycles with interleaved/shuffled/grouped execution, warmup prompts, and thermal management gaps for statistical comparison</li>
     <li><strong>Dependency injection</strong> throughout the codebase</li>
     <li><strong>Late aggregation pattern</strong> — raw per-GPU results preserved before aggregation</li>
     <li><strong>Pydantic validation</strong> for all configuration and results</li>
     <li><strong>Batching strategies</strong> — four MLPerf-aligned modes: static, dynamic, sorted, sorted_dynamic with optional token budgets</li>
     <li><strong>Traffic simulation</strong> — constant or Poisson arrival patterns with configurable QPS for production-like load testing</li>
     <li><strong>Decoder presets</strong> — deterministic, standard, creative, factual modes plus fine-grained sampling control</li>
-    <li><strong>Multi-cycle experiments</strong> — run 1-10 repetitions for statistical robustness</li>
+    <li><strong>Multi-cycle experiments</strong> — run 1-10 repetitions for statistical robustness with t-distribution confidence intervals</li>
     <li><strong>Scheduled execution</strong> — daemon mode with interval-based or time-of-day scheduling</li>
     <li><strong>Proper parallelism</strong> — tensor parallel and pipeline parallel sharding replacing naive device mapping</li>
+    <li><strong>Docker quickstart</strong> — one-click setup with <code class="language-plaintext highlighter-rouge">setup.sh</code>, named volumes, and multi-backend profiles</li>
   </ul>
 
   <hr />
@@ -748,7 +754,7 @@
   <p>Quality assurance milestone:</p>
 
   <ul>
-    <li><strong>416 passing tests</strong> including 8 end-to-end CLI tests and 47 integration tests</li>
+    <li><strong>825+ passing tests</strong> including 732 unit tests, 93 integration tests, and 8 end-to-end CLI tests</li>
     <li><strong>Methodology documentation</strong> covering energy tracking via CodeCarbon, FLOPs estimation strategies, and distributed GPU result aggregation</li>
   </ul>
 
@@ -771,12 +777,15 @@
   <p>Major refactoring establishing the modern codebase:</p>
 
   <ul>
-    <li><strong>Renamed</strong> from <code class="language-plaintext highlighter-rouge">llm-bench</code> → <code class="language-plaintext highlighter-rouge">llm-energy-measure</code></li>
+    <li><strong>Package renamed</strong> from <code class="language-plaintext highlighter-rouge">llm-bench</code> → <code class="language-plaintext highlighter-rouge">llm-energy-measure</code> → <code class="language-plaintext highlighter-rouge">llenergymeasure</code> (final, Jan 2026)</li>
+    <li><strong>CLI alias</strong> introduced as <code class="language-plaintext highlighter-rouge">lem</code> for convenience</li>
     <li><strong>Energy backend plugin registry</strong> for extensible measurement backends</li>
     <li><strong>FlopsEstimator</strong> with three-strategy fallback (calflops → analytical → parameter-based)</li>
     <li><strong>Results aggregation</strong> with verification checks</li>
     <li><strong>Pydantic domain models</strong> for type-safe configuration and results</li>
   </ul>
+
+  <p><em>Note: The package was further renamed to <code class="language-plaintext highlighter-rouge">llenergymeasure</code> in January 2026 with the introduction of multi-backend support.</em></p>
 
   <hr />
 
@@ -811,12 +820,150 @@
 <p>Active development areas:</p>
 
 <ul>
-  <li><strong>vLLM backend</strong> — Production-grade inference server measurements</li>
-  <li><strong>Streaming metrics</strong> — Real-time power monitoring during generation</li>
-  <li><strong>Multi-node support</strong> — Distributed inference across machines</li>
-  <li><strong>Agentic workloads</strong> — Multi-step reasoning and tool-use patterns</li>
-  <li><strong>Automated reporting</strong> — Generate comparison reports across runs</li>
+  <li><strong>Streaming metrics</strong> — Real-time power monitoring during generation with temporal resolution</li>
+  <li><strong>Multi-node support</strong> — Distributed inference across machines (beyond single-node multi-GPU)</li>
+  <li><strong>Agentic workloads</strong> — Multi-step reasoning and tool-use patterns with chain-of-thought benchmarking</li>
+  <li><strong>Automated reporting</strong> — Generate comparison reports and Pareto frontiers across backend/config combinations</li>
+  <li><strong>Quality metrics integration</strong> — Perplexity, ROUGE, BLEU for quality-efficiency trade-off analysis</li>
+  <li><strong>MLOps integration</strong> — Native MLflow and Weights &amp; Biases experiment tracking</li>
+  <li><strong>Hybrid architecture support</strong> — SSM models (Mamba, RWKV, Jamba) with mixed attention/SSM layers</li>
 </ul>
+
+<hr />
+
+<h2 id="multi-backend-architecture">Multi-Backend Architecture</h2>
+
+<p>LLenergyMeasure supports <strong>three inference backends</strong>, each optimised for different deployment scenarios. All backends share the same configuration interface and measurement infrastructure, enabling direct performance comparison.</p>
+
+<h3 id="backend-overview">Backend Overview</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Backend</th>
+      <th>Use Case</th>
+      <th>Strengths</th>
+      <th>Limitations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>PyTorch</strong></td>
+      <td>Research, prototyping, custom models</td>
+      <td>Native HuggingFace integration, tensor/pipeline parallelism, full model control</td>
+      <td>Lower throughput than production servers</td>
+    </tr>
+    <tr>
+      <td><strong>vLLM</strong></td>
+      <td>Production deployments, high-throughput serving</td>
+      <td>Continuous batching, PagedAttention, optimised KV cache, streaming support</td>
+      <td>Limited model family support vs HuggingFace</td>
+    </tr>
+    <tr>
+      <td><strong>TensorRT</strong></td>
+      <td>NVIDIA GPUs, latency-critical applications</td>
+      <td>Maximum single-query performance, kernel fusion, FP8 support</td>
+      <td>NVIDIA-only, longer compilation time</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="pytorch-backend">PyTorch Backend</h3>
+
+<p>The <strong>native PyTorch backend</strong> uses HuggingFace Transformers with Accelerate for distributed inference. Ideal for research and exploration.</p>
+
+<p><strong>Key features:</strong></p>
+<ul>
+  <li>Full HuggingFace model ecosystem support</li>
+  <li>Native tensor parallelism (TP) via <code class="language-plaintext highlighter-rouge">tp_plan="auto"</code> for supported architectures (Llama, Mistral, Qwen, etc.)</li>
+  <li>Pipeline parallelism (PP) for vertical model splitting across GPUs</li>
+  <li>BitsAndBytes quantisation (INT4/INT8)</li>
+  <li>Flexible model modifications and custom architectures</li>
+</ul>
+
+<p><strong>Configuration example:</strong></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">backend</span><span class="pi">:</span> <span class="s">pytorch</span>
+
+<span class="na">pytorch</span><span class="pi">:</span>
+  <span class="na">attention_implementation</span><span class="pi">:</span> <span class="s">flash_attention_2</span>  <span class="c1"># or: sdpa, eager</span>
+  <span class="na">torch_compile</span><span class="pi">:</span> <span class="kc">false</span>                         <span class="c1"># PyTorch 2.0 compilation</span>
+  <span class="na">use_cache</span><span class="pi">:</span> <span class="kc">true</span>                              <span class="c1"># KV cache</span>
+  <span class="na">assisted_generation</span><span class="pi">:</span> <span class="kc">false</span>                   <span class="c1"># Speculative decoding</span>
+</code></pre></div></div>
+
+<p><strong>When to use:</strong> Model exploration, architecture research, custom model modifications, or when working with models not yet supported by vLLM/TensorRT.</p>
+
+<hr />
+
+<h3 id="vllm-backend">vLLM Backend</h3>
+
+<p>The <strong>vLLM backend</strong> is a production-grade inference server optimised for high-throughput LLM serving with continuous batching and PagedAttention.</p>
+
+<p><strong>Key features:</strong></p>
+<ul>
+  <li><strong>PagedAttention</strong> — memory-efficient KV cache management reducing memory usage by up to 4×</li>
+  <li><strong>Continuous batching</strong> — dynamic request scheduling without waiting for full batch completion</li>
+  <li><strong>Tensor parallelism</strong> — automatic model sharding across GPUs</li>
+  <li><strong>Streaming support</strong> — real-time token generation</li>
+  <li><strong>Optimised kernels</strong> — custom CUDA kernels for attention and sampling</li>
+</ul>
+
+<p><strong>Configuration example:</strong></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">backend</span><span class="pi">:</span> <span class="s">vllm</span>
+
+<span class="na">vllm</span><span class="pi">:</span>
+  <span class="na">gpu_memory_utilization</span><span class="pi">:</span> <span class="m">0.9</span>       <span class="c1"># GPU memory allocation (0.0–1.0)</span>
+  <span class="na">max_model_len</span><span class="pi">:</span> <span class="m">4096</span>               <span class="c1"># Maximum sequence length</span>
+  <span class="na">enable_prefix_caching</span><span class="pi">:</span> <span class="kc">true</span>       <span class="c1"># Cache common prompt prefixes</span>
+  <span class="na">enforce_eager</span><span class="pi">:</span> <span class="kc">false</span>              <span class="c1"># Skip CUDA graph capture (debug)</span>
+  <span class="na">kv_cache_dtype</span><span class="pi">:</span> <span class="s">auto</span>              <span class="c1"># KV cache quantisation: auto, fp8, fp8_e5m2</span>
+  <span class="na">speculative_model</span><span class="pi">:</span> <span class="kc">null</span>           <span class="c1"># Speculative decoding model</span>
+</code></pre></div></div>
+
+<p><strong>When to use:</strong> Production deployments, high-throughput serving (&gt;10 QPS), batch inference workloads, or when maximising GPU utilisation is critical.</p>
+
+<hr />
+
+<h3 id="tensorrt-backend">TensorRT Backend</h3>
+
+<p>The <strong>TensorRT backend</strong> uses NVIDIA TensorRT-LLM for maximum single-query performance with aggressive kernel fusion and low-level optimisations.</p>
+
+<p><strong>Key features:</strong></p>
+<ul>
+  <li><strong>Kernel fusion</strong> — operator-level graph optimisations</li>
+  <li><strong>FP8 quantisation</strong> — NVIDIA Hopper (H100) optimised precision</li>
+  <li><strong>Custom CUDA kernels</strong> — hand-tuned for NVIDIA architectures</li>
+  <li><strong>INT4/INT8 quantisation</strong> — weight-only and activation quantisation</li>
+  <li><strong>Multi-GPU inference</strong> — tensor parallelism for large models</li>
+</ul>
+
+<p><strong>Configuration example:</strong></p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">backend</span><span class="pi">:</span> <span class="s">tensorrt</span>
+
+<span class="na">tensorrt</span><span class="pi">:</span>
+  <span class="na">max_batch_size</span><span class="pi">:</span> <span class="m">8</span>
+  <span class="na">max_input_len</span><span class="pi">:</span> <span class="m">1024</span>
+  <span class="na">max_output_len</span><span class="pi">:</span> <span class="m">512</span>
+  <span class="na">enable_trt_overlap</span><span class="pi">:</span> <span class="kc">true</span>          <span class="c1"># Overlap compute and data transfer</span>
+  <span class="na">kv_cache_free_gpu_mem_fraction</span><span class="pi">:</span> <span class="m">0.9</span>
+</code></pre></div></div>
+
+<p><strong>When to use:</strong> Latency-critical applications, NVIDIA GPU deployments (A100/H100), maximum single-query performance, or when targeting specific NVIDIA architecture optimisations.</p>
+
+<hr />
+
+<h3 id="backend-comparison-methodology">Backend Comparison Methodology</h3>
+
+<p>The multi-backend architecture enables <strong>controlled comparisons</strong> of inference efficiency:</p>
+
+<ol>
+  <li><strong>Fixed workload</strong> — Same model, prompts, and generation parameters across backends</li>
+  <li><strong>Backend-specific optimisation</strong> — Each backend uses its optimal configuration (e.g., vLLM’s continuous batching, TensorRT’s kernel fusion)</li>
+  <li><strong>Unified measurement</strong> — Energy, throughput, and FLOPs tracked consistently via CodeCarbon and native timing</li>
+  <li><strong>Campaign orchestration</strong> — Run multiple backend configs in a single experiment with statistical comparison</li>
+</ol>
+
+<p>This design isolates backend-level implementation effects from model-level computational requirements, enabling rigorous efficiency analysis.</p>
 
 <hr />
 
@@ -834,39 +981,44 @@
   </thead>
   <tbody>
     <tr>
+      <td><strong>Backend</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">backend</code></td>
+      <td>pytorch, vllm, tensorrt</td>
+    </tr>
+    <tr>
       <td><strong>Precision</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">model.precision</code></td>
+      <td><code class="language-plaintext highlighter-rouge">fp_precision</code></td>
       <td>float32, float16, bfloat16</td>
     </tr>
     <tr>
       <td><strong>Quantisation</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">model.quantization</code></td>
-      <td>null, 4bit, 8bit</td>
+      <td><code class="language-plaintext highlighter-rouge">load_in_4bit</code> / <code class="language-plaintext highlighter-rouge">load_in_8bit</code></td>
+      <td>bool (PyTorch); backend-specific for vLLM/TensorRT</td>
     </tr>
     <tr>
       <td><strong>Batching</strong></td>
       <td><code class="language-plaintext highlighter-rouge">batching.strategy</code></td>
-      <td>static, dynamic, sorted, sorted_dynamic</td>
+      <td>static, dynamic, sorted_static, sorted_dynamic</td>
     </tr>
     <tr>
       <td><strong>Parallelism</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">hardware.sharding</code></td>
-      <td>tensor_parallel, pipeline_parallel, none</td>
+      <td><code class="language-plaintext highlighter-rouge">sharding.strategy</code></td>
+      <td>none, tensor_parallel, pipeline_parallel</td>
     </tr>
     <tr>
       <td><strong>Traffic</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">traffic.pattern</code></td>
+      <td><code class="language-plaintext highlighter-rouge">traffic_simulation.mode</code></td>
       <td>constant, poisson</td>
     </tr>
     <tr>
       <td><strong>Decoder</strong></td>
-      <td><code class="language-plaintext highlighter-rouge">generation.preset</code></td>
+      <td><code class="language-plaintext highlighter-rouge">decoder.preset</code></td>
       <td>deterministic, standard, creative, factual</td>
     </tr>
   </tbody>
 </table>
 
-<p>Configs use YAML with an <code class="language-plaintext highlighter-rouge">_extends</code> directive for inheritance—override only what changes across experiments.</p>
+<p>Configs use YAML with backend-specific parameters nested under backend name (e.g., <code class="language-plaintext highlighter-rouge">vllm.gpu_memory_utilization</code>). The <code class="language-plaintext highlighter-rouge">_extends</code> directive enables inheritance—override only what changes across experiments.</p>
 
 <hr />
 
@@ -957,33 +1109,53 @@
 
 <p><strong>Example Configuration:</strong></p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">_extends</span><span class="pi">:</span> <span class="s">configs/base.yaml</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># === CORE ===</span>
+<span class="na">config_name</span><span class="pi">:</span> <span class="s">llama-3.2-3b-vllm-benchmark</span>
+<span class="na">model_name</span><span class="pi">:</span> <span class="s">meta-llama/Llama-3.2-3B</span>
+<span class="na">backend</span><span class="pi">:</span> <span class="s">vllm</span>                          <span class="c1"># pytorch | vllm | tensorrt</span>
 
-<span class="na">model</span><span class="pi">:</span>
-  <span class="na">name</span><span class="pi">:</span> <span class="s">meta-llama/Llama-3.2-3B</span>
-  <span class="na">precision</span><span class="pi">:</span> <span class="s">float16</span>
-  <span class="na">quantization</span><span class="pi">:</span> <span class="kc">null</span>
+<span class="c1"># === PRECISION ===</span>
+<span class="na">fp_precision</span><span class="pi">:</span> <span class="s">float16</span>                  <span class="c1"># float32 | float16 | bfloat16</span>
 
-<span class="na">hardware</span><span class="pi">:</span>
-  <span class="na">sharding</span><span class="pi">:</span> <span class="s">tensor_parallel</span>
-  <span class="na">num_gpus</span><span class="pi">:</span> <span class="m">4</span>
-  <span class="na">device_ids</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">0</span><span class="pi">,</span> <span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">3</span><span class="pi">]</span>
+<span class="c1"># === QUANTIZATION (PyTorch) ===</span>
+<span class="na">quantization</span><span class="pi">:</span>
+  <span class="na">load_in_4bit</span><span class="pi">:</span> <span class="kc">false</span>
+  <span class="na">load_in_8bit</span><span class="pi">:</span> <span class="kc">false</span>
 
+<span class="c1"># === GPU SETUP ===</span>
+<span class="na">gpus</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">0</span><span class="pi">,</span> <span class="nv">1</span><span class="pi">,</span> <span class="nv">2</span><span class="pi">,</span> <span class="nv">3</span><span class="pi">]</span>
+<span class="na">num_processes</span><span class="pi">:</span> <span class="m">4</span>
+
+<span class="c1"># === BATCHING ===</span>
 <span class="na">batching</span><span class="pi">:</span>
-  <span class="na">strategy</span><span class="pi">:</span> <span class="s">sorted_dynamic</span>    <span class="c1"># MLPerf-aligned</span>
-  <span class="na">max_batch_size</span><span class="pi">:</span> <span class="m">32</span>
-  <span class="na">token_budget</span><span class="pi">:</span> <span class="m">4096</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">sorted_dynamic</span>             <span class="c1"># static | dynamic | sorted_static | sorted_dynamic</span>
+  <span class="na">batch_size</span><span class="pi">:</span> <span class="m">32</span>
+  <span class="na">max_tokens_per_batch</span><span class="pi">:</span> <span class="m">4096</span>           <span class="c1"># Token budget for dynamic strategies</span>
 
-<span class="na">traffic</span><span class="pi">:</span>
-  <span class="na">pattern</span><span class="pi">:</span> <span class="s">poisson</span>
-  <span class="na">qps</span><span class="pi">:</span> <span class="m">10.0</span>
+<span class="c1"># === TRAFFIC SIMULATION ===</span>
+<span class="na">traffic_simulation</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">mode</span><span class="pi">:</span> <span class="s">poisson</span>                        <span class="c1"># constant | poisson</span>
+  <span class="na">target_qps</span><span class="pi">:</span> <span class="m">10.0</span>
 
-<span class="na">generation</span><span class="pi">:</span>
-  <span class="na">preset</span><span class="pi">:</span> <span class="s">deterministic</span>       <span class="c1"># or: standard, creative, factual</span>
+<span class="c1"># === DECODER ===</span>
+<span class="na">decoder</span><span class="pi">:</span>
+  <span class="na">preset</span><span class="pi">:</span> <span class="s">deterministic</span>                <span class="c1"># deterministic | standard | creative | factual</span>
   <span class="na">max_new_tokens</span><span class="pi">:</span> <span class="m">256</span>
+
+<span class="c1"># === SHARDING (Multi-GPU) ===</span>
+<span class="na">sharding</span><span class="pi">:</span>
+  <span class="na">strategy</span><span class="pi">:</span> <span class="s">tensor_parallel</span>            <span class="c1"># none | tensor_parallel | pipeline_parallel</span>
+  <span class="na">num_shards</span><span class="pi">:</span> <span class="m">4</span>
+
+<span class="c1"># === BACKEND-SPECIFIC CONFIG ===</span>
+<span class="na">vllm</span><span class="pi">:</span>
+  <span class="na">gpu_memory_utilization</span><span class="pi">:</span> <span class="m">0.9</span>
+  <span class="na">enable_prefix_caching</span><span class="pi">:</span> <span class="kc">true</span>
+  <span class="na">max_model_len</span><span class="pi">:</span> <span class="m">4096</span>
 </code></pre></div></div>
 
-<p>All configuration is <strong>Pydantic-validated</strong> at load time—invalid configs fail fast with clear error messages.</p>
+<p>All configuration is <strong>Pydantic-validated</strong> at load time—invalid configs fail fast with clear error messages. Backend-specific parameters are nested under the backend name.</p>
 
 <hr />
 
@@ -1197,23 +1369,33 @@
 
 <h3 id="code-structure">Code Structure</h3>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/llm_energy_measure/
-├── cli.py              # Typer CLI: experiment, config, results subcommands
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src/llenergymeasure/
+├── cli/                # Typer CLI with subcommand modules
+│   ├── experiment.py   # Experiment execution commands
+│   ├── campaign.py     # Multi-config campaign orchestration
+│   ├── config.py       # Config validation and display
+│   └── results.py      # Results management and export
 ├── config/
 │   ├── loader.py       # YAML parsing with _extends inheritance
-│   ├── validation.py   # Pydantic schemas and validation
-│   └── presets.py      # Decoder presets (deterministic, creative, etc.)
+│   ├── validation.py   # Pydantic schemas for all backends
+│   ├── presets.py      # Decoder presets (deterministic, creative, etc.)
+│   └── introspection.py # Parameter provenance tracking
 ├── core/
 │   ├── runner.py       # Distributed inference orchestration
 │   ├── energy.py       # CodeCarbon integration, energy backends
 │   ├── flops.py        # Three-strategy FLOPs estimation
 │   └── metrics.py      # Throughput and latency collectors
+├── backends/
+│   ├── pytorch/        # Native PyTorch backend with TP/PP
+│   ├── vllm/           # vLLM backend with continuous batching
+│   └── tensorrt/       # TensorRT backend with kernel fusion
 ├── domain/
-│   ├── config.py       # ExperimentConfig, ModelConfig, etc.
+│   ├── config.py       # ExperimentConfig, backend-specific configs
 │   ├── results.py      # InferenceResults, EnergyMetrics, etc.
-│   └── enums.py        # Precision, ShardingStrategy, BatchingMode
+│   └── enums.py        # Precision, ShardingStrategy, BatchingMode, Backend
 ├── orchestration/
 │   ├── orchestrator.py # ExperimentOrchestrator with DI
+│   ├── campaign.py     # Campaign orchestration for multi-config runs
 │   ├── context.py      # ExperimentContext lifecycle management
 │   └── scheduler.py    # Daemon mode, interval/time-based scheduling
 └── results/
@@ -1238,8 +1420,13 @@
   </thead>
   <tbody>
     <tr>
+      <td><strong>Backend</strong></td>
+      <td>pytorch, vllm, tensorrt</td>
+      <td>Production-grade inference engines with different optimisation profiles</td>
+    </tr>
+    <tr>
       <td><strong>Batching</strong></td>
-      <td>static, dynamic, sorted, sorted_dynamic</td>
+      <td>static, dynamic, sorted_static, sorted_dynamic</td>
       <td>MLPerf-aligned request aggregation with optional token budgets</td>
     </tr>
     <tr>
@@ -1265,7 +1452,7 @@
   </tbody>
 </table>
 
-<p>This architecture enables measuring how parallelism, batching, and precision interact—factors the <a href="/research/llm-energy-efficiency/">research</a> found can induce 4-6× variation in energy consumption.</p>
+<p>This architecture enables measuring how <strong>backend choice, parallelism, batching, and precision interact</strong>—factors the <a href="/research/llm-energy-efficiency/">research</a> found can induce 4-6× variation in energy consumption within realistic deployment constraints, with total variation exceeding 50× across the full parameter space.</p>
 
 <hr />
 
